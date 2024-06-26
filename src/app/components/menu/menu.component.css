@@ -185,6 +185,6 @@
 
 .sidebar.hidden {
     transform: translateX(-60%);
-    transition: transform 3s ease;
+    transition: transform 0.3s ease;
   }
   
