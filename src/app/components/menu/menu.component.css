@@ -1,164 +1,149 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
 
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #f8f9fa;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background-color: #f8f9fa;
-            width: 100%;
-            box-sizing: border-box;
-            position: fixed;
-            top: 0;
-            z-index: 2;
-        }
+.navbar .logo {
+    cursor: pointer;
+    width: 200px;
+    height: auto;
+}
 
-        .navbar .logo {
-            cursor: pointer;
-            width: 200px;
-            height: auto;
-        }
+.navbar a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1.2em;
+}
 
-        .navbar a {
-            margin: 0 10px;
-            text-decoration: none;
-            color: #007bff;
-            font-size: 1.2em;
-        }
+.image-container {
+    position: relative;
+    display: inline-block;
+}
 
-        .image-container {
-            position: relative;
-            display: inline-block;
-        }
+.image-container img {
+    width: 60px;
+    max-width: 600px;
+}
 
-        .image-container img {
-            width: 60px;
-            max-width: 600px;
-        }
+.image-container:hover .dropdown-content {
+    display: block;
+}
 
-        .image-container:hover .dropdown-content {
-            display: block;
-        }
+.dropdown-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
 
-        .dropdown-menu {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    top: 100%;
+    right: 0;
+}
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            top: 100%;
-            right: 0;
-        }
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
 
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
 
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
+.main-content {
+    display: flex;
+    flex-grow: 1;
+    padding-top: 80px;
+    height: calc(100vh - 80px);
+    overflow: hidden;
+}
 
-        .main-content {
-            display: flex;
-            flex-grow: 1;
-            padding-top: 80px;
-            height: calc(100vh - 80px);
-            overflow: hidden;
-        }
+.sidebar {
+    background-color: #2B6ADF;
+    height: auto;
+    width: 220px;
+    padding: 15px;
+    color: white;
+    flex-shrink: 0;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
 
-        .sidebar {
-            background-color: #2B6ADF;
-            height: auto;
-            width: 220px;
-            padding: 15px;
-            color: white;
-            flex-shrink: 0;
-            overflow-y: auto;
-            transition: transform 0.3s ease;
-        }
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
+.sidebar ul li {
+    margin: 15px 0;
+}
 
-        .sidebar ul li {
-            margin: 15px 0;
-        }
+.sidebar ul li a {
+    display: block;
+    padding: 10px;
+    color: black;
+    text-decoration: none;
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-        .sidebar ul li a {
-            display: block;
-            padding: 10px;
-            color: black;
-            text-decoration: none;
-            background-color: white;
-            border-radius: 5px;
-            text-align: center;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+.sidebar ul li a:hover {
+    background-color: #6c63ff;
+    color: white;
+}
 
-        .sidebar ul li a:hover {
-            background-color: #6c63ff;
-            color: white;
-        }
-        .content-section .btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        
-        .content-section .btn:hover {
-            background-color: #45a049;
-        }
-        
-        .content-section {
-            flex-grow: 1;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            display: none;
-            overflow-y: auto;
-        }
+.content-section .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
 
-        .content-section:target {
-            display: block;
-        }
+.content-section .btn:hover {
+    background-color: #45a049;
+}
 
-        .main-content {
-            display: flex;
-            flex-grow: 1;
-            padding-top: 80px;
-            height: calc(100vh - 80px);
-            overflow: hidden;
-        }
+.content-section {
+    flex-grow: 1;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    overflow-y: auto;
+}
 
-        
 .header {
     text-align: center;
-    background-image: url('../../../assets/Biblioteca.jpg');
     background-size: cover;
     background-position: center;
     color: white;
@@ -186,5 +171,4 @@
 .sidebar.hidden {
     transform: translateX(-60%);
     transition: transform 0.3s ease;
-  }
-  
+}
