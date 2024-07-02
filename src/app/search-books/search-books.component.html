@@ -1,0 +1,25 @@
+<div class="search-books">
+    <div class="search-header">
+        <h2>Buscar Libros</h2>
+        <input type="text" placeholder="Buscar por título, autor, ISBN..." [(ngModel)]="searchQuery">
+    </div>
+    <div class="filters">
+        <select [(ngModel)]="selectedGenre">
+            <option value="">Todos los Géneros</option>
+            <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+        </select>
+        <select [(ngModel)]="selectedLanguage">
+            <option value="">Todos los Idiomas</option>
+            <option *ngFor="let language of languages" [value]="language">{{ language }}</option>
+        </select>
+        <button (click)="searchBooks()">Buscar</button>
+    </div>
+    <div class="results">
+        <div *ngFor="let book of books" class="book">
+            <h3>{{ book.title }}</h3>
+            <p>{{ book.author }}</p>
+            <p>{{ book.genre }}</p>
+            <p>{{ book.language }}</p>
+        </div>
+    </div>
+</div>
