@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchBooksComponent } from './SearchBooks.component';
+import { Component } from '@angular/core';
 
 describe('SearchBooksComponent', () => {
   let component: SearchBooksComponent;
@@ -21,3 +22,7 @@ describe('SearchBooksComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+  it('should create', () => {
+    expect(Component).toBeTruthy();
+  });

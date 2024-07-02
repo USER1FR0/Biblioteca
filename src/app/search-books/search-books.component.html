@@ -4,22 +4,51 @@
         <input type="text" placeholder="Buscar por título, autor, ISBN..." [(ngModel)]="searchQuery">
     </div>
     <div class="filters">
-        <select [(ngModel)]="selectedGenre">
-            <option value="">Todos los Géneros</option>
-            <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+        <select [(ngModel)]="selectedAuthor">
+            <option value="">Todos los Autores</option>
+            <option *ngFor="let author of authors" [value]="author">{{ author }}</option>
         </select>
-        <select [(ngModel)]="selectedLanguage">
-            <option value="">Todos los Idiomas</option>
-            <option *ngFor="let language of languages" [value]="language">{{ language }}</option>
+        <select [(ngModel)]="selectedPublisher">
+            <option value="">Todas las Editoriales</option>
+            <option *ngFor="let publisher of publishers" [value]="publisher">{{ publisher }}</option>
         </select>
+        <input type="text" placeholder="Fecha de Publicación" [(ngModel)]="selectedPublicationDate">
+        <input type="text" placeholder="Título del Libro" [(ngModel)]="selectedTitle">
         <button (click)="searchBooks()">Buscar</button>
     </div>
     <div class="results">
-        <div *ngFor="let book of books" class="book">
+        <div *ngFor="let book of books" class="book" (click)="previewBook(book)">
             <h3>{{ book.title }}</h3>
             <p>{{ book.author }}</p>
-            <p>{{ book.genre }}</p>
-            <p>{{ book.language }}</p>
+            <p>{{ book.publisher }}</p>
+            <p>{{ book.publicationDate }}</p>
+            <button (click)="openLoanForm(book, $event)">Solicitar Préstamo</button>
+        </div>
+    </div>
+    <div *ngIf="selectedBook" class="book-preview">
+        <h3>Previsualización: {{ selectedBook.title }}</h3>
+        <p>{{ selectedBook.author }}</p>
+        <p>{{ selectedBook.publisher }}</p>
+        <p>{{ selectedBook.publicationDate }}</p>
+        <!-- Aquí puedes añadir más detalles del libro si es necesario -->
+    </div>
+
+    <!-- Modal para solicitud de préstamo -->
+    <div *ngIf="showLoanForm" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="closeLoanForm()">&times;</span>
+            <h2>Solicitar Préstamo</h2>
+            <form (ngSubmit)="submitLoanForm()">
+                <div>
+                    <label for="controlNumber">Número de Control:</label>
+                    <input type="text" id="controlNumber" [(ngModel)]="controlNumber" name="controlNumber" required>
+                </div>
+                <div>
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" [(ngModel)]="name" name="name" required>
+                </div>
+                <button type="submit">Enviar</button>
+            </form>
         </div>
     </div>
 </div>

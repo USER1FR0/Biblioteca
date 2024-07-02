@@ -76,7 +76,7 @@ body {
     background-size: cover;
     background-position: center;
     color: white;
-    height: 100%;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,13 +95,14 @@ body {
     max-width: 1000px;
     margin: auto;
     text-align: center;
+    height: 100vh;
 }
 
 .main-content {
     display: flex;
     flex-grow: 1;
     padding-top: 80px;
-    height: calc(100vh - 80px);
+    height: 100vh;
     overflow: hidden;
 }
 
