@@ -13,19 +13,17 @@
           </a>
         </div>
         <div class="image-container">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="User">
-          <div class="dropdown-menu">
-            <div class="dropdown-content">
-              <a href="#InicioSesion">Cambiar Usuario</a>
-              <a href="#Usuario">Cerrar Sesion</a>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="User">
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             </div>
           </div>
         </div>
       </div>
     </div>
     <br>
-  <div class="overlay">
-    <div class="header">
     <div class="main-content">
       <div class="sidebar" id="sidebar" [ngClass]="{'hidden': isSidebarHidden}">
         <ul>
@@ -42,7 +40,5 @@
         </ul>
       </div>
     </div>
-    <h1 >Hola</h1>
-    </div>
-</div>
-</body>
+  </body>
+  

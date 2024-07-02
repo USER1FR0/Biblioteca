@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
-
+import { Title } from '@angular/platform-browser';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {path:'home',component:HomeComponent},
   {path:'login',component:LoginComponent},
-  {path:'menu',component:MenuComponent}
+  {path:'menu',component:MenuComponent},
 ];
 
 @NgModule({
