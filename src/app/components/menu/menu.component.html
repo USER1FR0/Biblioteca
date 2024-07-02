@@ -1,49 +1,3 @@
-<<<<<<< HEAD
-<body>
-    <div class="navbar">
-      <img (click)="toggleSidebar()" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8YrcFCPbj_x4P9KKtC7L4eH8NMNV8NDE2Q&s" alt="Logo UTNG" class="logo">
-      <div>
-        <div class="image-container">
-          <a href="#Notificaciones">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5-1-BdHuLzFVPwIeEVLAOi9IHXGfizMmWFA&s" alt="Notificacion">
-          </a>
-        </div>
-        <div class="image-container">
-          <a href="#Question">
-            <img src="https://png.pngtree.com/png-clipart/20210312/original/pngtree-question-mark-pattern-png-image_6070996.jpg" alt="Questions">
-          </a>
-        </div>
-        <div class="image-container">
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="User">
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <br>
-    <div class="main-content">
-      <div class="sidebar" id="sidebar" [ngClass]="{'hidden': isSidebarHidden}">
-        <ul>
-          <li><a href="#welcome">Inicio</a></li>
-          <li><a href="#gestionar">Gestionar libros</a></li>
-          <li><a href="#prestar">Prestar libro</a></li>
-          <li><a href="#ver">Ver libros</a></li>
-          <li><a href="#busqueda">Búsqueda de libros</a></li>
-          <li><a href="#multas">Gestionar multas</a></li>
-          <li><a href="#registrar-lector">Registrar lector</a></li>
-          <li><a href="#registrar-libro">Registrar libro</a></li>
-          <li><a href="#multa">Multas</a></li>
-          <li><a href="#reporte">Generar reporte</a></li>
-        </ul>
-      </div>
-    </div>
-  </body>
-  
-=======
 <div class="navbar">
   <img (click)="toggleSidebar()" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8YrcFCPbj_x4P9KKtC7L4eH8NMNV8NDE2Q&s" alt="Logo UTNG" class="logo">
   <div>
@@ -79,7 +33,7 @@
       <li><a (click)="showSearchBooks()">Búsqueda de libros</a></li>
       <li><a href="#multas">Gestionar multas</a></li>
       <li><a href="#registrar-lector">Registrar lector</a></li>
-      <li><a href="#registrar-libro">Registrar libro</a></li>
+      <li><a (click)="showNewBook()">Registrar libro</a></li>
       <li><a href="#multa">Multas</a></li>
       <li><a href="#reporte">Generar reporte</a></li>
     </ul>
@@ -88,6 +42,8 @@
     <div *ngIf="showSearch">
       <app-search-books></app-search-books>
     </div>
+    <div *ngIf="showNewBooks">
+      <app-newbooks></app-newbooks>
+    </div>
   </div>
 </div>
->>>>>>> ddf844a844c11ebf0f661edb072eb084263dabd2

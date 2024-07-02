@@ -9,6 +9,7 @@ import { SidebarService } from '../../Services/sidebar.services';
 export class MenuComponent {
   isSidebarHidden = false;
   showSearch = false;
+  showNewBooks = false;
   isDropdownVisible = false;
 
   constructor(private sidebarService: SidebarService) {
@@ -21,6 +22,12 @@ export class MenuComponent {
 
   showSearchBooks() {
     this.showSearch = true;
+    this.showNewBooks = false; // Oculta NewBooks al mostrar SearchBooks
+  }
+
+  showNewBook() {
+    this.showNewBooks = true;
+    this.showSearch = false; // Oculta SearchBooks al mostrar NewBooks
   }
 
   toggleDropdown() {
@@ -31,3 +38,4 @@ export class MenuComponent {
     this.isDropdownVisible = false;
   }
 }
+

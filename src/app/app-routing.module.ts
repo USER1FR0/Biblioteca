@@ -3,12 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
-<<<<<<< HEAD
-import { Title } from '@angular/platform-browser';
-=======
-import { SearchBooksComponent } from './search-books/search-books.component';
+import { SearchBooksComponent } from './search-books/SearchBooks.component';
+import { NewBooksComponent } from './NewBooks/NewBooks.component';
 
->>>>>>> ddf844a844c11ebf0f661edb072eb084263dabd2
 
 const routes: Routes = [
   {
@@ -19,10 +16,8 @@ const routes: Routes = [
   {path:'home',component:HomeComponent},
   {path:'login',component:LoginComponent},
   {path:'menu',component:MenuComponent},
-<<<<<<< HEAD
-=======
-  {path: 'search', component: SearchBooksComponent }
->>>>>>> ddf844a844c11ebf0f661edb072eb084263dabd2
+  {path: 'search', component: SearchBooksComponent },
+  {path: 'NewBook', component: NewBooksComponent}
 ];
 
 @NgModule({

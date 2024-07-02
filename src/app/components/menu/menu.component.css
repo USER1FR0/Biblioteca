@@ -80,13 +80,13 @@ body {
     display: flex;
     flex-grow: 1;
     padding-top: 80px;
-    height: calc(100vh - 80px);
-    overflow: hidden;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar {
     background-color: #2B6ADF;
-    height: auto;
+    height: calc(100vh - 80px);
     width: 220px;
     padding: 15px;
     color: white;

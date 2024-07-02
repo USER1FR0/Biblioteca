@@ -1,0 +1,53 @@
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+label {
+    flex-basis: calc(50% - 10px);
+    margin-right: 10px;
+}
+
+input[type="text"],
+input[type="number"] {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background-color: red;
+}
+
+.save-button {
+    background-color: #007bff;
+}
+
+.buttons {
+    display: flex;
+  }
+  
+  .cancel-button {
+    margin-right: 200px; /* Margen a la derecha del botón Cancel */
+  }
