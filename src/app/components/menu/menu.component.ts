@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarService } from '../../Services/sidebar.services';
 
 @Component({
@@ -9,16 +8,26 @@ import { SidebarService } from '../../Services/sidebar.services';
 })
 export class MenuComponent {
   isSidebarHidden = false;
+  showSearch = false;
+  isDropdownVisible = false;
 
-  constructor(
-    private modal: NgbModal,
-    private sidebarService: SidebarService
-  ) {
+  constructor(private sidebarService: SidebarService) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
   }
 
   toggleSidebar() {
     this.sidebarService.toggleSidebar();
   }
-}
 
+  showSearchBooks() {
+    this.showSearch = true;
+  }
+
+  toggleDropdown() {
+    this.isDropdownVisible = !this.isDropdownVisible;
+  }
+
+  closeDropdown() {
+    this.isDropdownVisible = false;
+  }
+}
