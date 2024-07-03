@@ -23,7 +23,7 @@ body {
 
 .navbar .logo {
     cursor: pointer;
-    width: 200px;
+    width: 160px;
     height: auto;
 }
 
@@ -40,7 +40,7 @@ body {
 }
 
 .image-container img {
-    width: 60px;
+    width: 50px;
     max-width: 600px;
 }
 
@@ -138,8 +138,11 @@ body {
 .content-section {
     flex-grow: 1;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.8);
+    background-image:url('../../../assets/Biblioteca.jpg');
     overflow-y: auto;
+    height: 100vh;
+    width: auto;
+    background-size: cover;
 }
 
 .header {
@@ -169,6 +172,6 @@ body {
 }
 
 .sidebar.hidden {
-    transform: translateX(-60%);
+    transform: translateX(-100%);
     transition: transform 0.3s ease;
 }
