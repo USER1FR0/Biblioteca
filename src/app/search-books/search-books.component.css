@@ -28,6 +28,26 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.book-preview img.book-cover-preview {
+    width: 200px; /* Ajusta el ancho de la imagen */
+    height: auto; /* Mantén la proporción de la imagen */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 20px; /* Espacio entre la imagen y la información del libro */
+}
+
+.book-info {
+    display: flex;
+    flex-direction: column;
 }
 
 .search-header, .filters, .results {
@@ -81,13 +101,6 @@
 }
 
 .book img.book-cover {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.book-preview img.book-cover-preview {
     width: 100%;
     height: auto;
     border-radius: 5px;
