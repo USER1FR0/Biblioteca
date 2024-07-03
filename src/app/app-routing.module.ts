@@ -7,6 +7,7 @@ import { SearchBooksComponent } from './search-books/SearchBooks.component';
 import { NewBooksComponent } from './NewBooks/NewBooks.component';
 import { MaterialModule } from './material/material.module';
 import { EditBooksComponent } from './EditBooks/EditBooks.component';
+import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassword.component';
 
 
 
@@ -21,7 +22,8 @@ const routes: Routes = [
   {path:'menu',component:MenuComponent},
   {path: 'search', component: SearchBooksComponent },
   {path: 'NewBook', component: NewBooksComponent},
-  {path: 'EditBook', component:EditBooksComponent}
+  {path: 'EditBook', component:EditBooksComponent},
+  {path: 'forgot', component:ForgotPasswordComponent},
 ];
 
 @NgModule({

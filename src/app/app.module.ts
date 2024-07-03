@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditBooksComponent } from './EditBooks/EditBooks.component';
 import { MaterialModule } from './material/material.module';
-
+import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassword.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +21,8 @@ import { MaterialModule } from './material/material.module';
     MenuComponent,
     SearchBooksComponent,
     NewBooksComponent,
-    EditBooksComponent
+    EditBooksComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
