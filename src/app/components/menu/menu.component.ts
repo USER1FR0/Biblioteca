@@ -10,6 +10,7 @@ export class MenuComponent {
   isSidebarHidden = false;
   showSearch = false;
   showNewBooks = false;
+  showEmailConfirm = false;
   isDropdownVisible = false;
 
   constructor(private sidebarService: SidebarService) {
@@ -22,12 +23,20 @@ export class MenuComponent {
 
   showSearchBooks() {
     this.showSearch = true;
-    this.showNewBooks = false; // Oculta NewBooks al mostrar SearchBooks
+    this.showNewBooks = false;
+    this.showEmailConfirm = false;
   }
 
   showNewBook() {
     this.showNewBooks = true;
-    this.showSearch = false; // Oculta SearchBooks al mostrar NewBooks
+    this.showSearch = false;
+    this.showEmailConfirm = false;
+  }
+
+  showEmailConfirmation() {
+    this.showEmailConfirm = true;
+    this.showSearch = false;
+    this.showNewBooks = false;
   }
 
   toggleDropdown() {
@@ -38,4 +47,3 @@ export class MenuComponent {
     this.isDropdownVisible = false;
   }
 }
-

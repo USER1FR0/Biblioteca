@@ -18,6 +18,7 @@
     </div>
     <div class="results">
         <div *ngFor="let book of books" class="book" (click)="previewBook(book)">
+            <img [src]="book.cover" alt="{{ book.title }}" class="book-cover">
             <h3>{{ book.title }}</h3>
             <p>{{ book.author }}</p>
             <p>{{ book.publisher }}</p>
@@ -26,16 +27,17 @@
         </div>
     </div>
     <div *ngIf="selectedBook" class="book-preview">
+        <img [src]="selectedBook.cover" alt="{{ selectedBook.title }}" class="book-cover-preview">
         <h3>Previsualización: {{ selectedBook.title }}</h3>
-        <p>{{ selectedBook.author }}</p>
-        <p>{{ selectedBook.publisher }}</p>
-        <p>{{ selectedBook.publicationDate }}</p>
-        <!-- Aquí puedes añadir más detalles del libro si es necesario -->
+        <p><strong>Autor:</strong> {{ selectedBook.author }}</p>
+        <p><strong>Editorial:</strong> {{ selectedBook.publisher }}</p>
+        <p><strong>Fecha de Publicación:</strong> {{ selectedBook.publicationDate }}</p>
+        <p><strong>Sinopsis:</strong> {{ selectedBook.synopsis }}</p>
     </div>
 
     <!-- Modal para solicitud de préstamo -->
-    <div *ngIf="showLoanForm" class="modal">
-        <div class="modal-content">
+    <div *ngIf="showLoanForm" class="modal" (click)="closeLoanForm($event)">
+        <div class="modal-content" (click)="$event.stopPropagation()">
             <span class="close" (click)="closeLoanForm()">&times;</span>
             <h2>Solicitar Préstamo</h2>
             <form (ngSubmit)="submitLoanForm()">

@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditBooksComponent } from './EditBooks/EditBooks.component';
 import { MaterialModule } from './material/material.module';
 import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassword.component';
+import { ConfirmacionDeEmailComponent } from './confirmacion-de-email/confirmacion-de-email.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassw
     SearchBooksComponent,
     NewBooksComponent,
     EditBooksComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ConfirmacionDeEmailComponent
   ],
   imports: [
     BrowserModule,
