@@ -1,0 +1,37 @@
+.main-content {
+    display: flex;
+  }
+  
+  aside {
+    width: 20%;
+  }
+  
+  .content {
+    flex-grow: 1;
+    padding: 20px;
+    background-size: cover;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  form label {
+    margin-right: 10px;
+  }
+  
+  form input {
+    margin-left: 10px;
+  }
+  
+  .notificacion {
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+  }

@@ -11,7 +11,9 @@ export class MenuComponent {
   showSearch = false;
   showNewBooks = false;
   showEmailConfirm = false;
+  showMultas = false;
   isDropdownVisible = false;
+   
 
   constructor(private sidebarService: SidebarService) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
@@ -25,18 +27,28 @@ export class MenuComponent {
     this.showSearch = true;
     this.showNewBooks = false;
     this.showEmailConfirm = false;
+    this.showMultas = false;
   }
 
   showNewBook() {
     this.showNewBooks = true;
     this.showSearch = false;
     this.showEmailConfirm = false;
+    this.showMultas = false;
   }
 
   showEmailConfirmation() {
     this.showEmailConfirm = true;
     this.showSearch = false;
     this.showNewBooks = false;
+    this.showMultas = false;
+  }
+
+  showMulta() {
+    this.showMultas = true;
+    this.showNewBooks = false;
+    this.showSearch = false;
+    this.showEmailConfirm = false;
   }
 
   toggleDropdown() {
@@ -46,4 +58,7 @@ export class MenuComponent {
   closeDropdown() {
     this.isDropdownVisible = false;
   }
+
+
+
 }
