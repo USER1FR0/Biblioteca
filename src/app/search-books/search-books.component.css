@@ -21,6 +21,7 @@
     opacity: 0.5; /* Ajusta este valor para cambiar la opacidad */
     z-index: -1;
 }
+
 .book-preview {
     background-color: #f9f9f9;
     padding: 20px;
@@ -76,14 +77,21 @@
     border-radius: 5px;
     width: calc(33.333% - 40px);
     box-sizing: border-box;
+    position: relative;
 }
 
-.book-preview {
-    background-color: #ffffff;
-    padding: 20px;
-    border: 1px solid #ccc;
+.book img.book-cover {
+    width: 100%;
+    height: auto;
     border-radius: 5px;
-    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.book-preview img.book-cover-preview {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .modal {
