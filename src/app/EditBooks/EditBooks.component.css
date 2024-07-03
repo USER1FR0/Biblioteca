@@ -1,0 +1,62 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    width: 150px;
+}
+
+.form-group input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+input[readonly] {
+    background-color: #f1f1f1;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.save-button {
+    background-color: green;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background-color: red;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.mat-icon {
+    cursor: pointer;
+    margin-left: 10px;
+}

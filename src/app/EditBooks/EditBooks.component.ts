@@ -2,23 +2,35 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-newbooks',
-  templateUrl: './NewBooks.component.html',
-  styleUrls: ['./NewBooks.component.css']
+  selector: 'app-edit-books',
+  templateUrl: './EditBooks.component.html',
+  styleUrls: ['./EditBooks.component.css']
 })
-export class NewBooksComponent {
+export class EditBooksComponent {
   nombreLibro: string = '';
   autor: string = '';
   tema: string = '';
   categoria: string = '';
   informacion: string = '';
   isbn: string = '';
+  isEditing: { [key: string]: boolean } = {
+    nombreLibro: false,
+    autor: false,
+    tema: false,
+    categoria: false,
+    informacion: false,
+    isbn: false
+  };
 
   constructor(private router: Router) {}
 
+  enableEdit(field: string) {
+    this.isEditing[field] = true;
+  }
+
   saveBook() {
     if (!this.validateInput()) {
-      alert('Por favor completa todos los campos (máximo 50 caracteres para Nombre_Libro, Autor, Tema y Categoría).');
+      alert('Por favor completa todos los campos (máximo 50 caracteres para Nombre del Libro, Autor, Tema y Categoría).');
       return;
     }
 
@@ -28,9 +40,7 @@ export class NewBooksComponent {
     }
 
     alert('Libro guardado con éxito');
-      this.router.navigate(['/menu']);
     // Aquí puedes añadir lógica adicional para guardar el libro en tu sistema
-    // y redirigir o realizar otras acciones necesarias
   }
 
   validateInput(): boolean {
@@ -43,14 +53,14 @@ export class NewBooksComponent {
   }
 
   validateISBN(isbn: string): boolean {
-    // Expresión regular para validar ISBN-13 o ISBN-10
     const isbnRegex = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;
     return isbnRegex.test(isbn);
   }
 
-  confirmCancel() {
-    if (confirm('¿Estás seguro de cancelar el registro?')) {
-      this.router.navigate(['/menu']);
+  confirmDelete() {
+    if (confirm('¿Estás seguro de eliminar este libro?')) {
+      alert('Libro eliminado con éxito');
+      // Aquí puedes añadir lógica adicional para eliminar el libro de tu sistema
     }
   }
 }
