@@ -83,4 +83,5 @@ export class SearchBooksComponent {
     this.closeLoanForm();
     // Lógica para solicitar el préstamo del libro
   }
+  
 }

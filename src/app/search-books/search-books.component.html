@@ -24,15 +24,20 @@
             <p>{{ book.publisher }}</p>
             <p>{{ book.publicationDate }}</p>
             <button (click)="openLoanForm(book, $event)">Solicitar Préstamo</button>
+            <button (click)="openLoanForm(book, $event)">Editar</button>
         </div>
     </div>
     <div *ngIf="selectedBook" class="book-preview">
-        <img [src]="selectedBook.cover" alt="{{ selectedBook.title }}" class="book-cover-preview">
-        <h3>Previsualización: {{ selectedBook.title }}</h3>
-        <p><strong>Autor:</strong> {{ selectedBook.author }}</p>
-        <p><strong>Editorial:</strong> {{ selectedBook.publisher }}</p>
-        <p><strong>Fecha de Publicación:</strong> {{ selectedBook.publicationDate }}</p>
-        <p><strong>Sinopsis:</strong> {{ selectedBook.synopsis }}</p>
+        <div class="preview-container">
+            <img [src]="selectedBook.cover" alt="{{ selectedBook.title }}" class="book-cover-preview">
+            <div class="book-info">
+                <h3>Previsualización: {{ selectedBook.title }}</h3>
+                <p><strong>Autor:</strong> {{ selectedBook.author }}</p>
+                <p><strong>Editorial:</strong> {{ selectedBook.publisher }}</p>
+                <p><strong>Fecha de Publicación:</strong> {{ selectedBook.publicationDate }}</p>
+                <p><strong>Sinopsis:</strong> {{ selectedBook.synopsis }}</p>
+            </div>
+        </div>
     </div>
 
     <!-- Modal para solicitud de préstamo -->
