@@ -15,7 +15,7 @@ import { MaterialModule } from './material/material.module';
 import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassword.component';
 import { ConfirmacionDeEmailComponent } from './confirmacion-de-email/confirmacion-de-email.component';
 import { MultasComponent } from './components/multas/multas.component';
-
+import { RegistroBibiotecariosModule } from './components/RegistroBibliotecarios/bibliotecarios.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +34,8 @@ import { MultasComponent } from './components/multas/multas.component';
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    RegistroBibiotecariosModule
   ],
   providers: [
     provideAnimationsAsync()

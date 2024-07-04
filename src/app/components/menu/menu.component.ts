@@ -12,6 +12,7 @@ export class MenuComponent {
   showNewBooks = false;
   showEmailConfirm = false;
   showMultas = false;
+  showRegistro = false;
   isDropdownVisible = false;
    
 
@@ -49,6 +50,14 @@ export class MenuComponent {
     this.showNewBooks = false;
     this.showSearch = false;
     this.showEmailConfirm = false;
+  }
+  showRegistroblibliotecarios(){
+    this.showRegistro = true;
+    this.showMultas = false;
+    this.showNewBooks = false;
+    this.showSearch = false;
+    this.showEmailConfirm = false;
+
   }
 
   toggleDropdown() {

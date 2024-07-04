@@ -1,3 +1,4 @@
+import { RegistroBibiotecariosComponent } from './components/RegistroBibliotecarios/bibliotecarios.component';
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path: 'NewBook', component: NewBooksComponent},
   {path: 'EditBook', component:EditBooksComponent},
   {path: 'forgot', component:ForgotPasswordComponent},
-  {path: 'multas', component: MultasComponent}
+  {path: 'multas', component: MultasComponent},
+  {path: 'registro', component: RegistroBibiotecariosComponent}
 ];
 
 @NgModule({

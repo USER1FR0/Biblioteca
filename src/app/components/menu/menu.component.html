@@ -34,6 +34,7 @@
       <li><a href="#multa">Multas</a></li>
       <li><a href="#reporte">Generar reporte</a></li>
       <li><a (click)="showEmailConfirmation()">Confirmar Email</a></li>
+      <li><a (click)="showRegistroblibliotecarios()"> Nuevos Bibliotecarios</a></li>
     </ul>
   </div>
   <div class="content-section">
@@ -48,6 +49,9 @@
     </div>
     <div *ngIf="showMultas">
       <app-multas></app-multas>
+    </div>
+    <div *ngIf="showRegistro">
+      <app-bibliotecarios></app-bibliotecarios>
     </div>
   </div>
 </div>
