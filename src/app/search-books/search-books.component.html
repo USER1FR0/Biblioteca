@@ -24,7 +24,7 @@
             <p>{{ book.publisher }}</p>
             <p>{{ book.publicationDate }}</p>
             <button (click)="openLoanForm(book, $event)">Solicitar Préstamo</button>
-            <button (click)="openLoanForm(book, $event)">Editar</button>
+            <button (click)="openEditModal(book)">Editar</button>
         </div>
     </div>
     <div *ngIf="selectedBook" class="book-preview">
@@ -40,12 +40,11 @@
         </div>
     </div>
 
-    <!-- Modal para solicitud de préstamo -->
     <div *ngIf="showLoanForm" class="modal" (click)="closeLoanForm($event)">
         <div class="modal-content" (click)="$event.stopPropagation()">
             <span class="close" (click)="closeLoanForm()">&times;</span>
             <h2>Solicitar Préstamo</h2>
-            <form (ngSubmit)="submitLoanForm()">
+            <form (ngSubmit)="closeLoanForm()">
                 <div>
                     <label for="controlNumber">Número de Control:</label>
                     <input type="text" id="controlNumber" [(ngModel)]="controlNumber" name="controlNumber" required>

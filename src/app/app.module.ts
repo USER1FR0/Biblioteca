@@ -27,7 +27,8 @@ import { MultasComponent } from './components/multas/multas.component';
     EditBooksComponent,
     ForgotPasswordComponent,
     ConfirmacionDeEmailComponent,
-    MultasComponent
+    MultasComponent,
+    EditBooksComponent
   ],
   imports: [
     BrowserModule,

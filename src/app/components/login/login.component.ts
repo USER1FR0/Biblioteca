@@ -9,8 +9,8 @@ import { ForgotPasswordComponent } from '../ForgotPassword/ForgotPassword.compon
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  showForgot=false;
   constructor(private modal: NgbActiveModal, private router: Router, private modalService: NgbModal) {}
-
   close() {
     this.modal.dismiss();
   }
@@ -23,6 +23,6 @@ export class LoginComponent {
 
   openForgotPassword() {
     // Método para abrir el modal de recuperación de contraseña
-    this.modalService.open(ForgotPasswordComponent);
+    this.showForgot=true;
   }
 }

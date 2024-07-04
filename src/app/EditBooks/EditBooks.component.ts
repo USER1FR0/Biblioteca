@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit-books',
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./EditBooks.component.css']
 })
 export class EditBooksComponent {
+  @Input() book: any;
   nombreLibro: string = '';
   autor: string = '';
   tema: string = '';
@@ -22,7 +23,18 @@ export class EditBooksComponent {
     isbn: false
   };
 
-  constructor(private router: Router) {}
+  constructor(public activeModal: NgbActiveModal) {}
+
+  ngOnInit() {
+    if (this.book) {
+      this.nombreLibro = this.book.title;
+      this.autor = this.book.author;
+      this.tema = this.book.topic;
+      this.categoria = this.book.category;
+      this.informacion = this.book.information;
+      this.isbn = this.book.isbn;
+    }
+  }
 
   enableEdit(field: string) {
     this.isEditing[field] = true;
@@ -40,7 +52,7 @@ export class EditBooksComponent {
     }
 
     alert('Libro guardado con éxito');
-    // Aquí puedes añadir lógica adicional para guardar el libro en tu sistema
+    this.activeModal.close('save'); // Cerrando el modal
   }
 
   validateInput(): boolean {
@@ -60,7 +72,7 @@ export class EditBooksComponent {
   confirmDelete() {
     if (confirm('¿Estás seguro de eliminar este libro?')) {
       alert('Libro eliminado con éxito');
-      // Aquí puedes añadir lógica adicional para eliminar el libro de tu sistema
+      this.activeModal.close('delete'); // Cerrando el modal
     }
   }
 }

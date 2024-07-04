@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditBooksComponent } from '../EditBooks/EditBooks.component';
 
 @Component({
   selector: 'app-search-books',
@@ -19,6 +21,8 @@ export class SearchBooksComponent {
 
   authors: string[] = ['Autor 1', 'Autor 2', 'Autor 3']; // Ejemplo de autores
   publishers: string[] = ['Editorial 1', 'Editorial 2', 'Editorial 3']; // Ejemplo de editoriales
+
+  constructor(private modalService: NgbModal) {}
 
   searchBooks() {
     this.books = [
@@ -56,7 +60,6 @@ export class SearchBooksComponent {
       (!this.selectedTitle || book.title === this.selectedTitle)
     );
   }
-
   previewBook(book: any) {
     this.selectedBook = book;
   }
@@ -76,12 +79,15 @@ export class SearchBooksComponent {
     this.name = '';
   }
 
-  submitLoanForm() {
-    console.log('Solicitando préstamo para el libro:', this.selectedBook);
-    console.log('Número de Control:', this.controlNumber);
-    console.log('Nombre:', this.name);
-    this.closeLoanForm();
-    // Lógica para solicitar el préstamo del libro
+  openEditModal(book: any) {
+    const modalRef = this.modalService.open(EditBooksComponent, { centered: true });
+    modalRef.componentInstance.book = book; // Pasar el libro seleccionado al componente EditBooks
+    modalRef.result.then((result) => {
+      if (result === 'save' || result === 'delete') {
+        this.searchBooks(); // Refrescar la lista de libros después de guardar o eliminar
+      }
+    }, (reason) => {
+      console.log('Modal dismissed');
+    });
   }
-  
 }
