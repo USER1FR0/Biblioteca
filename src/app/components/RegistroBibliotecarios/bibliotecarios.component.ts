@@ -63,27 +63,27 @@ export class RegistroBibiotecariosComponent {
     }
     
   }
-   const routes: Routes = [
-      {path: '',component:HomeComponent},
-      {path: 'login',component:LoginComponent},
-      {path: 'bibliotecarios',component: RegistroBibiotecariosComponent},
-   ];
+  const routes: Routes = [
+     {path: '',component:HomeComponent},
+     {path: 'login',component:LoginComponent},
+     {path: 'bibliotecarios',component: RegistroBibiotecariosComponent},
+  ];
 
-   @NgModule ({
-    declarations: [
-      RegistroBibiotecariosComponent
-    ],
-    imports: [
-      RouterModule.forRoot(routes),
-      CommonModule,
-      FormsModule,
-      MatIconModule
-    ],
-    exports: [
-      RouterModule,
-      RegistroBibiotecariosComponent
-    ]
-   })
+  @NgModule ({
+   declarations: [
+     RegistroBibiotecariosComponent
+   ],
+   imports: [
+     RouterModule.forRoot(routes),
+     CommonModule,
+     FormsModule,
+     MatIconModule
+   ],
+   exports: [
+     RouterModule,
+     RegistroBibiotecariosComponent
+   ]
+  })
    export class RegistroBibiotecariosModule {
     
    }

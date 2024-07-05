@@ -1,3 +1,4 @@
+import { RegistroLectorComponent } from './../../Lectores/lectores.component';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
