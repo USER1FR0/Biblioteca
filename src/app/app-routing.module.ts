@@ -10,6 +10,7 @@ import { MaterialModule } from './material/material.module';
 import { EditBooksComponent } from './EditBooks/EditBooks.component';
 import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassword.component';
 import { MultasComponent } from './components/multas/multas.component';
+import { RegistroLectorComponent } from './Lectores/lectores.component';
 
 
 
@@ -27,7 +28,8 @@ const routes: Routes = [
   {path: 'EditBook', component:EditBooksComponent},
   {path: 'forgot', component:ForgotPasswordComponent},
   {path: 'multas', component: MultasComponent},
-  {path: 'registro', component: RegistroBibiotecariosComponent}
+  {path: 'registro', component: RegistroBibiotecariosComponent},
+  {path: 'lector', component: RegistroLectorComponent}
 ];
 
 @NgModule({

@@ -14,6 +14,7 @@ export class MenuComponent {
   showMultas = false;
   showRegistro = false;
   isDropdownVisible = false;
+  showLectores = false;
    
 
   constructor(private sidebarService: SidebarService) {
@@ -52,12 +53,20 @@ export class MenuComponent {
     this.showEmailConfirm = false;
   }
   showRegistroblibliotecarios(){
-    this.showRegistro = true;
+    this.showLectores = true;
+    this.showRegistro = false;
     this.showMultas = false;
     this.showNewBooks = false;
     this.showSearch = false;
     this.showEmailConfirm = false;
 
+  }
+  showRegistroLectores (){
+    this.showRegistro = true;
+    this.showMultas = false;
+    this.showNewBooks = false;
+    this.showSearch = false;
+    this.showEmailConfirm = false;
   }
 
   toggleDropdown() {

@@ -16,6 +16,7 @@ import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassw
 import { ConfirmacionDeEmailComponent } from './confirmacion-de-email/confirmacion-de-email.component';
 import { MultasComponent } from './components/multas/multas.component';
 import { RegistroBibiotecariosModule } from './components/RegistroBibliotecarios/bibliotecarios.component';
+import {  RegistroLectorModule } from './Lectores/lectores.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +37,9 @@ import { RegistroBibiotecariosModule } from './components/RegistroBibliotecarios
     FormsModule,
     BrowserAnimationsModule,
     MaterialModule,
-    RegistroBibiotecariosModule
+    RegistroBibiotecariosModule,
+    RegistroLectorModule
+    
   ],
   providers: [
     provideAnimationsAsync()
