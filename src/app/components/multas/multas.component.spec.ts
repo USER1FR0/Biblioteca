@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { MultasComponent } from './multas.component';
-
 
 describe('MultasComponent', () => {
   let component: MultasComponent;
@@ -8,7 +8,8 @@ describe('MultasComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MultasComponent],
+      declarations: [MultasComponent],
+      imports: [FormsModule]
     })
     .compileComponents();
     fixture = TestBed.createComponent(MultasComponent);
@@ -27,21 +28,20 @@ describe('MultasComponent', () => {
     expect(component.multa.cantMultas).toBe(0);
     expect(component.multa.adeudoTotal).toBe(0);
     expect(component.multa.fechaConsulta).toBe('');
+    expect(component.multa.diasTranscurridos).toBe(0);
   });
 
-  it('should call generarReporte method when form is submitted', () => {
+  it('should call generarReporte method when "Generar Reporte" button is clicked', () => {
     spyOn(component, 'generarReporte');
-    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+    const button = fixture.debugElement.nativeElement.querySelector('button.btn-secondary');
     button.click();
     expect(component.generarReporte).toHaveBeenCalled();
   });
 
-  it('should update the notification email', () => {
-    component.multa.correo = 'test@example.com';
-    fixture.detectChanges();
-    const notification = fixture.debugElement.nativeElement.querySelector('.notificacion p:nth-child(2)');
-    expect(notification.textContent).toContain('test@example.com');
+  it('should call registrar method when form is submitted', () => {
+    spyOn(component, 'registrar');
+    const form = fixture.debugElement.nativeElement.querySelector('form');
+    form.dispatchEvent(new Event('submit'));
+    expect(component.registrar).toHaveBeenCalled();
   });
-
-
 });

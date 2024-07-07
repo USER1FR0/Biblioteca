@@ -17,6 +17,10 @@ import { ConfirmacionDeEmailComponent } from './confirmacion-de-email/confirmaci
 import { MultasComponent } from './components/multas/multas.component';
 import { RegistroBibiotecariosModule } from './components/RegistroBibliotecarios/bibliotecarios.component';
 import {  RegistroLectorModule } from './Lectores/lectores.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import { NavbarModule } from './options/pages/layout-page/navbar-page/navbar.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +33,7 @@ import {  RegistroLectorModule } from './Lectores/lectores.component';
     ForgotPasswordComponent,
     ConfirmacionDeEmailComponent,
     MultasComponent,
-    EditBooksComponent
+    EditBooksComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,11 @@ import {  RegistroLectorModule } from './Lectores/lectores.component';
     BrowserAnimationsModule,
     MaterialModule,
     RegistroBibiotecariosModule,
-    RegistroLectorModule
+    RegistroLectorModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    NavbarModule
     
   ],
   providers: [

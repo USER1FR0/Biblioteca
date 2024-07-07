@@ -1,43 +1,43 @@
-
-  <div class="col-9">
-    <div class="card">
-      <div class="card-header">
-        Datos de la multa
-      </div>
-      <div class="card-body">
-        <form>
-          <div class="mb-3">
-            <label for="alumno" class="form-label">Alumno</label>
-            <input type="text" class="form-control" id="alumno">
-          </div>
-          <div class="mb-3">
-            <label for="noControl" class="form-label">No. Control</label>
-            <input type="text" class="form-control" id="noControl">
-          </div>
-          <div class="mb-3">
-            <label for="correo" class="form-label">Correo</label>
-            <input type="email" class="form-control" id="correo">
-            <small class="form-text text-muted">El reporte se envió al correo. REVISE Y CONFIRME</small>
-          </div>
-          <div class="mb-3">
-            <label for="cantMultas" class="form-label">Cant. Multas</label>
-            <input type="number" class="form-control" id="cantMultas">
-          </div>
-          <div class="mb-3">
-            <label for="adeudoTotal" class="form-label">Adeudo Total</label>
-            <input type="number" class="form-control" id="adeudoTotal">
-          </div>
-          <div class="mb-3">
-            <label for="fechaConsulta" class="form-label">Fecha Consulta</label>
-            <input type="date" class="form-control" id="fechaConsulta">
-          </div>
-          <div class="mb-3">
-            <label for="diasTranscurridos" class="form-label">Días Transcurridos</label>
-            <input type="number" class="form-control" id="diasTranscurridos">
-          </div>
-          <button type="submit" class="btn btn-primary">Registrar</button>
-          <button type="button" class="btn btn-secondary">Generar Reporte</button>
-        </form>
-      </div>
+<div class="col-9">
+  <div class="card">
+    <div class="card-header">
+      Datos de la multa
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="registrar()">
+        <div class="mb-3">
+          <label for="alumno" class="form-label">Alumno</label>
+          <input type="text" class="form-control" id="alumno" [(ngModel)]="multa.alumno" name="alumno">
+        </div>
+        <div class="mb-3">
+          <label for="noControl" class="form-label">No. Control</label>
+          <input type="text" class="form-control" id="noControl" [(ngModel)]="multa.noControl" name="noControl">
+        </div>
+        <div class="mb-3">
+          <label for="correo" class="form-label">Correo</label>
+          <input type="email" class="form-control" id="correo" [(ngModel)]="multa.correo" name="correo">
+          <small class="form-text text-muted">El reporte se envió al correo. REVISE Y CONFIRME</small>
+        </div>
+        <div class="mb-3">
+          <label for="cantMultas" class="form-label">Cant. Multas</label>
+          <input type="number" class="form-control" id="cantMultas" [(ngModel)]="multa.cantMultas" name="cantMultas">
+        </div>
+        <div class="mb-3">
+          <label for="adeudoTotal" class="form-label">Adeudo Total</label>
+          <input type="number" class="form-control" id="adeudoTotal" [(ngModel)]="multa.adeudoTotal" name="adeudoTotal">
+        </div>
+        <div class="mb-3">
+          <label for="fechaConsulta" class="form-label">Fecha Consulta</label>
+          <input type="date" class="form-control" id="fechaConsulta" [(ngModel)]="multa.fechaConsulta" name="fechaConsulta">
+        </div>
+        <div class="mb-3">
+          <label for="diasTranscurridos" class="form-label">Días Transcurridos</label>
+          <input type="number" class="form-control" id="diasTranscurridos" [(ngModel)]="multa.diasTranscurridos" name="diasTranscurridos">
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+        <button type="button" class="btn btn-secondary" (click)="generarReporte()">Generar Reporte</button>
+      </form>
     </div>
   </div>
+</div>
+
