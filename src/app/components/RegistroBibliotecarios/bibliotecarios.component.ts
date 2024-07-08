@@ -26,11 +26,22 @@ export class RegistroBibiotecariosComponent {
   contraseña : string = '';
   confirmacioncontraseña: string = '';
   direccion: string = '';
+  isVisble: boolean=false;
+
 
   isEditing: {[Key: string]: boolean} = {};
 
+
   enableEdit(field: string){
      this.isEditing[field] = true;
+  }
+  limpiarDatos(){
+    this.nombreBibliotecario = '';
+    this.direccion = '';
+    this.direccion = '';
+    this.confirmacioncontraseña = '';
+    this.numero = '';
+    this.usuario = '';
   }
   
     constructor( private router: Router) {}
@@ -56,8 +67,12 @@ export class RegistroBibiotecariosComponent {
       return isbnRegex.test(this.nombreBibliotecario);
     }
   
-    confirmCancel() {
-     return this.usuario=("Hola")
+    confirmCancel(): string {
+      return "Manuel1223100423"
+    }
+    showDialog(){
+      this.isVisble=true;
+
     }
     
   }
@@ -67,22 +82,23 @@ export class RegistroBibiotecariosComponent {
       {path: 'bibliotecarios',component: RegistroBibiotecariosComponent},
    ];
 
-   @NgModule ({
-    declarations: [
-      RegistroBibiotecariosComponent
-    ],
-    imports: [
-      RouterModule.forRoot(routes),
-      CommonModule,
-      FormsModule,
-      MatIconModule
-    ],
-    exports: [
-      RouterModule,
-      RegistroBibiotecariosComponent
-    ]
-   })
-   export class RegistroBibiotecariosModule {
+  @NgModule ({
+   declarations: [
+     RegistroBibiotecariosComponent
+   ],
+   imports: [
+     RouterModule.forRoot(routes),
+     CommonModule,
+     FormsModule,
+     MatIconModule
+   ],
+   exports: [
+     RouterModule,
+     RegistroBibiotecariosComponent
+   ]
+  })
+  export class RegistroBibiotecariosModule {
+
     
-   }
+  }
   
