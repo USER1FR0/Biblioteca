@@ -20,17 +20,6 @@ export class RegistroLectorComponent {
   control: string = '';
   correo: string = '';
   carrera: string = '';
-  isVisble: boolean=false;
-
-
-  
-
-
-
-  confirmCancel(): string {
-    return "zaydafervar@gmail.com";
-  }
-
 
   validateInput(): boolean {
     if (!this.nombreLector || !this.control || !this.correo || !this.carrera) {
@@ -41,18 +30,16 @@ export class RegistroLectorComponent {
       return true; 
     }
 
-
     return true; // En este ejemplo simplificado, consideramos que es válido
   }
-  showDialog(){
-    this.isVisble=true;
-}
-
   saveLector (){
 
   }
   lector: any = {}; // Asumiendo que lector es un objeto con la propiedad especialidad
 }
+
+   
+  ;
 
   
 
@@ -64,20 +51,20 @@ const routes: Routes = [
 ];
 
 @NgModule ({
-  declarations: [
-    RegistroLectorComponent
-  ],
-  imports: [
-    RouterModule.forRoot(routes),
-    CommonModule,
-    FormsModule,
-    MatIconModule
-  ],
-  exports: [
-    RouterModule,
-    RegistroLectorComponent
-  ]
-  })
-  export class RegistroLectorModule {
-   
-  }
+declarations: [
+  RegistroLectorComponent
+],
+imports: [
+  RouterModule.forRoot(routes),
+  CommonModule,
+  FormsModule,
+  MatIconModule
+],
+exports: [
+  RouterModule,
+  RegistroLectorComponent
+]
+})
+export class RegistroLectorModule {
+ 
+}

@@ -1,110 +1,54 @@
+/* registro-lector.component.css */
+
 .registro-lector {
-  max-width: 500px;
-  margin: auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.form-title {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.form-group input[type="text"] {
-  width: calc(100% - 20px);
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.mat-icon {
-  display: inline-block;
-  margin-left: 10px;
-  vertical-align: middle;
-  color: #999;
-}
-
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-  box-shadow: 0 0 10px rgba(55, 15, 131, 0.1); /* Sombra suave */
-  max-width: 50%; /* Ancho máximo del contenido */
-}
-.modal-content h3 {
-  margin-bottom: 15px;
-}
-
-.modal-content .save-button {
-  padding: 10px 20px;
-  background-color: #46bcf3;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.modal-content .save-button:hover {
-  background-color: #0056b3;
-}
-
-.buttons {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.buttons .save-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.buttons .save-button:hover {
-  background-color: #0056b3;
-}
-
-.buttons .cancel-button {
-  padding: 10px 20px;
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.buttons .cancel-button:hover {
-  background-color: #c82333;
-}
-
-    
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .registro-lector h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .registro-lector form {
+    display: grid;
+    grid-gap: 10px;
+  }
+  
+  .registro-lector .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .registro-lector label {
+    font-weight: bold;
+  }
+  
+  .registro-lector input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .registro-lector button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .registro-lector button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  

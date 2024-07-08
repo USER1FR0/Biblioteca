@@ -4,43 +4,30 @@
   <div class="form-group">
     <label for="nombreBibliotecario">Nombre Completo</label>
     <input type="text" id="nombreLector" placeholder="Nombre Completo" maxlength="50" [(ngModel)]="nombreLector" >
-    <mat-icon>{{ confirmCancel() }}</mat-icon>
+    <mat-icon routerLink="/bibliotecarios"></mat-icon>
   </div>
       
   <div class="form-group">
     <label for="nombreBibliotecario">Numero de Control</label>
     <input type="text" id="control" placeholder="control" maxlength="50" [(ngModel)]="control" >
-    <mat-icon>{{ confirmCancel() }}</mat-icon>
+    <mat-icon routerLink="/bibliotecarios"></mat-icon>
   </div>
 
 
   <div class="form-group">
     <label for="Correo">Correo Electronico</label>
     <input type="text" id="Correo" placeholder="Correo" maxlength="50" [(ngModel)]="correo" >
-    <mat-icon>{{ confirmCancel() }}</mat-icon>
+    <mat-icon routerLink="/bibliotecarios"></mat-icon>
   </div>
 
   <div class="form-group">
     <label for="carrera">Carrera</label>
     <input type="text" id="carrera" placeholder="carrera" maxlength="50" [(ngModel)]="carrera" >
-    <mat-icon>{{ confirmCancel() }}</mat-icon>
+    <mat-icon routerLink="/bibliotecarios"></mat-icon>
   </div>
 
-  <div class="buttons">
-  
-    <button class="save-button" (click)="showDialog()">Guardar</button>
-  </div>
 
-  <div *ngIf="isVisble" class="modal-backdrop">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-        <h3>Gracias por registrarte!!</h3>
-        <h4>Que tengas un buen dia :D!! </h4>
-        <button class="save-button" (click)="isVisble=false">Aceptar</button>
-  </div>
-  
-    
-
-
+      <button class="save-button" routerLink="/">Guardar</button>
 
     
   </div>

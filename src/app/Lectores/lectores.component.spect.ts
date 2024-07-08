@@ -11,8 +11,6 @@ import { FormsModule } from '@angular/forms';
 describe('RegistroLectorComponent', () => {
   let component: RegistroLectorComponent;
   let fixture: ComponentFixture<RegistroLectorComponent>;
-  let isVisble=false;
-
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

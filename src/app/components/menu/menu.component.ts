@@ -1,15 +1,10 @@
-import { Component , Type} from '@angular/core';
+import { Component } from '@angular/core';
 import { SidebarService } from '../../Services/sidebar.services';
-import { RegistroLectorComponent } from '../../Lectores/lectores.component';
-import { RegistroBibiotecariosComponent } from '../RegistroBibliotecarios/bibliotecarios.component';
-import { PersonalisadoComponent } from '../ReportePersonalisado/personalisados.component';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css'],
-  
-  
+  styleUrls: ['./menu.component.css']
 })
 export class MenuComponent {
   isSidebarHidden = false;
@@ -20,11 +15,6 @@ export class MenuComponent {
   showRegistro = false;
   isDropdownVisible = false;
   showLectores = false;
-  showRegistroBibliotecarios = false;
-  showPersonalisados = false;
-  
-  
-
    
 
   constructor(private sidebarService: SidebarService) {
@@ -40,12 +30,6 @@ export class MenuComponent {
     this.showNewBooks = false;
     this.showEmailConfirm = false;
     this.showMultas = false;
-    this.showRegistroBibliotecarios = false;
-    this.showLectores = false;
-    this.showPersonalisados = false;
-
-
-
   }
 
   showNewBook() {
@@ -53,12 +37,6 @@ export class MenuComponent {
     this.showSearch = false;
     this.showEmailConfirm = false;
     this.showMultas = false;
-    this.showRegistroBibliotecarios = false;
-    this.showLectores = false;
-    this.showPersonalisados = false;
-
-
-
   }
 
   showEmailConfirmation() {
@@ -66,12 +44,6 @@ export class MenuComponent {
     this.showSearch = false;
     this.showNewBooks = false;
     this.showMultas = false;
-    this.showRegistroBibliotecarios = false;
-    this.showLectores = false;
-    this.showPersonalisados = false;
-
-
-
   }
 
   showMulta() {
@@ -79,23 +51,14 @@ export class MenuComponent {
     this.showNewBooks = false;
     this.showSearch = false;
     this.showEmailConfirm = false;
-    this.showRegistroBibliotecarios = false;
-    this.showLectores = false;
-    this.showPersonalisados = false;
-
-
-
   }
   showRegistroBlibliotecarios(){
-    this.showRegistroBibliotecarios = true;
+    this.showRegistro = true;
     this.showLectores = false;
-    this.showRegistro = false;
     this.showMultas = false;
     this.showNewBooks = false;
     this.showSearch = false;
     this.showEmailConfirm = false;
-    this.showPersonalisados = false;
-
 
   }
 
@@ -106,22 +69,6 @@ export class MenuComponent {
     this.showNewBooks = false;
     this.showSearch = false;
     this.showEmailConfirm = false;
-    this.showRegistroBibliotecarios = false;
-    this.showPersonalisados = false;
-
-
-
-  }
-  showPersonalisado(){
-    this.showPersonalisados = true;
-    this.showLectores = false;
-    this.showRegistro = false;
-    this.showMultas = false;
-    this.showNewBooks = false;
-    this.showSearch = false;
-    this.showEmailConfirm = false;
-    this.showRegistroBibliotecarios = false;
-
   }
 
   toggleDropdown() {

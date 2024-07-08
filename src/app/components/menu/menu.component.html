@@ -44,9 +44,9 @@
       <li><a (click)="showNewBook()">Registrar libro</a></li>
       <li><a (click)="showMulta()">Gestionar Multas</a></li>
       <li><a href="#multa">Multas</a></li>
-      <li><a (click)="showPersonalisado()">Generar reporte</a></li>
+      <li><a href="#reporte">Generar reporte</a></li>
       <li><a (click)="showEmailConfirmation()">Confirmar Email</a></li>
-      <li><a (click)="showRegistroBlibliotecarios()" > Nuevos Bibliotecarios</a></li>
+      <li><a (click)="showRegistroBlibliotecarios()"> Nuevos Bibliotecarios</a></li>
     </ul>
   </div>
   <div class="content-section">
@@ -65,15 +65,9 @@
     <div *ngIf="showRegistro">
       <app-bibliotecarios></app-bibliotecarios>
     </div>
-    <div *ngIf="showRegistroBibliotecarios">
-      <app-bibliotecarios> </app-bibliotecarios>
-    </div>
     <div *ngIf="showLectores">
-      <app-registro-lector> </app-registro-lector>
+      <app-registro-lector></app-registro-lector>
     </div>
-    <div *ngIf="showPersonalisados">
-      <app-reporte-personalisado> </app-reporte-personalisado>
-        </div>
   </div>
 </div>
 </body>

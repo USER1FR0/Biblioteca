@@ -11,13 +11,11 @@ import { EditBooksComponent } from './EditBooks/EditBooks.component';
 import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassword.component';
 import { MultasComponent } from './components/multas/multas.component';
 import { RegistroLectorComponent } from './Lectores/lectores.component';
-import { PersonalisadoComponent } from './components/ReportePersonalisado/personalisados.component';
 
 
 
 const routes: Routes = [
   {
-    
     path : '',
     redirectTo : 'home',
     pathMatch : 'full'
@@ -30,9 +28,8 @@ const routes: Routes = [
   {path: 'EditBook', component:EditBooksComponent},
   {path: 'forgot', component:ForgotPasswordComponent},
   {path: 'multas', component: MultasComponent},
-  {path: 'bibliotecarios', component: RegistroBibiotecariosComponent},
-  { path: 'lector', component: RegistroLectorComponent },
-  {path: 'personalisado',component: PersonalisadoComponent},
+  {path: 'registro', component: RegistroBibiotecariosComponent},
+  {path: 'lector', component: RegistroLectorComponent}
 ];
 
 @NgModule({
