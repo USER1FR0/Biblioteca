@@ -52,17 +52,19 @@ export class MenuComponent {
     this.showSearch = false;
     this.showEmailConfirm = false;
   }
-  showRegistroblibliotecarios(){
-    this.showLectores = true;
-    this.showRegistro = false;
+  showRegistroBlibliotecarios(){
+    this.showRegistro = true;
+    this.showLectores = false;
     this.showMultas = false;
     this.showNewBooks = false;
     this.showSearch = false;
     this.showEmailConfirm = false;
 
   }
+
   showRegistroLectores (){
-    this.showRegistro = true;
+    this.showLectores = true;
+    this.showRegistro = false;
     this.showMultas = false;
     this.showNewBooks = false;
     this.showSearch = false;

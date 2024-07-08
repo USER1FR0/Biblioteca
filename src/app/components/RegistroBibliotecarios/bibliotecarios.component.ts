@@ -5,7 +5,6 @@ import { Route, Router,RouterModule, Routes } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ForgotPasswordComponent } from '../ForgotPassword/ForgotPassword.component';
 import { FormsModule } from '@angular/forms';
-import { NgModel} from '@angular/forms';
 import { LoginComponent } from '../login/login.component';
 import { HomeComponent } from '../home/home.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -58,32 +57,31 @@ export class RegistroBibiotecariosComponent {
     }
   
     confirmCancel() {
-     
-      
+     return this.usuario=("Hola")
     }
     
   }
-  const routes: Routes = [
-     {path: '',component:HomeComponent},
-     {path: 'login',component:LoginComponent},
-     {path: 'bibliotecarios',component: RegistroBibiotecariosComponent},
-  ];
+   const routes: Routes = [
+      {path: '',component:HomeComponent},
+      {path: 'login',component:LoginComponent},
+      {path: 'bibliotecarios',component: RegistroBibiotecariosComponent},
+   ];
 
-  @NgModule ({
-   declarations: [
-     RegistroBibiotecariosComponent
-   ],
-   imports: [
-     RouterModule.forRoot(routes),
-     CommonModule,
-     FormsModule,
-     MatIconModule
-   ],
-   exports: [
-     RouterModule,
-     RegistroBibiotecariosComponent
-   ]
-  })
+   @NgModule ({
+    declarations: [
+      RegistroBibiotecariosComponent
+    ],
+    imports: [
+      RouterModule.forRoot(routes),
+      CommonModule,
+      FormsModule,
+      MatIconModule
+    ],
+    exports: [
+      RouterModule,
+      RegistroBibiotecariosComponent
+    ]
+   })
    export class RegistroBibiotecariosModule {
     
    }

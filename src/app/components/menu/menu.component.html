@@ -1,3 +1,4 @@
+<body>
 <div class="navbar">
   <button mat-icon-button (click)="toggleSidebar()">
     <mat-icon>menu</mat-icon>
@@ -39,13 +40,13 @@
     <ul>
       <li><a href="#welcome">Inicio</a></li>
       <li><a (click)="showSearchBooks()">Búsqueda de libros</a></li>
-      <li><a href="#registrar-lector">Registrar lector</a></li>
+      <li><a (click)="showRegistroLectores()">Registrar lector</a></li>
       <li><a (click)="showNewBook()">Registrar libro</a></li>
       <li><a (click)="showMulta()">Gestionar Multas</a></li>
       <li><a href="#multa">Multas</a></li>
       <li><a href="#reporte">Generar reporte</a></li>
       <li><a (click)="showEmailConfirmation()">Confirmar Email</a></li>
-      <li><a (click)="showRegistroblibliotecarios()"> Nuevos Bibliotecarios</a></li>
+      <li><a (click)="showRegistroBlibliotecarios()"> Nuevos Bibliotecarios</a></li>
     </ul>
   </div>
   <div class="content-section">
@@ -64,5 +65,9 @@
     <div *ngIf="showRegistro">
       <app-bibliotecarios></app-bibliotecarios>
     </div>
+    <div *ngIf="showLectores">
+      <app-registro-lector></app-registro-lector>
+    </div>
   </div>
 </div>
+</body>

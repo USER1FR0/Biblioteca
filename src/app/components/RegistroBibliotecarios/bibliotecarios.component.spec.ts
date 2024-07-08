@@ -1,8 +1,4 @@
-import { RegistroLectorComponent } from './../../Lectores/lectores.component';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RegistroBibiotecariosComponent } from './bibliotecarios.component';
 
 describe('RegistroBibiotecariosComponent', () => {
