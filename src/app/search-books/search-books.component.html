@@ -44,7 +44,8 @@
         <div class="modal-content" (click)="$event.stopPropagation()">
             <span class="close" (click)="closeLoanForm()">&times;</span>
             <h2>Solicitar Préstamo</h2>
-            <form (ngSubmit)="closeLoanForm()">
+            <form (ngSubmit)="submitLoanForm()">
+               
                 <div>
                     <label for="controlNumber">Número de Control:</label>
                     <input type="text" id="controlNumber" [(ngModel)]="controlNumber" name="controlNumber" required>
@@ -53,6 +54,23 @@
                     <label for="name">Nombre:</label>
                     <input type="text" id="name" [(ngModel)]="name" name="name" required>
                 </div>
+                <div>
+                    <label for="isbn">ISBN:</label>
+                    <input type="text" id="isbn" [(ngModel)]="isbn" name="isbn" required>
+                </div>
+                <div>
+                    <label for="fechaPrestamo">Fecha de Préstamo:</label>
+                    <input type="date" id="fechaPrestamo" [(ngModel)]="fechaPrestamo" name="fechaPrestamo" required>
+                </div>
+                <div>
+                    <label for="fechaDevolucion">Fecha de Devolución:</label>
+                    <input type="date" id="fechaDevolucion" [(ngModel)]="fechaDevolucion" name="fechaDevolucion" required>
+                </div>
+                <div>
+                    <label for="idBibliotecario">ID Bibliotecario:</label>
+                    <input type="text" id="idBibliotecario" [(ngModel)]="idBibliotecario" name="idBibliotecario" required>
+                </div>
+               
                 <button type="submit">Enviar</button>
             </form>
         </div>
