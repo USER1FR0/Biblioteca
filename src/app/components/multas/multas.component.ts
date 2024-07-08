@@ -13,17 +13,27 @@ export class MultasComponent {
     correo: '',
     cantMultas: 0,
     adeudoTotal: 0,
-    fechaConsulta: ''
+    fechaConsulta: '',
+    diasTranscurridos: 0
   };
 
   constructor(private router: Router) {}
-  regresar() {
-    // Implementar lógica para regresar
+
+  registrar() {
+    console.log('Multa registrada:', this.multa);
+    alert('Multa registrada');
   }
 
   generarReporte() {
-    // Implementar lógica para generar reporte
-    // Enviar correo si es necesario
-    // Notificar al usuario
+    console.log('Reporte generado para:', this.multa);
+    alert('Reporte generado');
+    this.enviarCorreo(this.multa.correo, 'Reporte de Multa', 'Su reporte de multa ha sido generado.');
+  }
+
+  enviarCorreo(destinatario: string, asunto: string, mensaje: string) {
+    console.log(`Correo enviado a ${destinatario} con asunto "${asunto}" y mensaje "${mensaje}"`);
+    alert(`Correo enviado a ${destinatario} con asunto "${asunto}" y mensaje "${mensaje}"`);
   }
 }
+
+

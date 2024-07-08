@@ -18,6 +18,7 @@ import { MultasComponent } from './components/multas/multas.component';
 import { RegistroBibiotecariosModule } from './components/RegistroBibliotecarios/bibliotecarios.component';
 import {  RegistroLectorModule } from './Lectores/lectores.component';
 import { PersonalisadoComponent } from './components/ReportePersonalisado/personalisados.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +41,11 @@ import { PersonalisadoComponent } from './components/ReportePersonalisado/person
     BrowserAnimationsModule,
     MaterialModule,
     RegistroBibiotecariosModule,
-    RegistroLectorModule
+    RegistroLectorModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    NavbarModule
     
   ],
   providers: [

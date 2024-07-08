@@ -1,0 +1,54 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  color: white;
+  padding: 10px;
+}
+
+.logo {
+  height: 50px;
+  margin: 0 auto; /* Centrando el logo */
+}
+
+.image-container {
+  display: inline-flex;
+  align-items: center;
+}
+
+button[mat-icon-button] {
+  color: white;
+}
+
+.mat-icon {
+  font-size: 24px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  display: none;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+
+  
+  

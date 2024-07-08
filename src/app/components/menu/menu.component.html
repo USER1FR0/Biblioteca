@@ -1,24 +1,36 @@
+<body>
 <div class="navbar">
-  <img (click)="toggleSidebar()" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8YrcFCPbj_x4P9KKtC7L4eH8NMNV8NDE2Q&s" alt="Logo UTNG" class="logo">
+  <button mat-icon-button (click)="toggleSidebar()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8YrcFCPbj_x4P9KKtC7L4eH8NMNV8NDE2Q&s" alt="Logo UTNG" class="logo">
   <div>
     <div class="image-container">
       <a href="#Notificaciones">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5-1-BdHuLzFVPwIeEVLAOi9IHXGfizMmWFA&s" alt="Notificacion">
+        <button mat-icon-button>
+          <mat-icon>notifications</mat-icon>
+        </button>
       </a>
     </div>
     <div class="image-container">
       <a href="#Question">
-        <img src="https://png.pngtree.com/png-clipart/20210312/original/pngtree-question-mark-pattern-png-image_6070996.jpg" alt="Questions">
+        <button mat-icon-button>
+          <mat-icon>help</mat-icon>
+        </button>
       </a>
     </div>
     <div class="image-container">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="User" (click)="toggleDropdown()">
-      <div class="dropdown-menu" [ngClass]="{'show': isDropdownVisible}">
-        <div class="dropdown-content">
-          <a href="#InicioSesion" (click)="closeDropdown()">Cambiar Usuario</a>
-          <a href="#Usuario" (click)="closeDropdown()">Cerrar Sesion</a>
-        </div>
-      </div>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="closeDropdown()">
+          <span>Cambiar Usuario</span>
+        </button>
+        <button mat-menu-item (click)="closeDropdown()">
+          <span>Cerrar Sesion</span>
+        </button>
+      </mat-menu>
     </div>
   </div>
 </div>
@@ -61,6 +73,7 @@
     </div>
     <div *ngIf="showPersonalisados">
       <app-reporte-personalisado> </app-reporte-personalisado>
-    </div>
+        </div>
   </div>
 </div>
+</body>

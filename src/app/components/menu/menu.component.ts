@@ -98,6 +98,7 @@ export class MenuComponent {
 
 
   }
+
   showRegistroLectores (){
     this.showLectores = true;
     this.showRegistro = false;
