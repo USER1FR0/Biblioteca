@@ -1,0 +1,70 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main-content {
+  display: flex;
+  height: 100%;
+  margin-top: auto;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f8f9fa;
+  transition: transform 0.3s ease;
+  height: calc(100% - 64px); /* Ajusta esto si la altura de tu navbar es diferente */
+  position: fixed; /* Hacer que la sidebar sea fija */
+  top: 64px; /* Ajusta esto si la altura de tu navbar es diferente */
+  left: 0;
+  overflow-y: auto;
+}
+
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+.content-section {
+  flex-grow: 1;
+  padding: 20px;
+  margin-top: 64px; /* Ajusta esto si la altura de tu navbar es diferente */
+  margin-left: 200px; /* Ajusta esto si el ancho de tu sidebar es diferente */
+  overflow-y: auto; /* Permitir que la sección de contenido sea desplazable */
+  height: calc(100% - 64px);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 10px;
+}
+
+li a {
+  text-decoration: none;
+  color: #000;
+  display: block;
+}
+
+li a:hover {
+  background-color: #e9ecef;
+}
+
+router-outlet {
+  display: block;
+  height: 100%;
+}
+
+  

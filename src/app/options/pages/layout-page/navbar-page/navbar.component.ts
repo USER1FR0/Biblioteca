@@ -1,4 +1,3 @@
-// navbar.component.ts
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,6 +5,23 @@ import { Component } from '@angular/core';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+  isDropdownVisible = false;
+
+  toggleDropdown() {
+    this.isDropdownVisible = !this.isDropdownVisible;
+  }
+
+  closeDropdown() {
+    this.isDropdownVisible = false;
+  }
+
+  toggleSidebar() {
+    const appRoot = document.querySelector('app-root') as any;
+    appRoot.toggleSidebar();
+  }
+}
+
+
 
 
