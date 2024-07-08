@@ -8,6 +8,7 @@ import { RegistroBibiotecariosComponent } from './bibliotecarios.component';
 describe('RegistroBibiotecariosComponent', () => {
   let component: RegistroBibiotecariosComponent;
   let fixture: ComponentFixture<RegistroBibiotecariosComponent>;
+  let isVisble=false;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

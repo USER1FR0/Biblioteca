@@ -3,6 +3,7 @@ import { MenuComponent } from './menu.component';
 import { SidebarService } from '../../Services/sidebar.services';
 import { RegistroBibiotecariosComponent } from '../RegistroBibliotecarios/bibliotecarios.component'; 
 import { RegistroLectorComponent } from '../../Lectores/lectores.component';
+import { PersonalisadoComponent } from '../ReportePersonalisado/personalisados.component';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;

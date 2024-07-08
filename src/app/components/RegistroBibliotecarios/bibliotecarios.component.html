@@ -3,37 +3,41 @@
   <div class="form-group">
     <label for="nombreBibliotecario">Nombre del Bibliotecario</label>
     <input type="text" id="nombreBibliotecario" placeholder="Nombre del Bibliotecario" maxlength="50" [(ngModel)]="nombreBibliotecario" >
-    <mat-icon routerLink="/bibliotecarios"></mat-icon>
   </div>
   <div class="form-group">
     <label for="Numero">Numero Telefonico</label>
     <input type="text" id="Numero" placeholder="Numero Telefonico" maxlength="50" [(ngModel)]="numero" >
-    <mat-icon routerLink="/bibliotecarios"></mat-icon>
   </div>
   <div class="form-group">
     <label for="Direccion">Direccion</label>
     <input type="text" id="Direccion" placeholder="Direccion" maxlength="50" [(ngModel)]="direccion" >
-    <mat-icon routerLink="/bibliotecarios"></mat-icon>
   </div>
   <div class="form-group">
     <label for="Usuario">Usuario</label>
     <input type="text" id="Usuario" placeholder="Usuario" maxlength="50" [(ngModel)]="confirmCancel" >
-    <mat-icon routerLink="/bibliotecarios"></mat-icon>
   </div>
   <div class="form-group">
     <label for="Contraseña">Contraseña</label>
     <input type="text" id="contraseña" placeholder="contraseña" maxlength="50" [(ngModel)]="usuario" >
-    <mat-icon routerLink="/bibliotecarios">edit</mat-icon>
   </div>
   <div class="form-group">
     <label for="confirmacioncontraseña">Confirmacion de Contraseña</label>
     <input type="text" id="confirmacioncontraseña" placeholder="confirmacioncontraseña" maxlength="50" [(ngModel)]="usuario" >
-    <mat-icon routerLink="/bibliotecarios">edit</mat-icon>
   </div>
+
+  <div *ngIf="isVisble" class="modal-backdrop">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <h3>Datos registrados correctamente!!    Gracias por Registrarte :D</h3>
+        <button class="save-button" (click)="isVisble=false">Aceptar</button>
+    </div>
+  </div>
+
   <!-- Repite lo mismo para los demás campos -->
   <div class="buttons">
-    <button class="cancel-button" routerLink="/">Cancelar</button>
-    <button class="save-button" routerLink="/">Guardar</button>
+    <button class="cancel-button" (click)="limpiarDatos()">Cancelar</button>
+
+    <button class="save-button" (click)="showDialog()">Guardar</button>
   </div>
+
 </div>
   

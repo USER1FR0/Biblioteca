@@ -17,6 +17,7 @@ import { ConfirmacionDeEmailComponent } from './confirmacion-de-email/confirmaci
 import { MultasComponent } from './components/multas/multas.component';
 import { RegistroBibiotecariosModule } from './components/RegistroBibliotecarios/bibliotecarios.component';
 import {  RegistroLectorModule } from './Lectores/lectores.component';
+import { PersonalisadoComponent } from './components/ReportePersonalisado/personalisados.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,8 @@ import {  RegistroLectorModule } from './Lectores/lectores.component';
     ForgotPasswordComponent,
     ConfirmacionDeEmailComponent,
     MultasComponent,
-    EditBooksComponent
+    EditBooksComponent,
+    PersonalisadoComponent
   ],
   imports: [
     BrowserModule,

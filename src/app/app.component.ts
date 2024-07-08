@@ -8,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Biblioteca';
+  description = 'Bienvenid@s a la pagina oficial de la biblioteca escolar UTNG.';
+
+  onClick() {
+    alert('¡Has hecho clic en el botón!');
+  }
 }

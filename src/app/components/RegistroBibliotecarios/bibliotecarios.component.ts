@@ -27,11 +27,22 @@ export class RegistroBibiotecariosComponent {
   contraseña : string = '';
   confirmacioncontraseña: string = '';
   direccion: string = '';
+  isVisble: boolean=false;
+
 
   isEditing: {[Key: string]: boolean} = {};
 
+
   enableEdit(field: string){
      this.isEditing[field] = true;
+  }
+  limpiarDatos(){
+    this.nombreBibliotecario = '';
+    this.direccion = '';
+    this.direccion = '';
+    this.confirmacioncontraseña = '';
+    this.numero = '';
+    this.usuario = '';
   }
   
     constructor( private router: Router) {}
@@ -57,9 +68,11 @@ export class RegistroBibiotecariosComponent {
       return isbnRegex.test(this.nombreBibliotecario);
     }
   
-    confirmCancel() {
-     
-      
+    confirmCancel(): string {
+      return "Manuel1223100423"
+    }
+    showDialog(){
+      this.isVisble=true;
     }
     
   }
@@ -84,7 +97,7 @@ export class RegistroBibiotecariosComponent {
      RegistroBibiotecariosComponent
    ]
   })
-   export class RegistroBibiotecariosModule {
+  export class RegistroBibiotecariosModule {
     
-   }
+  }
   
