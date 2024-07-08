@@ -16,7 +16,6 @@ export class MenuComponent {
   isDropdownVisible = false;
   showLectores = false;
    
-
   constructor(private sidebarService: SidebarService) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
   }
@@ -26,49 +25,33 @@ export class MenuComponent {
   }
 
   showSearchBooks() {
+    this.resetViews();
     this.showSearch = true;
-    this.showNewBooks = false;
-    this.showEmailConfirm = false;
-    this.showMultas = false;
   }
 
   showNewBook() {
+    this.resetViews();
     this.showNewBooks = true;
-    this.showSearch = false;
-    this.showEmailConfirm = false;
-    this.showMultas = false;
   }
 
   showEmailConfirmation() {
+    this.resetViews();
     this.showEmailConfirm = true;
-    this.showSearch = false;
-    this.showNewBooks = false;
-    this.showMultas = false;
   }
 
   showMulta() {
+    this.resetViews();
     this.showMultas = true;
-    this.showNewBooks = false;
-    this.showSearch = false;
-    this.showEmailConfirm = false;
   }
-  showRegistroBlibliotecarios(){
+
+  showRegistroBlibliotecarios() {
+    this.resetViews();
     this.showRegistro = true;
-    this.showLectores = false;
-    this.showMultas = false;
-    this.showNewBooks = false;
-    this.showSearch = false;
-    this.showEmailConfirm = false;
-
   }
 
-  showRegistroLectores (){
+  showRegistroLectores() {
+    this.resetViews();
     this.showLectores = true;
-    this.showRegistro = false;
-    this.showMultas = false;
-    this.showNewBooks = false;
-    this.showSearch = false;
-    this.showEmailConfirm = false;
   }
 
   toggleDropdown() {
@@ -79,6 +62,18 @@ export class MenuComponent {
     this.isDropdownVisible = false;
   }
 
+  redirectToHome() {
+    this.resetViews();
+    // Redirigir al apartado de inicio (home)
+    window.location.href = '#welcome';
+  }
 
-
+  private resetViews() {
+    this.showSearch = false;
+    this.showNewBooks = false;
+    this.showEmailConfirm = false;
+    this.showMultas = false;
+    this.showRegistro = false;
+    this.showLectores = false;
+  }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-confirmacion-de-email',
@@ -11,26 +12,40 @@ export class ConfirmacionDeEmailComponent {
   showConfirmationModal: boolean = false;
   errorMessage: string = '';
 
+  constructor(private snackBar: MatSnackBar) {}
+
   onSubmitEmail() {
     // Lógica para enviar el correo de confirmación
     // Aquí llamarías a tu servicio para enviar el correo electrónico
     this.showConfirmationModal = true;
+    this.snackBar.open('Correo de confirmación enviado', 'Cerrar', {
+      duration: 3000,
+    });
   }
 
   onSubmitCode() {
     // Lógica para validar el código de confirmación
     if (this.confirmationCode === '123456') { // Ejemplo de código correcto
-      alert('Correo validado con éxito');
+      this.snackBar.open('Correo validado con éxito', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['success-snackbar']
+      });
       this.showConfirmationModal = false;
     } else {
       this.errorMessage = 'Código incorrecto. Por favor, inténtelo de nuevo.';
+      this.snackBar.open(this.errorMessage, 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
     }
   }
 
   resendCode() {
     // Lógica para reenviar el código de confirmación
     this.errorMessage = '';
-    alert('Código reenviado. Por favor, revise su correo.');
+    this.snackBar.open('Código reenviado. Por favor, revise su correo.', 'Cerrar', {
+      duration: 3000,
+    });
   }
 
   closeModal(event: MouseEvent) {

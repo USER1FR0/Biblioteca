@@ -16,7 +16,13 @@ export class SearchBooksComponent {
   books: any[] = [];
   selectedBook: any = null;
   showLoanForm: boolean = false;
+
+  idPrestamo: string = '';
   controlNumber: string = '';
+  isbn: string = '';
+  fechaPrestamo: string = '';
+  fechaDevolucion: string = '';
+  idBibliotecario: string = '';
   name: string = '';
 
   authors: string[] = ['Autor 1', 'Autor 2', 'Autor 3']; // Ejemplo de autores
@@ -60,6 +66,7 @@ export class SearchBooksComponent {
       (!this.selectedTitle || book.title === this.selectedTitle)
     );
   }
+
   previewBook(book: any) {
     this.selectedBook = book;
   }
@@ -75,7 +82,30 @@ export class SearchBooksComponent {
       event.stopPropagation();
     }
     this.showLoanForm = false;
+    this.resetForm();
+  }
+
+  submitLoanForm() {
+    // Aquí puedes manejar el envío del formulario, por ejemplo, llamando a un servicio para guardar los datos del préstamo
+    console.log('Formulario de préstamo enviado:', {
+      idPrestamo: this.idPrestamo,
+      controlNumber: this.controlNumber,
+      isbn: this.isbn,
+      fechaPrestamo: this.fechaPrestamo,
+      fechaDevolucion: this.fechaDevolucion,
+      idBibliotecario: this.idBibliotecario,
+      name: this.name
+    });
+    this.closeLoanForm();
+  }
+
+  resetForm() {
+   
     this.controlNumber = '';
+    this.isbn = '';
+    this.fechaPrestamo = '';
+    this.fechaDevolucion = '';
+    this.idBibliotecario = '';
     this.name = '';
   }
 
@@ -86,7 +116,7 @@ export class SearchBooksComponent {
       if (result === 'save' || result === 'delete') {
         this.searchBooks(); // Refrescar la lista de libros después de guardar o eliminar
       }
-    }, (reason) => {
+    }, (_reason) => {
       console.log('Modal dismissed');
     });
   }
