@@ -1,14 +1,5 @@
-import { SidebarService } from './../Services/sidebar.services';
-import { AppRoutingModule } from '../app-routing.module';
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { Route, Router,RouterModule, Routes } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
-import { NgModel} from '@angular/forms';
-import { LoginComponent } from '../components/login/login.component';
-import { MatIconModule } from '@angular/material/icon';
-import { HomeComponent } from '../components/home/home.component';
+import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registro-lector',
@@ -19,52 +10,71 @@ export class RegistroLectorComponent {
   nombreLector: string = '';
   control: string = '';
   correo: string = '';
-  carrera: string = '';
+  showConfirmationModal: boolean = false;
+  confirmationCode: string = '';
+  errorMessage: string = '';
+
+  constructor(private snackBar: MatSnackBar) {}
 
   validateInput(): boolean {
-    if (!this.nombreLector || !this.control || !this.correo || !this.carrera) {
+    if (!this.nombreLector || !this.control || !this.correo) {
       return false; 
     }
-    
+
+    const emailPattern = /^.*@(gmail\.com|utng\.edu\.mx)$/;
+    if (!emailPattern.test(this.correo)) {
+      return false;
+    }
+
     if (this.control.includes('Numero Control')) {
       return true; 
     }
 
-    return true; // En este ejemplo simplificado, consideramos que es válido
+    return true; 
   }
-  saveLector (){
 
+  openConfirmationModal() {
+    if (this.validateInput()) {
+      this.showConfirmationModal = true;
+    } else {
+      this.snackBar.open('Por favor, complete todos los campos correctamente.', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+    }
   }
-  lector: any = {}; // Asumiendo que lector es un objeto con la propiedad especialidad
-}
 
-   
-  ;
+  onSubmitEmail() {
+    this.snackBar.open('Correo de confirmación enviado', 'Cerrar', {
+      duration: 3000,
+    });
+    this.showConfirmationModal = true;
+  }
 
-  
+  onSubmitCode() {
+    if (this.confirmationCode === '123456') { // Ejemplo de código correcto
+      this.snackBar.open('Correo validado con éxito', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['success-snackbar']
+      });
+      this.showConfirmationModal = false;
+    } else {
+      this.errorMessage = 'Código incorrecto. Por favor, inténtelo de nuevo.';
+      this.snackBar.open(this.errorMessage, 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+    }
+  }
 
+  resendCode() {
+    this.errorMessage = '';
+    this.snackBar.open('Código reenviado. Por favor, revise su correo.', 'Cerrar', {
+      duration: 3000,
+    });
+  }
 
-const routes: Routes = [
-  {path: '',component:HomeComponent},
-  {path: 'login',component:LoginComponent},
-  {path: 'bibliotecarios',component: RegistroLectorComponent},
-];
-
-@NgModule ({
-declarations: [
-  RegistroLectorComponent
-],
-imports: [
-  RouterModule.forRoot(routes),
-  CommonModule,
-  FormsModule,
-  MatIconModule
-],
-exports: [
-  RouterModule,
-  RegistroLectorComponent
-]
-})
-export class RegistroLectorModule {
- 
+  closeModal(event: MouseEvent) {
+    this.showConfirmationModal = false;
+  }
 }

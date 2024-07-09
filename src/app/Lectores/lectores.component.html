@@ -4,30 +4,39 @@
   <div class="form-group">
     <label for="nombreBibliotecario">Nombre Completo</label>
     <input type="text" id="nombreLector" placeholder="Nombre Completo" maxlength="50" [(ngModel)]="nombreLector" >
-    <mat-icon routerLink="/bibliotecarios"></mat-icon>
+    <mat-icon routerLink="/lector"></mat-icon>
   </div>
       
   <div class="form-group">
     <label for="nombreBibliotecario">Numero de Control</label>
     <input type="text" id="control" placeholder="control" maxlength="50" [(ngModel)]="control" >
-    <mat-icon routerLink="/bibliotecarios"></mat-icon>
+    <mat-icon routerLink="/lector"></mat-icon>
   </div>
 
-
   <div class="form-group">
-    <label for="Correo">Correo Electronico</label>
+    <label for="Correo">Correo Electrónico</label>
     <input type="text" id="Correo" placeholder="Correo" maxlength="50" [(ngModel)]="correo" >
-    <mat-icon routerLink="/bibliotecarios"></mat-icon>
+    <mat-icon routerLink="/lector"></mat-icon>
+    <button (click)="openConfirmationModal()">Confirmar Correo</button>
   </div>
 
-  <div class="form-group">
-    <label for="carrera">Carrera</label>
-    <input type="text" id="carrera" placeholder="carrera" maxlength="50" [(ngModel)]="carrera" >
-    <mat-icon routerLink="/bibliotecarios"></mat-icon>
+  <button class="save-button" routerLink="/">Guardar</button>
+</div>
+
+<!-- Modal para el código de confirmación -->
+<div *ngIf="showConfirmationModal" class="modal-backdrop" (click)="closeModal($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Ingrese el código de confirmación</h3>
+    <form (ngSubmit)="onSubmitCode()" #codeForm="ngForm">
+      <div class="form-group">
+        <label for="code">Código:</label>
+        <input type="text" id="code" required [(ngModel)]="confirmationCode" name="code">
+      </div>
+      <button type="submit" class="btn-submit">Validar</button>
+    </form>
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+    <button (click)="resendCode()" class="btn-resend">Reenviar Código</button>
   </div>
-
-
-      <button class="save-button" routerLink="/">Guardar</button>
-
-    
-  </div>
+</div>
