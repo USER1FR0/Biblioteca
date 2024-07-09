@@ -23,6 +23,7 @@ import { ConfirmacionDeEmailComponent } from './confirmacion-de-email/confirmaci
 import { MultasComponent } from './components/multas/multas.component';
 import { RegistroBibiotecariosModule } from './components/RegistroBibliotecarios/bibliotecarios.component';
 import { RegistroLectorComponent } from './Lectores/lectores.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { RegistroLectorComponent } from './Lectores/lectores.component';
     MatButtonModule,
     MatMenuModule,
     NavbarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

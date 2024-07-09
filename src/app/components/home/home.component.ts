@@ -8,9 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  constructor(
-    private modal: NgbModal
-  ) {}
+  constructor(private modal: NgbModal) {}
 
   openModal() {
     const modalRef = this.modal.open(LoginComponent, {
