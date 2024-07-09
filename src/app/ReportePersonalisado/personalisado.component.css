@@ -1,0 +1,92 @@
+/* app.component.css */
+/* app.component.css */
+
+/* Contenedor principal del reporte */
+.report-container {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: white; /* Fondo blanco */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+h1 {
+  text-align: center;
+}
+
+.reader-info,
+.borrowed-books,
+.additional-info {
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table,
+th,
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Estilos para el botón de guardar */
+.save-button {
+  padding: 10px 20px;
+  background-color: #007bff; /* Color de fondo del botón */
+  color: white; /* Color del texto del botón */
+  border: none;
+  cursor: pointer;
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+.save-button:hover {
+  background-color: #0056b3; /* Color de fondo del botón al pasar el mouse */
+}
+
+/* Estilos para el fondo oscuro del modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+}
+
+.modal-content button {
+  padding: 10px 20px;
+  background-color: #007bff; 
+  color: white; /* Color del texto del botón */
+  border: none;
+  cursor: pointer;
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+.modal-content button:hover {
+  background-color: #0056b3; 
+}

@@ -1,54 +1,97 @@
-/* registro-lector.component.css */
-
 .registro-lector {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .registro-lector h2 {
-    text-align: center;
-    color: #333;
-  }
-  
-  .registro-lector form {
-    display: grid;
-    grid-gap: 10px;
-  }
-  
-  .registro-lector .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .registro-lector label {
-    font-weight: bold;
-  }
-  
-  .registro-lector input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .registro-lector button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .registro-lector button[type="submit"]:hover {
-    background-color: #45a049;
-  }
-  
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.registro-lector h2 {
+  text-align: center;
+  color: #333;
+}
+
+.registro-lector form {
+  display: grid;
+  grid-gap: 10px;
+}
+
+.registro-lector .form-group {
+  margin-bottom: 15px;
+}
+
+.registro-lector label {
+  font-weight: bold;
+}
+
+.registro-lector input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.registro-lector button {
+  width: 100%;
+  padding: 10px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.registro-lector button.save-button {
+  background-color: #3ea3f5;
+}
+
+.registro-lector button.save-button:hover {
+  background-color: #3580e2;
+}
+
+.registro-lector button.cancel-button {
+  background-color: #ff2f44;
+}
+
+.registro-lector button.cancel-button:hover {
+  background-color: #fa2f28;  
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  text-align: center;
+}
+
+.save-button {
+  background-color: #007bff; 
+  color: white; 
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+
   

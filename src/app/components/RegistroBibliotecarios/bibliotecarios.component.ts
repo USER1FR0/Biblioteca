@@ -26,6 +26,17 @@ export class RegistroBibiotecariosComponent {
   contraseña : string = '';
   confirmacioncontraseña: string = '';
   direccion: string = '';
+  isVisble: boolean=false;
+
+  limpiarDatos(){
+    this.nombreBibliotecario = '';
+    this.direccion = '';
+    this.direccion = '';
+    this.confirmacioncontraseña = '';
+    this.numero = '';
+    this.usuario = '';
+  }
+
 
   isEditing: {[Key: string]: boolean} = {};
 
@@ -58,6 +69,10 @@ export class RegistroBibiotecariosComponent {
   
     confirmCancel() {
      return this.usuario=("Hola")
+    }
+
+    showDialog(){
+      this.isVisble=true;
     }
     
   }

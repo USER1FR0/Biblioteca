@@ -13,6 +13,7 @@ export class AppComponent {
   showNewBooks = false;
   showEmailConfirm = false;
   showMultas = false;
+  showReportes = false;
 
   toggleSidebar() {
     this.isSidebarHidden = !this.isSidebarHidden;
@@ -38,10 +39,18 @@ export class AppComponent {
     this.showMultas = true;
   }
 
+  showReporte(){
+    this.resetViews();
+    this.showReportes = true;
+  
+
+  }
+
   resetViews() {
     this.showSearch = false;
     this.showNewBooks = false;
     this.showEmailConfirm = false;
     this.showMultas = false;
+    this.showReportes = false;
   }
 }

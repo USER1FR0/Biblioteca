@@ -31,9 +31,20 @@
     <mat-icon routerLink="/bibliotecarios">edit</mat-icon>
   </div>
   <!-- Repite lo mismo para los demás campos -->
+  <div *ngIf="isVisble" class="modal-backdrop">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <h3>Datos registrados correctamente!!</h3>
+        <button class="save-button" (click)="isVisble=false">Aceptar</button>
+    </div>
+  </div>
+
+  
+  <!-- Repite lo mismo para los demás campos -->
   <div class="buttons">
-    <button class="cancel-button" routerLink="/">Cancelar</button>
-    <button class="save-button" routerLink="/">Guardar</button>
+    <button class="cancel-button" (click)="limpiarDatos()">Cancelar</button>
+
+    <button class="save-button" (click)="showDialog()">Guardar</button>
   </div>
 </div>
+  
   

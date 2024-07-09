@@ -25,9 +25,20 @@
     <input type="text" id="carrera" placeholder="carrera" maxlength="50" [(ngModel)]="carrera" >
     <mat-icon routerLink="/bibliotecarios"></mat-icon>
   </div>
-
-
-      <button class="save-button" routerLink="/">Guardar</button>
-
-    
+  <div *ngIf="isVisble" class="modal-backdrop">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <h3>Datos registrados correctamente!!</h3>
+        <button class="save-button" (click)="isVisble=false">Aceptar</button>
+    </div>
   </div>
+
+  
+  <!-- Repite lo mismo para los demás campos -->
+  <div class="buttons">
+    <button class="cancel-button" (click)="limpiarDatos()">Cancelar</button>
+
+    <button class="save-button" (click)="showDialog()">Guardar</button>
+  </div>
+
+
+      

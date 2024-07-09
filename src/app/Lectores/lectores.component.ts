@@ -20,6 +20,16 @@ export class RegistroLectorComponent {
   control: string = '';
   correo: string = '';
   carrera: string = '';
+  isVisble: boolean=false;
+
+  limpiarDatos(){
+    this.carrera = '';
+    this.control = '';
+    this.correo = '';
+    this.nombreLector= '';
+    this.lector = '';
+  }
+
 
   validateInput(): boolean {
     if (!this.nombreLector || !this.control || !this.correo || !this.carrera) {
@@ -34,6 +44,10 @@ export class RegistroLectorComponent {
   }
   saveLector (){
 
+  }
+
+  showDialog(){
+    this.isVisble=true;
   }
   lector: any = {}; // Asumiendo que lector es un objeto con la propiedad especialidad
 }

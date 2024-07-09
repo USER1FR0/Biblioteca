@@ -11,6 +11,8 @@ import { EditBooksComponent } from './EditBooks/EditBooks.component';
 import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassword.component';
 import { MultasComponent } from './components/multas/multas.component';
 import { RegistroLectorComponent } from './Lectores/lectores.component';
+import { PersonalisadoComponent } from './ReportePersonalisado/personalisados.component';
+import { PersonalisadoModule } from './ReportePersonalisado/personaisado.module'; 
 
 
 
@@ -29,7 +31,9 @@ const routes: Routes = [
   {path: 'forgot', component:ForgotPasswordComponent},
   {path: 'multas', component: MultasComponent},
   {path: 'registro', component: RegistroBibiotecariosComponent},
-  {path: 'lector', component: RegistroLectorComponent}
+  {path: 'lector', component: RegistroLectorComponent},
+  {path: 'personalisado', component: PersonalisadoComponent}
+
 ];
 
 @NgModule({
