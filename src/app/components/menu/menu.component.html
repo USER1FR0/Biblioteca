@@ -46,6 +46,7 @@
         <li><a href="#multa">Multas</a></li>
         <li><a (click)="showPersonalisado()">Generar reporte</a></li>
         <li><a (click)="showEmailConfirmation()">Confirmar Email</a></li>
+=
         <li><a (click)="showRegistroBlibliotecarios()">Nuevos Bibliotecarios</a></li>
       </ul>
     </div>
@@ -55,9 +56,6 @@
       </div>
       <div *ngIf="showNewBooks">
         <app-newbooks></app-newbooks>
-      </div>
-      <div *ngIf="showEmailConfirm">
-        <app-confirmacion-de-email></app-confirmacion-de-email>
       </div>
       <div *ngIf="showMultas">
         <app-multas></app-multas>

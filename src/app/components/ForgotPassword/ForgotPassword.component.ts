@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core'; // Importa EventEmitter y Output desde @angular/core
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-forgot-password',
@@ -11,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 export class ForgotPasswordComponent {
 
   email: string = '';
+  @Output() backToLogin = new EventEmitter<void>(); // Define la salida backToLogin como un EventEmitter
 
   constructor(private modal: NgbActiveModal, private http: HttpClient) {}
 
@@ -26,5 +26,9 @@ export class ForgotPasswordComponent {
     }, error => {
       alert('Error al enviar el código de recuperación. Por favor, intenta de nuevo.');
     });
+  }
+
+  goBackToLogin() {
+    this.backToLogin.emit(); // Emite el evento hacia arriba cuando se hace clic en "Volver"
   }
 }

@@ -17,12 +17,16 @@
         <input type="text" id="categoria" placeholder="Categoría del libro" maxlength="50" [(ngModel)]="categoria">
     </div>
     <div class="form-group">
-        <label for="informacion">Información (Edición, editorial y año)</label>
+        <label for="informacion">Descripcion (Edición, editorial y año)</label>
         <input type="text" id="informacion" placeholder="Información adicional" [(ngModel)]="informacion">
     </div>
     <div class="form-group">
         <label for="isbn">ISBN</label>
         <input type="text" id="isbn" placeholder="Número ISBN" [(ngModel)]="isbn">
+    </div>
+    <div class="form-group">
+        <label for="ejemplares">Número de ejemplares</label>
+        <input type="number" id="ejemplares" placeholder="Número de ejemplares" [(ngModel)]="ejemplares">
     </div>
     <div class="buttons">
         <button class="cancel-button" (click)="confirmCancel()">Cancel</button>

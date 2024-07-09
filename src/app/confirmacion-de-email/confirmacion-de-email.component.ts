@@ -15,16 +15,13 @@ export class ConfirmacionDeEmailComponent {
   constructor(private snackBar: MatSnackBar) {}
 
   onSubmitEmail() {
-    // Lógica para enviar el correo de confirmación
-    // Aquí llamarías a tu servicio para enviar el correo electrónico
-    this.showConfirmationModal = true;
     this.snackBar.open('Correo de confirmación enviado', 'Cerrar', {
       duration: 3000,
     });
+    this.showConfirmationModal = true;
   }
 
   onSubmitCode() {
-    // Lógica para validar el código de confirmación
     if (this.confirmationCode === '123456') { // Ejemplo de código correcto
       this.snackBar.open('Correo validado con éxito', 'Cerrar', {
         duration: 3000,
@@ -41,7 +38,6 @@ export class ConfirmacionDeEmailComponent {
   }
 
   resendCode() {
-    // Lógica para reenviar el código de confirmación
     this.errorMessage = '';
     this.snackBar.open('Código reenviado. Por favor, revise su correo.', 'Cerrar', {
       duration: 3000,
@@ -49,7 +45,6 @@ export class ConfirmacionDeEmailComponent {
   }
 
   closeModal(event: MouseEvent) {
-    // Lógica para cerrar el modal cuando se hace clic fuera de la ventana modal
     this.showConfirmationModal = false;
   }
 }

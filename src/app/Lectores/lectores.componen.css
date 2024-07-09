@@ -45,27 +45,20 @@
 }
 
 .registro-lector button.save-button {
-  background-color: #3ea3f5;
+  background-color: #3ea3f5; /* Elige uno de los colores para mantener */
 }
 
 .registro-lector button.save-button:hover {
-  background-color: #3580e2;
+  background-color: #3580e2; /* Ajusta el color de hover según tu preferencia */
 }
 
-.registro-lector button.cancel-button {
-  background-color: #ff2f44;
-}
-
-.registro-lector button.cancel-button:hover {
-  background-color: #fa2f28;  
-}
 .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,23 +68,8 @@
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-
-.save-button {
-  background-color: #007bff; 
-  color: white; 
-  border: none;
-  padding: 10px 20px;
-  margin-top: 10px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.save-button:hover {
-  background-color: #0056b3;
-}
-
 
   

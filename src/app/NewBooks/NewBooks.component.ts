@@ -13,12 +13,33 @@ export class NewBooksComponent {
   categoria: string = '';
   informacion: string = '';
   isbn: string = '';
+  ejemplares: number | null = null;
 
   constructor(private router: Router) {}
 
   saveBook() {
-    if (!this.validateInput()) {
-      alert('Por favor completa todos los campos (máximo 50 caracteres para Nombre_Libro, Autor, Tema y Categoría).');
+    if (!this.nombreLibro.trim()) {
+      alert('El campo "Nombre del Libro" es obligatorio.');
+      return;
+    }
+
+    if (!this.autor.trim()) {
+      alert('El campo "Autor" es obligatorio.');
+      return;
+    }
+
+    if (!this.tema.trim()) {
+      alert('El campo "Tema" es obligatorio.');
+      return;
+    }
+
+    if (!this.categoria.trim()) {
+      alert('El campo "Categoría" es obligatorio.');
+      return;
+    }
+
+    if (this.nombreLibro.length > 50 || this.autor.length > 50 || this.tema.length > 50 || this.categoria.length > 50) {
+      alert('Los campos Nombre_Libro, Autor, Tema y Categoría deben tener un máximo de 50 caracteres.');
       return;
     }
 
@@ -27,19 +48,20 @@ export class NewBooksComponent {
       return;
     }
 
+    if (this.ejemplares === null) {
+      alert('El campo "Número de ejemplares" es obligatorio.');
+      return;
+    }
+
+    if (this.ejemplares < 0) {
+      alert('El "Número de ejemplares" no puede ser menor que cero.');
+      return;
+    }
+
     alert('Libro guardado con éxito');
-      this.router.navigate(['/menu']);
+    this.router.navigate(['/menu']);
     // Aquí puedes añadir lógica adicional para guardar el libro en tu sistema
     // y redirigir o realizar otras acciones necesarias
-  }
-
-  validateInput(): boolean {
-    return (
-      this.nombreLibro.trim().length > 0 && this.nombreLibro.length <= 50 &&
-      this.autor.trim().length > 0 && this.autor.length <= 50 &&
-      this.tema.trim().length <= 50 &&
-      this.categoria.trim().length <= 50
-    );
   }
 
   validateISBN(isbn: string): boolean {

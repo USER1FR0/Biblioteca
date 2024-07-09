@@ -1,19 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { MaterialModule } from './material/material.module';
+import { NavbarModule } from './options/pages/layout-page/navbar-page/navbar.module';
+
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { SearchBooksComponent } from './search-books/SearchBooks.component';
 import { NewBooksComponent } from './NewBooks/NewBooks.component';
-import { AppRoutingModule } from './app-routing.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditBooksComponent } from './EditBooks/EditBooks.component';
-import { MaterialModule } from './material/material.module';
 import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassword.component';
 import { ConfirmacionDeEmailComponent } from './confirmacion-de-email/confirmacion-de-email.component';
 import { MultasComponent } from './components/multas/multas.component';
@@ -24,6 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import { PersonalisadoModule } from './ReportePersonalisado/personaisado.module';
 import { NavbarModule } from './options/pages/layout-page/navbar-page/navbar.module';
+import { RegistroLectorComponent } from './Lectores/lectores.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -40,6 +48,7 @@ import { NavbarModule } from './options/pages/layout-page/navbar-page/navbar.mod
     MultasComponent,
     EditBooksComponent,
     
+
   ],
   imports: [
     BrowserModule,
@@ -48,7 +57,6 @@ import { NavbarModule } from './options/pages/layout-page/navbar-page/navbar.mod
     BrowserAnimationsModule,
     MaterialModule,
     RegistroBibiotecariosModule,
-    RegistroLectorModule,
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
@@ -59,7 +67,11 @@ import { NavbarModule } from './options/pages/layout-page/navbar-page/navbar.mod
   ],
   providers: [
     provideAnimationsAsync()
+    MatSnackBarModule,
+    HttpClientModule
   ],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
+  provideAnimationsAsync()
 })
 export class AppModule { }

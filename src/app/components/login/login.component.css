@@ -1,38 +1,35 @@
-.btn-color{
-    background-color: #36823b;
-    color: #ffffff;
-    
-  }
-  
-  .profile-image-pic{
-    height: 100px;
-    width: 100px;
-    object-fit: cover;
-  }
-  
-  
-  
-  .cardbody-color{
-    background-color: #ffffff;
-  }
-  
-  a{
-    text-decoration: none;
-  }
-
-  .content-section .header .overlay {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 80px;
-    border-radius: 10px;
-    color: black;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    max-width: 600px;
-    margin: auto;
-    text-align: center;
+.btn-color {
+  background-color: #36823b;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.header {
-  text-align: center;
+.btn-color:hover {
+  background-color: #2c6e31;
+}
+
+.profile-image-pic {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.cardbody-color {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+a {
+  text-decoration: none;
+}
+
+.content-section .header {
   background-image: url('../../../assets/Biblioteca.jpg');
   background-size: cover;
   background-position: center;
@@ -43,14 +40,56 @@
   justify-content: center;
 }
 
-.header h1 {
-  margin: 0;
-}
-
-.header .overlay {
+.content-section .header .overlay {
   background: rgba(255, 255, 255, 0.8);
   padding: 40px;
   border-radius: 20px;
   color: black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+.cardbody-color input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.password-toggle-icon i {
+  font-size: 1.2rem;
+}
+
+.fa-eye-slash {
+  display: none;
+}
+
+.fa-eye {
+  display: inline-block;
+}
+
+.button-back {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+.button-back:hover {
+  color: #cccccc;
 }

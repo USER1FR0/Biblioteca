@@ -11,7 +11,6 @@ export class MenuComponent {
   isSidebarHidden = false;
   showSearch = false;
   showNewBooks = false;
-  showEmailConfirm = false;
   showMultas = false;
   showRegistro = false;
   isDropdownVisible = false;
@@ -34,11 +33,6 @@ export class MenuComponent {
   showNewBook() {
     this.resetViews();
     this.showNewBooks = true;
-  }
-
-  showEmailConfirmation() {
-    this.resetViews();
-    this.showEmailConfirm = true;
   }
 
   showMulta() {
@@ -76,7 +70,6 @@ export class MenuComponent {
   private resetViews() {
     this.showSearch = false;
     this.showNewBooks = false;
-    this.showEmailConfirm = false;
     this.showMultas = false;
     this.showRegistro = false;
     this.showLectores = false;
