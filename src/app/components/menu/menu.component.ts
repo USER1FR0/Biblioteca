@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SidebarService } from '../../Services/sidebar.services';
+import { SidebarService } from '../Options/Services/sidebar.services';
 
 @Component({
   selector: 'app-menu',
@@ -14,6 +14,7 @@ export class MenuComponent {
   showRegistro = false;
   isDropdownVisible = false;
   showLectores = false;
+  showReporte = false;
    
   constructor(private sidebarService: SidebarService) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
@@ -48,6 +49,11 @@ export class MenuComponent {
     this.showLectores = true;
   }
 
+  showPersonalisado(){
+    this.resetViews();
+    this.showReporte = true;
+  }
+
   toggleDropdown() {
     this.isDropdownVisible = !this.isDropdownVisible;
   }
@@ -68,5 +74,6 @@ export class MenuComponent {
     this.showMultas = false;
     this.showRegistro = false;
     this.showLectores = false;
+    this.showReporte = false;
   }
 }

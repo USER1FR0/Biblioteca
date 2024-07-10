@@ -1,12 +1,19 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { Route, Router,RouterModule, Routes } from '@angular/router';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+
+
 
 @Component({
   selector: 'app-newbooks',
   templateUrl: './NewBooks.component.html',
   styleUrls: ['./NewBooks.component.css']
 })
-export class NewBooksComponent {
+export class NewBooksComponent {  
   nombreLibro: string = '';
   autor: string = '';
   tema: string = '';

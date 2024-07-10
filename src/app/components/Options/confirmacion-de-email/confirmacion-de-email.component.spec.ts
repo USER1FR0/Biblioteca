@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ConfirmacionDeEmailComponent } from './confirmacion-de-email.component';
 
 describe('ConfirmacionDeEmailComponent', () => {

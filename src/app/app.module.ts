@@ -6,24 +6,23 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material/material.module';
 import { NavbarModule } from './options/pages/layout-page/navbar-page/navbar.module';
-
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/home/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { SearchBooksComponent } from './search-books/SearchBooks.component';
-import { NewBooksComponent } from './NewBooks/NewBooks.component';
-import { EditBooksComponent } from './EditBooks/EditBooks.component';
-import { ForgotPasswordComponent } from './components/ForgotPassword/ForgotPassword.component';
-import { ConfirmacionDeEmailComponent } from './confirmacion-de-email/confirmacion-de-email.component';
-import { MultasComponent } from './components/multas/multas.component';
-import { RegistroBibiotecariosModule } from './components/RegistroBibliotecarios/bibliotecarios.component';
-import { RegistroLectorComponent } from './Lectores/lectores.component';
+import { SearchBooksComponent } from './components/Options/search-books/SearchBooks.component';
+import { NewBooksComponent } from './components/Options/NewBooks/NewBooks.component';
+import { EditBooksComponent } from './components/Options/EditBooks/EditBooks.component';
+import { ForgotPasswordComponent } from './components/home/ForgotPassword/ForgotPassword.component';
+import { ConfirmacionDeEmailComponent } from './components/Options/confirmacion-de-email/confirmacion-de-email.component';
+import { MultasComponent } from './components/Options/multas/multas.component';
+import { RegistroBibiotecariosModule } from './components/Options/RegistroBibliotecarios/bibliotecarios.component';
+import { RegistroLectorComponent } from './components/Options/Lectores/lectores.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { PersonalisadoComponent } from './components/Options/ReportePersonalisado/personalisados.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +37,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     ConfirmacionDeEmailComponent,
     MultasComponent,
     RegistroLectorComponent,
+    PersonalisadoComponent
   ],
   imports: [
     BrowserModule,
