@@ -19,15 +19,14 @@
 }
 
 .cardbody-color {
-  background-color: #ffffff;
-  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-
-.content-section .header {
-  background: rgba(255, 255, 255, 0.8);
+.header {
+  background: none;
   padding: 40px;
   border-radius: 20px;
   color: black;
@@ -78,4 +77,13 @@
 
 .button-back:hover {
   color: #cccccc;
+}
+
+.text-center a{
+  color: #2b6adf;
+  text-decoration: none;
+}
+
+.text-center a:hover{
+  text-decoration: underline;
 }

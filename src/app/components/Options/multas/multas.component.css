@@ -1,10 +1,11 @@
 .container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
   position: relative;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad para ver la imagen detrás */
   border-radius: 10px;
+  max-width: 800px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin: auto; /* Centrar horizontalmente */
 }
 
 .form-group {

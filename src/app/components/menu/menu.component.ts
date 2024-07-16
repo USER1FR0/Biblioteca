@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { SidebarService } from '../Options/Services/sidebar.services';
 
 @Component({
@@ -15,6 +15,7 @@ export class MenuComponent {
   isDropdownVisible = false;
   showLectores = false;
   showReporte = false;
+  isFooterVisible = false;
    
   constructor(private sidebarService: SidebarService) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
@@ -75,5 +76,15 @@ export class MenuComponent {
     this.showRegistro = false;
     this.showLectores = false;
     this.showReporte = false;
+  }
+
+  @HostListener('window:scroll',[])
+  onWindowScroll(){
+    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const docHeight = Math.max(body.clientHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    const windowBottom = windowHeight + window.pageYOffset;
+    this.isFooterVisible = windowBottom >= docHeight;
   }
 }
