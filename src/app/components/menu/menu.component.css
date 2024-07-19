@@ -1,9 +1,8 @@
 body {
   font-family: 'Arial', sans-serif;
-  margin: 0;
   padding: 0;
-  display: block;
-  height: 100vh;
+  display: flex;
+  height: auto;
   overflow: auto;
 }
 
@@ -88,12 +87,12 @@ button[mat-icon-button] {
 
 .content-section {
   flex-grow: 1;
-  padding: 20px;
+  padding: none;
   background-image: url('../../../assets/Biblioteca.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: block;
   overflow-y: auto;
-  height: auto;
+  height: 100%;
 }
 
 .header {
@@ -144,4 +143,15 @@ button[mat-icon-button] {
 .overlay.hidden {
   opacity: 0;
   pointer-events: none;
+}
+
+.footer {
+  background-color: #ffffff; /* Color de fondo del footer */
+  padding: 20px 0;
+  text-align: center;
+  color: #2B6ADF; /* Color del texto */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

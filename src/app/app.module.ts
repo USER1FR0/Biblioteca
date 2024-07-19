@@ -23,6 +23,7 @@ import { RegistroBibiotecariosModule } from './components/Options/RegistroBiblio
 import { RegistroLectorComponent } from './components/Options/Lectores/lectores.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PersonalisadoComponent } from './components/Options/ReportePersonalisado/personalisados.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,9 @@ import { PersonalisadoComponent } from './components/Options/ReportePersonalisad
     MatSnackBarModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

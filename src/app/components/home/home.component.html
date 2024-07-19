@@ -1,26 +1,39 @@
 <body>
   <div class="navbar">
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8YrcFCPbj_x4P9KKtC7L4eH8NMNV8NDE2Q&s" alt="Logo UTNG" class="logo">
     <div>
-        <div class="image-container">
-            <a href="#Notificaciones">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5-1-BdHuLzFVPwIeEVLAOi9IHXGfizMmWFA&s" alt="Notificacion">
-            </a>
-        </div>
-        <div class="image-container">
-            <a href="#Question">
-                <img src="https://png.pngtree.com/png-clipart/20210312/original/pngtree-question-mark-pattern-png-image_6070996.jpg" alt="Questions">
-            </a>
-        </div>
-
-        <div class="image-container">
-          <button class="btn btn-outline-light"  (click)="openModal()" type="button">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="Usuario">
-
+      <div class="image-container">
+        <a href="#Notificaciones">
+          <button mat-icon-button>
+            <mat-icon>notifications</mat-icon>
           </button>
-              </div>
-            </div>
-        </div>
+        </a>
+      </div>
+      <div class="image-container">
+        <a href="#Question">
+          <button mat-icon-button>
+            <mat-icon>help</mat-icon>
+          </button>
+        </a>
+      </div>
+        <div class="image-container">
+          <button mat-icon-button  (click)="openModal()" type="button">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="redirectToHome()">
+            <span>Cambiar Usuario</span>
+          </button>
+          <button mat-menu-item (click)="redirectToHome()">
+            <span>Cerrar Sesion</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -37,4 +50,11 @@
       </div>
     </div>
   </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 Universidad Tecnológica del Norte de Guanajuato. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
 </body>
