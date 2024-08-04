@@ -39,6 +39,29 @@ CREATE TABLE Libro (
     NumeroEjemplares INT
 );
 
+
+-- Prueba Libros
+INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares)
+ VALUES
+('9780140449136', 'The Iliad', 'Homer', 'Epic Poetry', 'Classics', 'An ancient Greek epic poem in dactylic hexameter, traditionally attributed to Homer.', 10);
+
+INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) 
+VALUES
+('9780743273565', 'The Great Gatsby', 'F. Scott Fitzgerald', 'Novel', 'American Classics', 'A novel set in the Jazz Age that tells the tragic story of Jay Gatsby and his unrequited love for Daisy Buchanan.', 15);
+
+INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) 
+VALUES
+('9780451524935', '1984', 'George Orwell', 'Dystopian', 'Science Fiction', 'A dystopian social science fiction novel and cautionary tale about the dangers of totalitarianism.', 20);
+
+INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) 
+VALUES
+('9780061120084', 'To Kill a Mockingbird', 'Harper Lee', 'Southern Gothic', 'Classics', 'A novel about the serious issues of rape and racial inequality, but it is also full of warmth and humor.', 12);
+
+INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) 
+VALUES
+('9780199535569', 'Pride and Prejudice', 'Jane Austen', 'Romance', 'Classics', 'A romantic novel that charts the emotional development of the protagonist, Elizabeth Bennet.', 18);
+
+
 CREATE TABLE Prestamo (
     IdPrestamo INT AUTO_INCREMENT PRIMARY KEY,
     NumeroControl INT,
@@ -92,29 +115,6 @@ from Multas;
 -- Se ejecuta para que pueda establecer la conexion
 Alter user 'root'@'localhost' identified with mysql_native_password by '';
 flush privileges;
-
-
--- Prueba Libros
-INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares)
- VALUES
-('9780140449136', 'The Iliad', 'Homer', 'Epic Poetry', 'Classics', 'An ancient Greek epic poem in dactylic hexameter, traditionally attributed to Homer.', 10);
-
-INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) 
-VALUES
-('9780743273565', 'The Great Gatsby', 'F. Scott Fitzgerald', 'Novel', 'American Classics', 'A novel set in the Jazz Age that tells the tragic story of Jay Gatsby and his unrequited love for Daisy Buchanan.', 15);
-
-INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) 
-VALUES
-('9780451524935', '1984', 'George Orwell', 'Dystopian', 'Science Fiction', 'A dystopian social science fiction novel and cautionary tale about the dangers of totalitarianism.', 20);
-
-INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) 
-VALUES
-('9780061120084', 'To Kill a Mockingbird', 'Harper Lee', 'Southern Gothic', 'Classics', 'A novel about the serious issues of rape and racial inequality, but it is also full of warmth and humor.', 12);
-
-INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) 
-VALUES
-('9780199535569', 'Pride and Prejudice', 'Jane Austen', 'Romance', 'Classics', 'A romantic novel that charts the emotional development of the protagonist, Elizabeth Bennet.', 18);
-
 
 /*Prueba 1 temporal para el login*/
 CREATE TABLE Usuario (
