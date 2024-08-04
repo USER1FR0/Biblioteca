@@ -1,42 +1,53 @@
 <div class="content-section">
   <div class="header">
-      <div class="container">
-        <div class="position-relative">
-          <button type="button" aria-label="Close" class="button-back">
-            <i class="fas fa-arrow-left"></i>
+    <div class="container">
+      <div class="position-relative">
+        <button type="button" aria-label="Close" class="button-back" (click)="modal.dismiss()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+      </div>
+
+      <form class="card-body cardbody-color p-lg-5" (ngSubmit)="isRegisterMode ? onRegister() : onLogin()">
+        <div class="text-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+            class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px" alt="profile">
+        </div>
+
+        <div class="mb-3">
+          <input type="text" class="form-control" id="username" [(ngModel)]="authData.username" name="username" placeholder="Nombre de Usuario" required>
+        </div>
+
+        <div class="mb-3 position-relative">
+          <input type="password" class="form-control" id="password" [(ngModel)]="authData.password" name="password" placeholder="Contraseña" required>
+          <span class="password-toggle-icon" (click)="togglePasswordVisibility()">
+            <i class="fas" [class.fa-eye]="!passwordVisible" [class.fa-eye-slash]="passwordVisible"></i>
+          </span>
+        </div>
+
+        <div *ngIf="isRegisterMode" class="mb-3">
+          <input type="password" class="form-control" id="confirmPassword" [(ngModel)]="authData.confirmPassword" name="confirmPassword" placeholder="Confirmar Contraseña" required>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-color px-5 mb-3 w-100">
+            {{ isRegisterMode ? 'Registrar' : 'Ingresar' }}
           </button>
         </div>
 
-        <form class="card-body cardbody-color p-lg-5" (ngSubmit)="onSubmit()">
-          <div class="text-center">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
-              class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px" alt="profile">
-          </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-link" (click)="openForgotPassword()">¿Olvidaste tu contraseña?</button>
+        </div>
 
-          <div class="mb-3">
-            <input type="text" class="form-control" id="Username" placeholder="User Name" required>
-          </div>
+        <div *ngIf="showForgot">
+          <app-forgot-password (backToLogin)="showForgot = false"></app-forgot-password>
+        </div>
 
-          <div class="mb-3 position-relative">
-            <input type="password" class="form-control" id="password" placeholder="Password" required>
-            <span class="password-toggle-icon">
-              <i class="fas fa-eye"></i>
-              <i class="fas fa-eye-slash"></i>
-              </span>
-          </div>
-
-          <div class="text-center">
-            <button type="submit" class="btn btn-color px-5 mb-3 w-100">Ingresar</button>
-          </div>
-
-          <div class="text-center">
-            <button type="button" class="btn btn-link" (click)="openForgotPassword()">¿Olvidaste tu contraseña?</button>
-          </div>
-
-          <div *ngIf="showForgot">
-            <app-forgot-password (backToLogin)="showForgot = false"></app-forgot-password>
-          </div>
-        </form>
-      </div>
+        <div class="text-center">
+          <button mat-button (click)="toggleMode()">
+            {{ isRegisterMode ? '¿Ya tienes una cuenta? Inicia Sesión' : '¿No tienes una cuenta? Regístrate' }}
+          </button>
+        </div>
+      </form>
     </div>
   </div>
+</div>

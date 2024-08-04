@@ -9,121 +9,100 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const dbConfig = {
-  host: '127.0.0.1', // Puede ser localhost
+  host: 'localhost',
   user: 'root',
   password: '',
   database: 'Biblioteca'
 };
 
-app.get('/', (req, res) => {
-    res.send('Servidor funcionando correctamente');
-});
-
-// Crear conexión a la base de datos
 const pool = mysql.createPool(dbConfig);
 
-// Probar la conexión a la base de datos
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.error('Error al conectar con la base de datos:', err);
-  } else {
-    console.log('Conexión exitosa a la base de datos');
-    connection.release();
-  }
-});
-
-// Inicio de sesión
-app.post('/api/login', async (req, res) => {
+// Registrar un nuevo usuario
+app.post('/register', async (req, res) => {
   const { username, password } = req.body;
-  
+
   if (!username || !password) {
     return res.status(400).send({ message: 'El nombre de usuario y la contraseña son requeridos' });
   }
 
   try {
-    // Consulta específica para obtener el usuario por nombre de usuario
-    pool.query(
-      'SELECT NomrbreUsuario, Contrasena FROM Bibliotecario WHERE NomrbreUsuario = ?',
-      [username],
-      (err, results) => {
+    pool.query('SELECT * FROM Usuario WHERE NombreUsuario = ?', [username], (err, results) => {
+      if (err) {
+        console.error('Error durante la consulta:', err);
+        return res.status(500).send({ message: 'Error interno del servidor' });
+      }
+
+      if (results.length > 0) {
+        return res.status(409).send({ message: 'El nombre de usuario ya está en uso' });
+      }
+
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(password, salt);
+
+      pool.query('INSERT INTO Usuario (NombreUsuario, contrasenaHash) VALUES (?, ?)', [username, hash], (err) => {
         if (err) {
-          console.error('Error durante el login:', err);
+          console.error('Error durante la inserción:', err);
           return res.status(500).send({ message: 'Error interno del servidor' });
         }
 
-        if (results.length === 0) {
-          return res.status(401).send({ message: 'Credenciales inválidas' });
-        }
+        res.status(201).send({ message: 'Usuario registrado exitosamente' });
+      });
+    });
+  } catch (err) {
+    console.error('Error durante el registro:', err);
+    res.status(500).send({ message: 'Error interno del servidor' });
+  }
+});
 
-        const user = results[0];
-        const contrasenaHash = user.Contrasena;
+// Iniciar sesión
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
 
-        // Validación de hash de contraseña
-        if (bcrypt.compareSync(password, contrasenaHash)) {
-          res.status(200).send({ message: 'Login realizado exitosamente' });
-        } else {
-          res.status(401).send({ message: 'Credenciales inválidas' });
-        }
+  if (!username || !password) {
+    return res.status(400).send({ message: 'El nombre de usuario y la contraseña son requeridos' });
+  }
+
+  try {
+    pool.query('SELECT * FROM Usuario WHERE NombreUsuario = ?', [username], (err, results) => {
+      if (err) {
+        console.error('Error durante la consulta:', err);
+        return res.status(500).send({ message: 'Error interno del servidor' });
       }
-    );
+
+      if (results.length === 0) {
+        return res.status(401).send({ message: 'Credenciales inválidas' });
+      }
+
+      const user = results[0];
+      const contrasenaHash = user.contrasenaHash;
+
+      if (bcrypt.compareSync(password, contrasenaHash)) {
+        res.status(200).send({ message: 'Login realizado exitosamente' });
+      } else {
+        res.status(401).send({ message: 'Credenciales inválidas' });
+      }
+    });
   } catch (err) {
     console.error('Error durante el login:', err);
     res.status(500).send({ message: 'Error interno del servidor' });
   }
 });
 
-// Ruta para obtener todos los registros de la tabla Lector
-app.get('/lector', (req, res) => {
-  pool.query('SELECT * FROM Lector', (err, results) => {
-    if (err) {
-      console.error('Error al obtener los registros de Lector:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
-    }
-    res.json(results);
-  });
-});
+// Obtener todas las tablas de la base de datos
+app.get('/:table', (req, res) => {
+  const tableName = req.params.table;
+  const validTables = ['Lector', 'Bibliotecario', 'Libro', 'Prestamo', 'Multas'];
 
-// Ruta para obtener todos los registros de la tabla Bibliotecario
-app.get('/bibliotecario', (req, res) => {
-  pool.query('SELECT * FROM Bibliotecario', (err, results) => {
-    if (err) {
-      console.error('Error al obtener los registros de Bibliotecario:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
-    }
-    res.json(results);
-  });
-});
+  if (!validTables.includes(tableName)) {
+    return res.status(400).send({ message: 'Nombre de tabla no válido' });
+  }
 
-// Ruta para obtener todos los registros de la tabla Libro
-app.get('/libro', (req, res) => {
-  pool.query('SELECT * FROM Libro', (err, results) => {
+  pool.query(`SELECT * FROM ??`, [tableName], (err, results) => {
     if (err) {
-      console.error('Error al obtener los registros de Libro:', err);
+      console.error('Error durante la consulta:', err);
       return res.status(500).send({ message: 'Error interno del servidor' });
     }
-    res.json(results);
-  });
-});
-
-// Ruta para obtener todos los registros de la tabla Prestamo
-app.get('/prestamo', (req, res) => {
-  pool.query('SELECT * FROM Prestamo', (err, results) => {
-    if (err) {
-      console.error('Error al obtener los registros de Prestamo:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
-    }
-    res.json(results);
-  });
-});
-
-// Ruta para obtener todos los registros de la tabla Multas
-app.get('/multas', (req, res) => {
-  pool.query('SELECT * FROM Multas', (err, results) => {
-    if (err) {
-      console.error('Error al obtener los registros de Multas:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
-    }
-    res.json(results);
+    res.status(200).send(results);
   });
 });
 

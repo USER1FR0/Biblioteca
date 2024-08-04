@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ForgotPasswordComponent } from '../ForgotPassword/ForgotPassword.component'; // Importa el componente de recuperación de contraseña
+import { AuthService } from '../../Options/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +11,11 @@ import { ForgotPasswordComponent } from '../ForgotPassword/ForgotPassword.compon
 export class LoginComponent {
   passwordVisible: boolean = false;
   showForgot: boolean = false;
-  username: string = ' ';
-  password: string = ' ';
+  authData = { username: '', password: '', confirmPassword: '' };
+  isRegisterMode = false;
 
-  constructor(private modal: NgbActiveModal, private router: Router, private modalService: NgbModal) {}
- 
+  constructor(public modal: NgbActiveModal, private router: Router, private modalService: NgbModal, private authService: AuthService) {}
+
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
     const passwordField = document.getElementById('password') as HTMLInputElement | null;
@@ -24,18 +24,47 @@ export class LoginComponent {
     }
   }
 
-  onSubmit() {
-    // Aquí deberías implementar la lógica de autenticación
-    if (this.username && this.password) {
-      console.log('User name:', this.username);
-      console.log('Password:', this.password);
-      // Lógica de autenticación aquí (por ejemplo, enviar solicitud al servidor)
-      // Si la autenticación es exitosa, redirecciona a la página '/menu'
-      // Simulación de redirección
-      this.modal.dismiss();
-      this.router.navigate(['/menu']);
-      this.showForgot = false; // Oculta el formulario de recuperación de contraseña después del login
+  toggleMode() {
+    this.isRegisterMode = !this.isRegisterMode;
+    this.authData = { username: '', password: '', confirmPassword: '' };
+  }
+
+  onRegister() {
+    if (this.authData.password !== this.authData.confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
     }
+
+    this.authService.register(this.authData.username, this.authData.password).subscribe({
+      next: (response) => {
+        console.log('Respuesta del servidor:', response);
+        alert(response.message);
+        this.toggleMode();
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        if (error.status === 409) {
+          alert('El nombre de usuario ya está en uso.');
+        } else {
+          alert('Error del servidor. Intente nuevamente.');
+        }
+      }
+    });
+  }
+
+  onLogin() {
+    this.authService.login(this.authData.username, this.authData.password).subscribe({
+      next: (response) => {
+        console.log('Respuesta del servidor', response);
+        alert(response.message);
+        this.modal.dismiss();
+        this.router.navigate(['/menu']);
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        alert('Credenciales inválidas.');
+      }
+    });
   }
 
   openForgotPassword() {
