@@ -1,7 +1,5 @@
 CREATE DATABASE Biblioteca;
 
-drop database Biblioteca;
-
 USE Biblioteca;
 
 CREATE TABLE Lector (
@@ -9,7 +7,7 @@ CREATE TABLE Lector (
     NombreCompleto NVARCHAR(50),
     Correo NVARCHAR(100)
 );
-
+-- Prueba 1
 Insert into Lector(NumeroControl,NombreCompleto,Correo)
 Values (1223100441,'Juan Francisco Rodriguez Guerrero','f51783145@gmail.com');
 
@@ -24,13 +22,12 @@ CREATE TABLE Bibliotecario (
     FOREIGN KEY (IdAdmin) REFERENCES Bibliotecario(IdBibliotecario)
 );
 
+-- Prueba 1
 Insert into Bibliotecario (NombreCompleto,Correo,Telefono,NomrbreUsuario,Contrasena)
 Values('Diego Ruiz','Diego@utng.edu.mx','4681080020','Diegogo','12345');
 
 select *
 from Bibliotecario;
-
-drop table Libro;
 
 CREATE TABLE Libro (
     ISBN Nvarchar(13) PRIMARY KEY,
@@ -54,6 +51,8 @@ CREATE TABLE Prestamo (
     FOREIGN KEY (IdBibliotecario) REFERENCES Bibliotecario(IdBibliotecario)
 );
 
+-- Prueba 1
+
 INSERT INTO Prestamo (NumeroControl, ISBN, FechaPrestamo, FechaDevolucion, IdBibliotecario)
 VALUES (1223100441, '9780061120084', curdate(), '2024-08-06', 1);
 
@@ -71,6 +70,7 @@ CREATE TABLE Multas (
     FOREIGN KEY (IdPrestamo) REFERENCES Prestamo(IdPrestamo)
 );
 
+-- Prueba 1
 Insert into Multas(NumeroControl,Monto,FechaInicio,Estatus,IdPrestamo)
 values (1223100441,50.0,curdate(),'Pendiente',1);
 
@@ -89,9 +89,12 @@ from Prestamo;
 select *
 from Multas;
 
+-- Se ejecuta para que pueda establecer la conexion
 Alter user 'root'@'localhost' identified with mysql_native_password by '';
 flush privileges;
 
+
+-- Prueba Libros
 INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares)
  VALUES
 ('9780140449136', 'The Iliad', 'Homer', 'Epic Poetry', 'Classics', 'An ancient Greek epic poem in dactylic hexameter, traditionally attributed to Homer.', 10);
@@ -111,3 +114,14 @@ VALUES
 INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) 
 VALUES
 ('9780199535569', 'Pride and Prejudice', 'Jane Austen', 'Romance', 'Classics', 'A romantic novel that charts the emotional development of the protagonist, Elizabeth Bennet.', 18);
+
+
+/*Prueba 1 temporal para el login*/
+CREATE TABLE Usuario (
+    IdUsuario INT AUTO_INCREMENT PRIMARY KEY,
+    NombreUsuario NVARCHAR(50) NOT NULL,
+    contrasenaHash NVARCHAR(255) NOT NULL
+);
+
+select *
+from Usuario;
