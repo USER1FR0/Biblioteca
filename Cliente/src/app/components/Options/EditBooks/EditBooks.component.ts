@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -23,7 +24,7 @@ export class EditBooksComponent {
     isbn: false
   };
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal, private http: HttpClient) {}
 
   ngOnInit() {
     if (this.book) {
@@ -51,8 +52,40 @@ export class EditBooksComponent {
       return;
     }
 
-    alert('Libro guardado con éxito');
-    this.activeModal.close('save'); // Cerrando el modal
+    const updatedBook = {
+      isbn: this.isbn,
+      title: this.nombreLibro,
+      author: this.autor,
+      topic: this.tema,
+      category: this.categoria,
+      information: this.informacion
+    };
+
+    this.http.put(`http://localhost:3000/updateBook/${this.isbn}`, updatedBook).subscribe(
+      response => {
+        alert('Libro guardado con éxito');
+        this.activeModal.close('save');
+      },
+      error => {
+        console.error('Error durante la actualización del libro:', error);
+        alert('Error durante la actualización del libro');
+      }
+    );
+  }
+
+  confirmDelete() {
+    if (confirm('¿Estás seguro de eliminar este libro?')) {
+      this.http.delete(`http://localhost:3000/deleteBook/${this.isbn}`).subscribe(
+        response => {
+          alert('Libro eliminado con éxito');
+          this.activeModal.close('delete');
+        },
+        error => {
+          console.error('Error durante la eliminación del libro:', error);
+          alert('Error durante la eliminación del libro');
+        }
+      );
+    }
   }
 
   validateInput(): boolean {
@@ -65,14 +98,8 @@ export class EditBooksComponent {
   }
 
   validateISBN(isbn: string): boolean {
-    const isbnRegex = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;
+    // Regex para validar ISBN-10 o ISBN-13
+    const isbnRegex = /^(?:\d{9}[\dX]|\d{13})$/;
     return isbnRegex.test(isbn);
-  }
-
-  confirmDelete() {
-    if (confirm('¿Estás seguro de eliminar este libro?')) {
-      alert('Libro eliminado con éxito');
-      this.activeModal.close('delete'); // Cerrando el modal
-    }
   }
 }

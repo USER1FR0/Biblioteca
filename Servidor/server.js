@@ -89,7 +89,7 @@ app.post('/login', async (req, res) => {
 });
 
 // Obtener todas las tablas de la base de datos
-app.get('/:table', (req, res) => {
+app.get('/tables/:table', (req, res) => {
   const tableName = req.params.table;
   const validTables = ['Lector', 'Bibliotecario', 'Libro', 'Prestamo', 'Multas'];
 
@@ -106,7 +106,64 @@ app.get('/:table', (req, res) => {
   });
 });
 
-const PORT = 3000;
+// Añadir un nuevo libro
+app.post('/addBook', (req, res) => {
+  const { isbn, titulo, autor, tema, categoria, descripcion, numeroEjemplares } = req.body;
+
+  if (!isbn || !titulo || !autor || !tema || !categoria || !numeroEjemplares) {
+    return res.status(400).send({ message: 'Todos los campos son obligatorios' });
+  }
+
+  const query = 'INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const values = [isbn, titulo, autor, tema, categoria, descripcion, numeroEjemplares];
+
+  pool.query(query, values, (err) => {
+    if (err) {
+      console.error('Error durante la inserción:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+
+    res.status(201).send({ message: 'Libro registrado exitosamente' });
+  });
+});
+
+// Actualizar un libro
+app.put('/updateBook/:isbn', (req, res) => {
+  const { isbn } = req.params;
+  const { titulo, autor, tema, categoria, descripcion, numeroEjemplares } = req.body;
+
+  if (!titulo || !autor || !tema || !categoria || !numeroEjemplares) {
+    return res.status(400).send({ message: 'Todos los campos son obligatorios' });
+  }
+
+  const query = 'UPDATE Libro SET Titulo = ?, Autor = ?, Tema = ?, Categoria = ?, Descripcion = ?, NumeroEjemplares = ? WHERE ISBN = ?';
+  const values = [titulo, autor, tema, categoria, descripcion, numeroEjemplares, isbn];
+
+  pool.query(query, values, (err) => {
+    if (err) {
+      console.error('Error durante la actualización:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+
+    res.status(200).send({ message: 'Libro actualizado exitosamente' });
+  });
+});
+
+// Eliminar un libro
+app.delete('/deleteBook/:isbn', (req, res) => {
+  const { isbn } = req.params;
+
+  pool.query('DELETE FROM Libro WHERE ISBN = ?', [isbn], (err) => {
+    if (err) {
+      console.error('Error durante la eliminación:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+
+    res.status(200).send({ message: 'Libro eliminado exitosamente' });
+  });
+});
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

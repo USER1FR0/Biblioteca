@@ -1,12 +1,6 @@
-
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { Route, Router,RouterModule, Routes } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
-
-
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-newbooks',
@@ -22,7 +16,7 @@ export class NewBooksComponent {
   isbn: string = '';
   ejemplares: number | null = null;
 
-  constructor(private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   saveBook() {
     if (!this.nombreLibro.trim()) {
@@ -65,14 +59,29 @@ export class NewBooksComponent {
       return;
     }
 
-    alert('Libro guardado con éxito');
-    this.router.navigate(['/menu']);
-    // Aquí puedes añadir lógica adicional para guardar el libro en tu sistema
-    // y redirigir o realizar otras acciones necesarias
+    const newBook = {
+      isbn: this.isbn,
+      titulo: this.nombreLibro,
+      autor: this.autor,
+      tema: this.tema,
+      categoria: this.categoria,
+      descripcion: this.informacion,
+      numeroEjemplares: this.ejemplares
+    };
+
+    this.http.post('http://localhost:3000/addBook', newBook).subscribe(
+      response => {
+        alert('Libro guardado con éxito');
+        this.router.navigate(['/menu']);
+      },
+      error => {
+        console.error('Error durante el registro del libro:', error);
+        alert('Error durante el registro del libro');
+      }
+    );
   }
 
   validateISBN(isbn: string): boolean {
-    // Expresión regular para validar ISBN-13 o ISBN-10
     const isbnRegex = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;
     return isbnRegex.test(isbn);
   }

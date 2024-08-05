@@ -1,35 +1,37 @@
 <div class="container">
     <h1 class="form-title">Nuevo Libro</h1>
-    <div class="form-group">
-        <label for="nombreLibro">Nombre_Libro</label>
-        <input type="text" id="nombreLibro" placeholder="Nombre del libro" maxlength="50" [(ngModel)]="nombreLibro">
-    </div>
-    <div class="form-group">
-        <label for="autor">Autor</label>
-        <input type="text" id="autor" placeholder="Nombre del autor" maxlength="50" [(ngModel)]="autor">
-    </div>
-    <div class="form-group">
-        <label for="tema">Tema</label>
-        <input type="text" id="tema" placeholder="Tema del libro" maxlength="50" [(ngModel)]="tema">
-    </div>
-    <div class="form-group">
-        <label for="categoria">Categoría</label>
-        <input type="text" id="categoria" placeholder="Categoría del libro" maxlength="50" [(ngModel)]="categoria">
-    </div>
-    <div class="form-group">
-        <label for="informacion">Descripcion (Edición, editorial y año)</label>
-        <input type="text" id="informacion" placeholder="Información adicional" [(ngModel)]="informacion">
-    </div>
-    <div class="form-group">
-        <label for="isbn">ISBN</label>
-        <input type="text" id="isbn" placeholder="Número ISBN" [(ngModel)]="isbn">
-    </div>
-    <div class="form-group">
-        <label for="ejemplares">Número de ejemplares</label>
-        <input type="number" id="ejemplares" placeholder="Número de ejemplares" [(ngModel)]="ejemplares">
-    </div>
-    <div class="buttons">
-        <button class="cancel-button" (click)="confirmCancel()">Cancel</button>
-        <button class="save-button" (click)="saveBook()">Save</button>
-    </div>
+    <form (ngSubmit)="saveBook()">
+        <div class="form-group">
+            <label for="nombreLibro">Nombre_Libro</label>
+            <input type="text" id="nombreLibro" placeholder="Nombre del libro" maxlength="50" [(ngModel)]="nombreLibro" name="nombreLibro" required>
+        </div>
+        <div class="form-group">
+            <label for="autor">Autor</label>
+            <input type="text" id="autor" placeholder="Nombre del autor" maxlength="50" [(ngModel)]="autor" name="autor" required>
+        </div>
+        <div class="form-group">
+            <label for="tema">Tema</label>
+            <input type="text" id="tema" placeholder="Tema del libro" maxlength="50" [(ngModel)]="tema" name="tema" required>
+        </div>
+        <div class="form-group">
+            <label for="categoria">Categoría</label>
+            <input type="text" id="categoria" placeholder="Categoría del libro" maxlength="50" [(ngModel)]="categoria" name="categoria" required>
+        </div>
+        <div class="form-group">
+            <label for="informacion">Descripcion (Edición, editorial y año)</label>
+            <input type="text" id="informacion" placeholder="Información adicional" [(ngModel)]="informacion" name="informacion">
+        </div>
+        <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" id="isbn" placeholder="Número ISBN" [(ngModel)]="isbn" name="isbn" required>
+        </div>
+        <div class="form-group">
+            <label for="ejemplares">Número de ejemplares</label>
+            <input type="number" id="ejemplares" placeholder="Número de ejemplares" [(ngModel)]="ejemplares" name="ejemplares" required>
+        </div>
+        <div class="buttons">
+            <button type="button" class="cancel-button" (click)="confirmCancel()">Cancel</button>
+            <button type="submit" class="save-button">Save</button>
+        </div>
+    </form>
 </div>
