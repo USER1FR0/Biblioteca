@@ -4,12 +4,14 @@
   "description": "integradora",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "FranciscoRodriguez",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "biblioteca": "file:",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.19.2",
