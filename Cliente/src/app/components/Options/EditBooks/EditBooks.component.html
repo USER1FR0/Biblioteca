@@ -1,42 +1,43 @@
 <div class="modal-header">
-  <h1 class="form-title">Editar Libro</h1>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-  <div class="form-group">
-    <label for="nombreLibro">Nombre del Libro</label>
-    <input type="text" id="nombreLibro" placeholder="Nombre del libro" maxlength="50" [(ngModel)]="nombreLibro" [readonly]="!isEditing['nombreLibro']">
-    <mat-icon (click)="enableEdit('nombreLibro')">edit</mat-icon>
+    <h4 class="modal-title">Editar Libro</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <div class="form-group">
-    <label for="autor">Autor</label>
-    <input type="text" id="autor" placeholder="Nombre del autor" maxlength="50" [(ngModel)]="autor" [readonly]="!isEditing['autor']">
-    <mat-icon (click)="enableEdit('autor')">edit</mat-icon>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="isbn">ISBN</label>
+        <input type="text" class="form-control" id="isbn" [(ngModel)]="book.ISBN" name="isbn" readonly>
+      </div>
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input type="text" class="form-control" id="titulo" [(ngModel)]="book.Titulo" name="titulo" required>
+      </div>
+      <div class="form-group">
+        <label for="autor">Autor</label>
+        <input type="text" class="form-control" id="autor" [(ngModel)]="book.Autor" name="autor" required>
+      </div>
+      <div class="form-group">
+        <label for="tema">Tema</label>
+        <input type="text" class="form-control" id="tema" [(ngModel)]="book.Tema" name="tema" required>
+      </div>
+      <div class="form-group">
+        <label for="categoria">Categoría</label>
+        <input type="text" class="form-control" id="categoria" [(ngModel)]="book.Categoria" name="categoria" required>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea class="form-control" id="descripcion" [(ngModel)]="book.Descripcion" name="descripcion"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="numeroEjemplares">Número de Ejemplares</label>
+        <input type="number" class="form-control" id="numeroEjemplares" [(ngModel)]="book.NumeroEjemplares" name="numeroEjemplares" required>
+      </div>
+    </form>
   </div>
-  <div class="form-group">
-    <label for="tema">Tema</label>
-    <input type="text" id="tema" placeholder="Tema del libro" maxlength="50" [(ngModel)]="tema" [readonly]="!isEditing['tema']">
-    <mat-icon (click)="enableEdit('tema')">edit</mat-icon>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="close()">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="deleteBook()">Eliminar</button>
+    <button type="button" class="btn btn-primary" (click)="saveBook()">Guardar</button>
   </div>
-  <div class="form-group">
-    <label for="categoria">Categoría</label>
-    <input type="text" id="categoria" placeholder="Categoría del libro" maxlength="50" [(ngModel)]="categoria" [readonly]="!isEditing['categoria']">
-    <mat-icon (click)="enableEdit('categoria')">edit</mat-icon>
-  </div>
-  <div class="form-group">
-    <label for="informacion">Información (Edición, editorial y año)</label>
-    <input type="text" id="informacion" placeholder="Información adicional" [(ngModel)]="informacion" [readonly]="!isEditing['informacion']">
-    <mat-icon (click)="enableEdit('informacion')">edit</mat-icon>
-  </div>
-  <div class="form-group">
-    <label for="isbn">ISBN</label>
-    <input type="text" id="isbn" placeholder="Número ISBN" [(ngModel)]="isbn" [readonly]="!isEditing['isbn']">
-    <mat-icon (click)="enableEdit('isbn')">edit</mat-icon>
-  </div>
-</div>
-<div class="modal-footer">
-  <button class="cancel-button" (click)="confirmDelete()">Eliminar</button>
-  <button class="save-button" (click)="saveBook()">Guardar</button>
-</div>

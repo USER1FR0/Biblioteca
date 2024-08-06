@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { BookService } from '../Services/BookService';
 
 @Component({
   selector: 'app-newbooks',
@@ -16,7 +16,7 @@ export class NewBooksComponent {
   isbn: string = '';
   ejemplares: number | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private bookService: BookService, private router: Router) {}
 
   saveBook() {
     if (!this.nombreLibro.trim()) {
@@ -69,14 +69,19 @@ export class NewBooksComponent {
       numeroEjemplares: this.ejemplares
     };
 
-    this.http.post('http://localhost:3000/addBook', newBook).subscribe(
-      response => {
-        alert('Libro guardado con éxito');
+    this.bookService.addBook(newBook).subscribe(
+      (response: any) => {
+        console.log('Respuesta del servidor:', response);
+        alert(response.message || 'Libro guardado con éxito');
         this.router.navigate(['/menu']);
       },
-      error => {
+      (error) => {
         console.error('Error durante el registro del libro:', error);
-        alert('Error durante el registro del libro');
+        if (error.error && error.error.message) {
+          alert('Error: ' + error.error.message);
+        } else {
+          alert('Error durante el registro del libro');
+        }
       }
     );
   }

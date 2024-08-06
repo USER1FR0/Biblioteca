@@ -26,6 +26,7 @@ const routes: Routes = [
   {path:'menu',component:MenuComponent},
   {path: 'search', component: SearchBooksComponent},
   {path: 'NewBook', component: NewBooksComponent},
+  { path: 'new-book', component: NewBooksComponent },
   {path: 'EditBook', component:EditBooksComponent},
   {path: 'forgot', component:ForgotPasswordComponent},
   {path: 'multas', component: MultasComponent},

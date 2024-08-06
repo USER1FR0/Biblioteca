@@ -40,6 +40,8 @@ CREATE TABLE Libro (
 );
 
 
+
+
 -- Prueba Libros
 INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares)
  VALUES
@@ -60,7 +62,7 @@ VALUES
 INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) 
 VALUES
 ('9780199535569', 'Pride and Prejudice', 'Jane Austen', 'Romance', 'Classics', 'A romantic novel that charts the emotional development of the protagonist, Elizabeth Bennet.', 18);
-
+select * from Libro
 
 CREATE TABLE Prestamo (
     IdPrestamo INT AUTO_INCREMENT PRIMARY KEY,
@@ -122,6 +124,16 @@ CREATE TABLE Usuario (
     NombreUsuario NVARCHAR(50) NOT NULL,
     contrasenaHash NVARCHAR(255) NOT NULL
 );
-
+use biblioteca;
 select *
 from Usuario;
+select * from libros
+
+
+
+
+
+
+nuevas dependencias en servidor 
+   npm install multer
+   npm install express body-parser bcryptjs mysql2 cors multer
