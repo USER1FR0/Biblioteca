@@ -16,7 +16,7 @@
     "@angular/compiler": "^18.0.0",
     "@angular/core": "^18.0.0",
     "@angular/forms": "^18.0.0",
-    "@angular/material": "^18.1.3",
+    "@angular/material": "^18.1.4",
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
@@ -25,6 +25,7 @@
     "jquery": "^3.7.1",
     "popper.js": "^1.16.1",
     "rxjs": "~7.8.0",
+    "sgca": "file:",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
