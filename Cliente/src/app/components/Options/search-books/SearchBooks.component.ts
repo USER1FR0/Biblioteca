@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditBooksComponent } from '../EditBooks/EditBooks.component';
 import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-search-books',
@@ -18,18 +19,20 @@ export class SearchBooksComponent implements OnInit {
   selectedBook: any = null;
   showLoanForm: boolean = false;
 
-  idPrestamo: string = '';
-  controlNumber: string = '';
+  numeroControl: number = 0;
   isbn: string = '';
   fechaPrestamo: string = '';
   fechaDevolucion: string = '';
-  idBibliotecario: string = '';
-  name: string = '';
+  idBibliotecario: number = 0;
 
   authors: string[] = [];
   publishers: string[] = [];
 
-  constructor(private modalService: NgbModal, private http: HttpClient) {}
+  constructor(
+    private modalService: NgbModal,
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.cargarAutoresYEditoriales();
@@ -59,7 +62,7 @@ export class SearchBooksComponent implements OnInit {
           ...book,
           ImagenPortada: book.ImagenPortada || 'assets/default-book-cover.jpg'
         }));
-        console.log('Libros recibidos:', this.books); // Para depuración
+        console.log('Libros recibidos:', this.books);
       },
       (error) => console.error('Error al buscar libros:', error)
     );
@@ -69,16 +72,19 @@ export class SearchBooksComponent implements OnInit {
     this.selectedBook = {
       title: book.Titulo,
       author: book.Autor,
-      publisher: book.Categoria, // Asumiendo que 'Categoria' se usa como editorial
-      publicationDate: book.FechaPublicacion, // Si tienes este campo en tu base de datos
+      publisher: book.Categoria,
+      publicationDate: book.FechaPublicacion,
       synopsis: book.Descripcion,
-      cover: book.ImagenPortada // Si tienes este campo en tu base de datos
+      cover: book.ImagenPortada,
+      ISBN: book.ISBN
     };
   }
+
   openLoanForm(book: any, event: Event) {
     event.stopPropagation();
     this.selectedBook = book;
     this.showLoanForm = true;
+    this.isbn = book.ISBN;
   }
 
   closeLoanForm(event?: MouseEvent) {
@@ -90,25 +96,40 @@ export class SearchBooksComponent implements OnInit {
   }
 
   submitLoanForm() {
-    console.log('Formulario de préstamo enviado:', {
-      idPrestamo: this.idPrestamo,
-      controlNumber: this.controlNumber,
-      isbn: this.isbn,
-      fechaPrestamo: this.fechaPrestamo,
-      fechaDevolucion: this.fechaDevolucion,
-      idBibliotecario: this.idBibliotecario,
-      name: this.name
-    });
-    this.closeLoanForm();
-  }
+    if (!this.fechaPrestamo || !this.fechaDevolucion) {
+        this.snackBar.open('Las fechas de préstamo y devolución son requeridas', 'Cerrar', { duration: 3000 });
+        return;
+    }
+
+    const loanData = {
+        numeroControl: this.numeroControl,
+        isbn: this.isbn,
+        fechaPrestamo: this.fechaPrestamo,
+        fechaDevolucion: this.fechaDevolucion,
+        idBibliotecario: this.idBibliotecario,
+    };
+
+    console.log('Datos del préstamo a enviar:', loanData);
+
+    this.http.post('http://localhost:3000/loanBook', loanData).subscribe(
+        (response: any) => {
+            this.snackBar.open(response.message, 'Cerrar', { duration: 3000 });
+            this.closeLoanForm();
+            this.searchBooks();
+        },
+        (error) => {
+            console.error('Error al registrar el préstamo:', error);
+            this.snackBar.open(error.error.message || 'Error al registrar el préstamo', 'Cerrar', { duration: 3000 });
+        }
+    );
+}
 
   resetForm() {
-    this.controlNumber = '';
+    this.numeroControl = 0;
     this.isbn = '';
     this.fechaPrestamo = '';
     this.fechaDevolucion = '';
-    this.idBibliotecario = '';
-    this.name = '';
+    this.idBibliotecario = 0;
   }
 
   openEditModal(book: any) {

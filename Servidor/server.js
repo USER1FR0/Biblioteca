@@ -213,6 +213,27 @@ app.get('/searchBooks', (req, res) => {
     res.status(200).send(results);
   });
 });
+// Nueva ruta para préstamo de libros
+app.post('/loanBook', (req, res) => {
+  const { numeroControl, isbn, fechaPrestamo, fechaDevolucion, idBibliotecario } = req.body;
+
+  // Verificar si las fechas son válidas
+  if (!fechaPrestamo || !fechaDevolucion) {
+      return res.status(400).send({ message: 'Las fechas de préstamo y devolución son requeridas' });
+  }
+
+  const sql = 'INSERT INTO Prestamo (NumeroControl, ISBN, FechaPrestamo, FechaDevolucion, IdBibliotecario) VALUES (?, ?, ?, ?, ?)';
+  const values = [numeroControl, isbn, fechaPrestamo, fechaDevolucion, idBibliotecario];
+
+  pool.query(sql, values, (err, results) => {
+      if (err) {
+          console.error('Error durante la inserción del préstamo:', err);
+          return res.status(500).send({ message: 'Error interno del servidor' });
+      }
+      res.status(201).send({ message: 'Préstamo registrado exitosamente' });
+  });
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
