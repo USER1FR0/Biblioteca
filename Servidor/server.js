@@ -12,7 +12,7 @@ app.use(cors());
 
 const dbConfig = {
   host: 'localhost',
-  user: 'root2',
+  user: 'root',
   password: '',
   database: 'Biblioteca'
 };
