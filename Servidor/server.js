@@ -3,19 +3,38 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const mysql = require('mysql2');
 const cors = require('cors');
-
 const app = express();
+
+
+
 app.use(bodyParser.json());
 app.use(cors());
 
 const dbConfig = {
   host: 'localhost',
-  user: 'root',
+  user: 'root2',
   password: '',
   database: 'Biblioteca'
 };
 
 const pool = mysql.createPool(dbConfig);
+
+// Inicia el servidor después de probar la conexión a la base de datos
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error('Error al conectar a la base de datos:', err.stack);
+    return;
+  }
+
+  console.log('Conectado a la base de datos ');
+  connection.release(); 
+
+  // Inicia el servidor solo después de una conexión exitosa
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+  });
+});
 
 // Registrar un nuevo usuario
 app.post('/register', async (req, res) => {
@@ -234,8 +253,195 @@ app.post('/loanBook', (req, res) => {
   });
 });
 
+// Añadir un nuevo lector
+app.post('/lector', (req, res) => {
+  const { NombreCompleto, NumeroControl, Correo } = req.body;
+  console.log('Hola');
+  if (!NombreCompleto || !NumeroControl || !Correo) {
+    return res.status(400).send({ message: 'Todos los campos son obligatorios' });
+  }
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+  const query = 'INSERT INTO Lector (NombreCompleto, NumeroControl, Correo) VALUES (?, ?, ?)';
+  const values = [NombreCompleto, NumeroControl, Correo];
+
+  pool.query(query, values, (err) => {
+    if (err) {
+      console.error('Error durante la inserción:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+
+    res.status(201).send({ message: 'Lector registrado exitosamente' });
+  });
 });
+
+// Actualizar un lector
+app.put('/lector/:id', (req, res) => {
+  const { id } = req.params;
+  const { NombreCompleto, NumeroControl, Correo } = req.body;
+
+  if (!NombreCompleto || !NumeroControl || !Correo) {
+    return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+  }
+
+  const query = 'UPDATE Lector SET NombreCompleto = ?, NumeroControl = ?, Correo = ? WHERE id = ?';
+  const values = [NombreCompleto, NumeroControl, Correo, id];
+
+  pool.query(query, values, (err, result) => {
+    if (err) {
+      console.error('Error al actualizar el lector:', err);
+      return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Lector no encontrado' });
+    }
+
+    res.status(200).json({ message: 'Lector actualizado exitosamente' });
+  });
+});
+
+// Eliminar un lector
+app.delete('/lector/:id', (req, res) => {
+  const { id } = req.params;
+
+  pool.query('DELETE FROM Lector WHERE id = ?', [Id], (err) => {
+    if (err) {
+      console.error('Error durante la eliminación:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+
+    res.status(200).send({ message: 'Lector eliminado exitosamente' });
+  });
+});
+
+// Buscar lectores
+app.get('/lector', (req, res) => {
+  const { busqueda, NumeroControl, Correo, NombreCompleto } = req.query;
+  let query = 'SELECT * FROM Lector WHERE 1=1';
+  const params = [];
+
+  if (busqueda) {
+    query += ' AND (nombreCompleto LIKE ? OR numeroControl LIKE ? OR correo LIKE ?)';
+    params.push(`%${busqueda}%`, `%${busqueda}%`, `%${busqueda}%`);
+  }
+  if (NumeroControl) {
+    query += ' AND numeroControl = ?';
+    params.push(NumeroControl);
+  }
+  if(Correo) {
+    query += ' AND correo = ?';
+    params.push(Correo);
+  }
+  if (NombreCompleto) {
+    query += ' AND nombreCompleto = ?';
+    params.push(NombreCompleto);
+  }
+
+  pool.query(query, params, (err, results) => {
+    if (err) {
+      console.error('Error durante la búsqueda de lectores:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+    res.status(200).send(results);
+  });
+});
+
+
+
+// Añadir un nuevo bibliotecario
+app.post('/bibliotecarios', (req, res) => {
+  const { NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena } = req.body;
+
+  if (!NombreCompleto || !Correo || !Telefono || !IdAdmin || !NombreUsuario || !Contrasena) {
+    return res.status(400).send({ message: 'Todos los campos son obligatorios' });
+  }
+
+  const query = 'INSERT INTO Bibliotecario (NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena) VALUES (?, ?, ?, ?, ?, ?)';
+  const values = [NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena];
+
+  pool.query(query, values, (err) => {
+    if (err) {
+      console.error('Error durante la inserción:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+
+    res.status(201).send({ message: 'Bibliotecario registrado exitosamente' });
+  });
+});
+
+// Actualizar un bibliotecario
+app.put('/bibliotecarios/:id', (req, res) => {
+  const { id } = req.params;
+  const { NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena } = req.body;
+
+  if (!NombreCompleto || !Correo || !Telefono || !IdAdmin || !NombreUsuario || !Contrasena) {
+    return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+  }
+
+  const query = 'UPDATE Bibliotecario SET NombreCompleto = ?, Correo = ?, Telefono = ?, IdAdmin = ?, NombreUsuario = ?, Contrasena = ? WHERE IdBibliotecario = ?';
+  const values = [NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena, id];
+
+  pool.query(query, values, (err, result) => {
+    if (err) {
+      console.error('Error al actualizar el bibliotecario:', err);
+      return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Bibliotecario no encontrado' });
+    }
+
+    res.status(200).json({ message: 'Bibliotecario actualizado exitosamente' });
+  });
+});
+
+// Eliminar un bibliotecario
+app.delete('/bibliotecarios/:id', (req, res) => {
+  const { id } = req.params;
+
+  pool.query('DELETE FROM Bibliotecario WHERE IdBibliotecario = ?', [id], (err) => {
+    if (err) {
+      console.error('Error durante la eliminación:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+
+    res.status(200).send({ message: 'Bibliotecario eliminado exitosamente' });
+  });
+});
+
+// Buscar bibliotecarios
+app.get('/bibliotecarios', (req, res) => {
+  const { busqueda, NombreUsuario, Correo, NombreCompleto } = req.query;
+  let query = 'SELECT * FROM Bibliotecario WHERE 1=1';
+  const params = [];
+
+  if (busqueda) {
+    query += ' AND (NombreCompleto LIKE ? OR NombreUsuario LIKE ? OR Correo LIKE ?)';
+    params.push(`%${busqueda}%`, `%${busqueda}%`, `%${busqueda}%`);
+  }
+  if (NombreUsuario) {
+    query += ' AND NombreUsuario = ?';
+    params.push(NombreUsuario);
+  }
+  if (Correo) {
+    query += ' AND Correo = ?';
+    params.push(Correo);
+  }
+  if (NombreCompleto) {
+    query += ' AND NombreCompleto = ?';
+    params.push(NombreCompleto);
+  }
+
+  pool.query(query, params, (err, results) => {
+    if (err) {
+      console.error('Error durante la búsqueda de bibliotecarios:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+    res.status(200).send(results);
+  });
+});
+
+
+
+
+

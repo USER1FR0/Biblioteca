@@ -1,78 +1,77 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { Route, Router,RouterModule, Routes } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, NgModule } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-bibliotecarios',
-    templateUrl: './bibliotecarios.component.html',
-    styleUrls : ['./Registro.component.css']
+  selector: 'app-bibliotecarios',
+  templateUrl: './bibliotecarios.component.html',
+  styleUrls: ['./Registro.component.css']
 })
-
-
 export class RegistroBibiotecariosComponent {
+  NombreCompleto: string = '';
+  Correo: string = '';
+  Telefono: string = '';
+  IAdmin: string = '';
+  NombreUsuario: string = '';
+  Contrasena: string = '';
+  
 
-  nombreBibliotecario: string = '';
-  numero: string = '';
-  usuario: string = '';
-  contraseña : string = '';
-  confirmacioncontraseña: string = '';
-  direccion: string = '';
+  isEditing: { [Key: string]: boolean } = {};
 
-  isEditing: {[Key: string]: boolean} = {};
+  constructor(private router: Router, private snackBar: MatSnackBar) {}
 
-  enableEdit(field: string){
-     this.isEditing[field] = true;
+  enableEdit(field: string) {
+    this.isEditing[field] = true;
   }
-  
-    constructor( private router: Router) {}
-  
-    saveBibliotecario() {
+
+  saveBibliotecario() {
+    if (this.validateInput()) {
       console.log('Guardar Bibliotecario');
-  
-      alert('Los datos se guardaron correctamente');
-      return;      
+      this.snackBar.open('Los datos se guardaron correctamente', 'Cerrar', {
+        duration: 3000,
+      });
+    } else {
+      this.snackBar.open('Error: Revisa los campos', 'Cerrar', {
+        duration: 3000,
+      });
     }
-  
-    validateInput(): boolean {
-      return (
-        this.nombreBibliotecario.trim().length > 0 && this.nombreBibliotecario.length <= 50 &&
-        this.contraseña.trim().length > 0 && this.contraseña.length <= 50 &&
-        this.direccion.trim().length <= 50 &&
-        this.confirmacioncontraseña.trim().length <= 50
-      );
-    }
-  
-    validateNombre(nombreBibliotecario: string): boolean {
-      const isbnRegex = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;
-      return isbnRegex.test(this.nombreBibliotecario);
-    }
-  
-    confirmCancel() {
-     return this.usuario=("Hola")
-    }
-    
   }
 
-   @NgModule ({
-    declarations: [
-      RegistroBibiotecariosComponent
-    ],
-    imports: [
-      CommonModule,
-      FormsModule,
-      MatIconModule
-    ],
-    exports: [
-      RouterModule,
-      RegistroBibiotecariosComponent
-    ]
-   })
-   export class RegistroBibiotecariosModule {
-    
-   }
-  
+  validateInput(): boolean {
+    return (
+      this.NombreCompleto.trim().length > 0 && this.NombreCompleto.length <= 50 &&
+      this.Contrasena.trim().length > 0 && this.Contrasena.length <= 255 &&
+      this.Contrasena.trim().length <= 255 &&
+      this.IAdmin.trim().length <= 10 &&
+      this.NombreUsuario.trim().length <= 50
+    );
+  }
+
+  validateNombre(nombreBibliotecario: string): boolean {
+    const isbnRegex = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;
+    return isbnRegex.test(this.NombreCompleto);
+  }
+
+  confirmCancel() {
+    this.NombreUsuario = "Hola";
+  }
+}
+
+@NgModule({
+  declarations: [
+    RegistroBibiotecariosComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    RouterModule
+  ],
+  exports: [
+    RegistroBibiotecariosComponent
+  ]
+})
+export class RegistroBibiotecariosModule { }
