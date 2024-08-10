@@ -25,6 +25,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PersonalisadoComponent } from './components/Options/ReportePersonalisado/personalisados.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+
 @NgModule({
   declarations: [
     AppComponent,

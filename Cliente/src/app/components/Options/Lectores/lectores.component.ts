@@ -1,3 +1,5 @@
+import { AppModule } from './../../../app.module';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -7,74 +9,58 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./lectores.componen.css']
 })
 export class RegistroLectorComponent {
-  nombreLector: string = '';
-  control: string = '';
-  correo: string = '';
-  showConfirmationModal: boolean = false;
-  confirmationCode: string = '';
-  errorMessage: string = '';
+  lector = {
+    NumeroControl: '',
+    NombreCompleto:'',
+    Correo:'',
 
-  constructor(private snackBar: MatSnackBar) {}
+  };
+  showConfirmationModal = true;
+  confirmationCode = '';
+  errorMessage = '';
+  NombreCompleto = '' ;
 
-  validateInput(): boolean {
-    if (!this.nombreLector || !this.control || !this.correo) {
-      return false; 
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+
+  onSubmit() {
+    if (this.lector.NombreCompleto && this.lector.NumeroControl && this.lector.Correo) {
+      this.http.post('http://localhost:3000/lector', this.lector).subscribe(
+        (response: any) => {
+          this.snackBar.open('Lector registrado exitosamente', 'Cerrar', {
+
+          });
+        },
+        (error) => {
+          this.snackBar.open('Error al registrar el lector:', 'Cerrar',{
+        });
     }
-
-    const emailPattern = /^.*@(gmail\.com|utng\.edu\.mx)$/;
-    if (!emailPattern.test(this.correo)) {
-      return false;
+  );
+    } else {
+      this.errorMessage = 'Todos los campos son obligatorios';
     }
-
-    if (this.control.includes('Numero Control')) {
-      return true; 
-    }
-
-    return true; 
   }
+
+  
 
   openConfirmationModal() {
-    if (this.validateInput()) {
-      this.showConfirmationModal = true;
-    } else {
-      this.snackBar.open('Por favor, complete todos los campos correctamente.', 'Cerrar', {
-        duration: 3000,
-        panelClass: ['error-snackbar']
-      });
-    }
-  }
-
-  onSubmitEmail() {
-    this.snackBar.open('Correo de confirmación enviado', 'Cerrar', {
-      duration: 3000,
-    });
     this.showConfirmationModal = true;
-  }
-
-  onSubmitCode() {
-    if (this.confirmationCode === '123456') { // Ejemplo de código correcto
-      this.snackBar.open('Correo validado con éxito', 'Cerrar', {
-        duration: 3000,
-        panelClass: ['success-snackbar']
-      });
-      this.showConfirmationModal = false;
-    } else {
-      this.errorMessage = 'Código incorrecto. Por favor, inténtelo de nuevo.';
-      this.snackBar.open(this.errorMessage, 'Cerrar', {
-        duration: 3000,
-        panelClass: ['error-snackbar']
-      });
-    }
-  }
-
-  resendCode() {
-    this.errorMessage = '';
-    this.snackBar.open('Código reenviado. Por favor, revise su correo.', 'Cerrar', {
-      duration: 3000,
-    });
   }
 
   closeModal(event: MouseEvent) {
     this.showConfirmationModal = false;
   }
+
+  onSubmitCode() {
+    if (this.confirmationCode === '123456') { // Aquí deberías validar el código real
+      console.log('Código confirmado');
+      this.closeModal(new MouseEvent('click'));
+    } else {
+      this.errorMessage = 'Código incorrecto';
+    }
+  }
+
+  resendCode() {
+    console.log('Código reenviado');
+  }
+  
 }

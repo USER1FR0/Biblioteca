@@ -1,5 +1,5 @@
 import { RegistroBibiotecariosComponent } from './components/Options/RegistroBibliotecarios/bibliotecarios.component';
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/home/login/login.component';
 import { HomeComponent } from './components/home/home.component';
