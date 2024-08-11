@@ -1,9 +1,11 @@
 body {
   font-family: 'Arial', sans-serif;
+  margin: 0;
   padding: 0;
   display: flex;
-  height: auto;
-  overflow: auto;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .navbar {
@@ -51,12 +53,15 @@ button[mat-icon-button] {
 
 .sidebar {
   background-color: #2B6ADF;
-  height: 100%;
+  height: calc(100vh - 60px);
   width: 220px;
   padding: 15px;
   color: white;
   flex-shrink: 0;
   overflow-y: auto;
+  position: fixed;
+  top: 60px;
+  left:0;
   transition: transform 0.3s ease;
 }
 
@@ -84,15 +89,32 @@ button[mat-icon-button] {
   background-color: #6c63ff;
   color: white;
 }
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
 
 .content-section {
   flex-grow: 1;
   padding: none;
-  background-image: url('../../../assets/Biblioteca.jpg');
+  background-image: url('https://png.pngtree.com/background/20230527/original/pngtree-black-living-room-with-modern-library-and-bookshelf-space-picture-image_2755507.jpg');
   background-size: cover;
   background-position: block;
+  background-attachment: fixed;
   overflow-y: auto;
   height: 100%;
+}
+
+/* Footer */
+.footer {
+  background-color: #ffffff;
+  padding: 20px 0;
+  text-align: center;
+  color: #2B6ADF;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Asegúrate de que esté sobre el contenido */
 }
 
 .header {
@@ -145,13 +167,4 @@ button[mat-icon-button] {
   pointer-events: none;
 }
 
-.footer {
-  background-color: #ffffff; /* Color de fondo del footer */
-  padding: 20px 0;
-  text-align: center;
-  color: #2B6ADF; /* Color del texto */
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+
