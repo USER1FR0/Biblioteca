@@ -187,7 +187,9 @@ app.put('/updateBook/:isbn', (req, res) => {
     res.status(200).json({ message: 'Libro actualizado exitosamente' });
   });
 });
+
 // Eliminar un libro
+
 app.delete('/deleteBook/:isbn', (req, res) => {
   const { isbn } = req.params;
 
@@ -232,6 +234,7 @@ app.get('/searchBooks', (req, res) => {
     res.status(200).send(results);
   });
 });
+
 // Nueva ruta para préstamo de libros
 app.post('/loanBook', (req, res) => {
   const { numeroControl, isbn, fechaPrestamo, fechaDevolucion, idBibliotecario } = req.body;
@@ -274,6 +277,7 @@ app.post('/lector', (req, res) => {
   });
 });
 
+
 // Actualizar un lector
 app.put('/lector/:id', (req, res) => {
   const { id } = req.params;
@@ -299,6 +303,7 @@ app.put('/lector/:id', (req, res) => {
     res.status(200).json({ message: 'Lector actualizado exitosamente' });
   });
 });
+
 
 // Eliminar un lector
 app.delete('/lector/:id', (req, res) => {

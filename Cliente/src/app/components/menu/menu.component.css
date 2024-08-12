@@ -96,12 +96,13 @@ button[mat-icon-button] {
 .content-section {
   flex-grow: 1;
   padding: none;
-  background-image: url('https://png.pngtree.com/background/20230527/original/pngtree-black-living-room-with-modern-library-and-bookshelf-space-picture-image_2755507.jpg');
+  background-image: url('../../../assets/Fondo1.jpeg');
   background-size: cover;
   background-position: block;
   background-attachment: fixed;
   overflow-y: auto;
   height: 100%;
+  filter:drop-shadow(5px); /* Ajusta el valor del desenfoque según sea necesario */
 }
 
 /* Footer */

@@ -64,7 +64,7 @@ export class HomeComponent {
   openModal() {
     const modalRef = this.modal.open(LoginComponent, {
       backdrop: 'static',
-      size: 'lg',
+      size: 'md',
       centered: true
     });
   }
