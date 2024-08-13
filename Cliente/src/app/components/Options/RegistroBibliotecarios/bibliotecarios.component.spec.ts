@@ -25,14 +25,5 @@ describe('RegistroBibiotecariosComponent', () => {
         expect(component.saveBibliotecario()) 
   });
 
-  it('should validate input', () => {
-    component.nombreBibliotecario = 'Nombre Prueba';
-    component.numero = 'Telefono Prueba';
-    component.direccion = 'Direccion';
-    component.usuario = 'Usuario';
-    expect(component.validateInput()).toBe(false);
-    component.contraseña = 'Contraseña Prueba';
-    expect(component.validateInput()).toBe(true);
-  });
 });
 

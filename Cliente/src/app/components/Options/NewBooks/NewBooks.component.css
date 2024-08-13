@@ -40,11 +40,11 @@ button {
 }
 
 .cancel-button {
-    background-color: red;
+    background-color: blue;
 }
 
 .save-button {
-    background-color: #007bff;
+    background-color: green;
 }
 
 .buttons {
@@ -52,5 +52,6 @@ button {
   }
   
   .cancel-button {
-    margin-right: 200px; /* Margen a la derecha del botón Cancel */
+    margin-right: 160px; /* Margen a la derecha del botón Cancel */
+    margin-left: 180px;
   }

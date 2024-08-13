@@ -229,15 +229,21 @@
     border: none;
     border-radius: 0.25rem;
     cursor: pointer;
+    color: #4CAF50;
   }
   
   .cancel-button {
-    background-color: #dc3545;
+    background-color: blue;
     color: white;
   }
   
   .save-button {
     background-color: #28a745;
-    color: white;
+    color: green;
   }
   
+  .search-button{
+    color:white;
+    background-color:blue;
+    align-items: left;
+  }

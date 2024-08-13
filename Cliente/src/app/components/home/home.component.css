@@ -50,6 +50,7 @@ body {
     margin-top: 60px;
     overflow:hidden;
     height: calc(100vh - 60px);
+    margin-bottom: 60px;
   }
   
   .dropdown-content {

@@ -1,7 +1,11 @@
 <div class="search-books">
     <div class="search-header">
         <h2>Buscar Libros</h2>
-        <input type="text" placeholder="Buscar por título, autor, ISBN..." [(ngModel)]="searchQuery">
+        <input 
+            type="text" 
+            placeholder="Buscar por título, autor, ISBN..." 
+            [(ngModel)]="searchQuery" 
+            (keydown.enter)="searchBooks()">
     </div>
     <div class="filters">
         <select [(ngModel)]="selectedAuthor">
@@ -14,7 +18,7 @@
         </select>
         <input type="text" placeholder="Fecha de Publicación" [(ngModel)]="selectedPublicationDate">
         <input type="text" placeholder="Título del Libro" [(ngModel)]="selectedTitle">
-        <button (click)="searchBooks()">Buscar</button>
+        <button class="search-button" (click)="searchBooks()">Buscar</button>
     </div>
     <div class="results">
         <div *ngFor="let book of books" class="book" (click)="previewBook(book)">

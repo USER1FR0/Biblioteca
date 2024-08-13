@@ -6,27 +6,25 @@
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8YrcFCPbj_x4P9KKtC7L4eH8NMNV8NDE2Q&s" alt="Logo UTNG" class="logo">
     <div>
       <div class="image-container">
-        <a href="#Notificaciones">
-          <button mat-icon-button>
-            <mat-icon>notifications</mat-icon>
-          </button>
-        </a>
-      </div>
-      <div class="image-container">
-        <a href="#Question">
-          <button mat-icon-button>
+          <button mat-icon-button [matMenuTriggerFor]="help">
             <mat-icon>help</mat-icon>
           </button>
-        </a>
+          <mat-menu #help="matMenu">
+              <span>
+                <P>
+                  Hola!, Aquí te mostraremos informacion
+                  basica sobre la pagina, ademas proporcionaremos 
+                  una dirección de soporte técnico.
+                </P>
+              </span>
+          </mat-menu>
       </div>
+
       <div class="image-container">
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="redirectToHome()">
-            <span>Cambiar Usuario</span>
-          </button>
           <button mat-menu-item (click)="redirectToHome()">
             <span>Cerrar Sesion</span>
           </button>
@@ -34,7 +32,6 @@
       </div>
     </div>
   </div>
-  
   <div class="main-content">
     <div class="sidebar" id="sidebar" [ngClass]="{'hidden': isSidebarHidden}">
       <ul>

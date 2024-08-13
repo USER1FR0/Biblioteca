@@ -44,11 +44,12 @@ button[mat-icon-button] {
 }
 
 .main-content {
-  display: flex;
+  display:inline-flex;
   flex-grow: 1;
-  margin-top: 60px; /* Ajusta según la altura de la navbar */
-  overflow: hidden;
+  margin-top: 0px; /* Ajusta según la altura de la navbar */
+  overflow: auto;
   height: calc(100vh - 60px);
+
 }
 
 .sidebar {
