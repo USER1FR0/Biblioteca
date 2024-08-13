@@ -46,10 +46,9 @@ button[mat-icon-button] {
 .main-content {
   display:inline-flex;
   flex-grow: 1;
-  margin-top: 0px; /* Ajusta según la altura de la navbar */
+  margin-top: 60px; /* Ajusta según la altura de la navbar */
   overflow: auto;
   height: calc(100vh - 60px);
-
 }
 
 .sidebar {
@@ -97,7 +96,7 @@ button[mat-icon-button] {
 .content-section {
   flex-grow: 1;
   padding: none;
-  background-image: url('../../../assets/Fondo1.jpeg');
+  background-image: url('https://png.pngtree.com/background/20230527/original/pngtree-black-living-room-with-modern-library-and-bookshelf-space-picture-image_2755507.jpg');
   background-size: cover;
   background-position: block;
   background-attachment: fixed;
@@ -168,5 +167,3 @@ button[mat-icon-button] {
   opacity: 0;
   pointer-events: none;
 }
-
-
