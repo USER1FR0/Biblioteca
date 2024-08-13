@@ -7,7 +7,7 @@
         </button>
       </div>
 
-      <form class="card-body cardbody-color p-lg-5" (ngSubmit)="isRegisterMode ? onRegister() : onLogin()">
+      <form class="card-body cardbody-color p-lg-5" (ngSubmit)="onLogin()">
         <div class="text-center">
           <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
             class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px" alt="profile">
@@ -31,20 +31,6 @@
         <div class="text-center">
           <button type="submit" class="btn btn-color px-5 mb-3 w-100">
             {{ isRegisterMode ? 'Registrar' : 'Ingresar' }}
-          </button>
-        </div>
-
-        <div class="text-center">
-          <button type="button" class="btn btn-link" (click)="openForgotPassword()">¿Olvidaste tu contraseña?</button>
-        </div>
-
-        <div *ngIf="showForgot">
-          <app-forgot-password (backToLogin)="showForgot = false"></app-forgot-password>
-        </div>
-
-        <div class="text-center">
-          <button mat-button (click)="toggleMode()">
-            {{ isRegisterMode ? '¿Ya tienes una cuenta? Inicia Sesión' : '¿No tienes una cuenta? Regístrate' }}
           </button>
         </div>
       </form>

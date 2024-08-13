@@ -6,7 +6,6 @@ const cors = require('cors');
 const app = express();
 
 
-
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -36,43 +35,6 @@ pool.getConnection((err, connection) => {
   });
 });
 
-// Registrar un nuevo usuario
-app.post('/register', async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).send({ message: 'El nombre de usuario y la contraseña son requeridos' });
-  }
-
-  try {
-    pool.query('SELECT * FROM Usuario WHERE NombreUsuario = ?', [username], (err, results) => {
-      if (err) {
-        console.error('Error durante la consulta:', err);
-        return res.status(500).send({ message: 'Error interno del servidor' });
-      }
-
-      if (results.length > 0) {
-        return res.status(409).send({ message: 'El nombre de usuario ya está en uso' });
-      }
-
-      const salt = bcrypt.genSaltSync(10);
-      const hash = bcrypt.hashSync(password, salt);
-
-      pool.query('INSERT INTO Usuario (NombreUsuario, contrasenaHash) VALUES (?, ?)', [username, hash], (err) => {
-        if (err) {
-          console.error('Error durante la inserción:', err);
-          return res.status(500).send({ message: 'Error interno del servidor' });
-        }
-
-        res.status(201).send({ message: 'Usuario registrado exitosamente' });
-      });
-    });
-  } catch (err) {
-    console.error('Error durante el registro:', err);
-    res.status(500).send({ message: 'Error interno del servidor' });
-  }
-});
-
 // Iniciar sesión
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
@@ -82,7 +44,7 @@ app.post('/login', async (req, res) => {
   }
 
   try {
-    pool.query('SELECT * FROM Usuario WHERE NombreUsuario = ?', [username], (err, results) => {
+    pool.query('SELECT * FROM Bibliotecario WHERE NombreUsuario = ?', [username], (err, results) => {
       if (err) {
         console.error('Error durante la consulta:', err);
         return res.status(500).send({ message: 'Error interno del servidor' });
@@ -93,9 +55,9 @@ app.post('/login', async (req, res) => {
       }
 
       const user = results[0];
-      const contrasenaHash = user.contrasenaHash;
+      const Contrasena = user.Contrasena;
 
-      if (bcrypt.compareSync(password, contrasenaHash)) {
+      if (bcrypt.compareSync(password, Contrasena)) {
         res.status(200).send({ message: 'Login realizado exitosamente' });
       } else {
         res.status(401).send({ message: 'Credenciales inválidas' });
@@ -357,12 +319,14 @@ app.get('/lector', (req, res) => {
 app.post('/bibliotecarios', (req, res) => {
   const { NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena } = req.body;
 
-  if (!NombreCompleto || !Correo || !Telefono || !IdAdmin || !NombreUsuario || !Contrasena) {
+  if (!NombreCompleto || !Correo || !Telefono || !NombreUsuario || !Contrasena) {
     return res.status(400).send({ message: 'Todos los campos son obligatorios' });
   }
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(Contrasena, salt);
 
   const query = 'INSERT INTO Bibliotecario (NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena) VALUES (?, ?, ?, ?, ?, ?)';
-  const values = [NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena];
+  const values = [NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, hash];
 
   pool.query(query, values, (err) => {
     if (err) {
@@ -383,8 +347,11 @@ app.put('/bibliotecarios/:id', (req, res) => {
     return res.status(400).json({ message: 'Todos los campos son obligatorios' });
   }
 
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(Contrasena, salt);
+
   const query = 'UPDATE Bibliotecario SET NombreCompleto = ?, Correo = ?, Telefono = ?, IdAdmin = ?, NombreUsuario = ?, Contrasena = ? WHERE IdBibliotecario = ?';
-  const values = [NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena, id];
+  const values = [NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, hash, id];
 
   pool.query(query, values, (err, result) => {
     if (err) {
