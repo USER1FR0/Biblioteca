@@ -8,28 +8,24 @@
     class="logo" 
     (click)="showNoticiasSection()">    <div>
       <div class="image-container">
-        <a href="#Notificaciones">
-          <button mat-icon-button>
-            <mat-icon>notifications</mat-icon>
-          </button>
-        </a>
-      </div>
-      <div class="image-container">
-        <a href="#Question">
-          <button mat-icon-button>
+          <button mat-icon-button [matMenuTriggerFor]="Question">
             <mat-icon>help</mat-icon>
           </button>
-        </a>
+          <mat-menu #Question="matMenu">
+              <span>
+                Hola!, Aqui te mostraremos  
+                Informacion relacionada a la pagina
+                y algun contacto para soporte 
+                Tecnico...
+              </span>
+          </mat-menu>
       </div>
       <div class="image-container">
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="redirectToHome()">
-            <span>Cambiar Usuario</span>
-          </button>
-          <button mat-menu-item (click)="redirectToHome()">
+          <button mat-menu-item routerLink="/home">
             <span>Cerrar Sesion</span>
           </button>
         </mat-menu>
