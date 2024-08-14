@@ -3,11 +3,22 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const mysql = require('mysql2');
 const cors = require('cors');
+const multer = require('multer');
+
 const app = express();
 
+// Configuración de multer para manejar la carga de archivos
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // Limita el tamaño del archivo a 5MB
+  },
+});
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const dbConfig = {
   host: 'localhost',
@@ -33,6 +44,43 @@ pool.getConnection((err, connection) => {
   app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
   });
+});
+
+// Registrar un nuevo usuario
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).send({ message: 'El nombre de usuario y la contraseña son requeridos' });
+  }
+
+  try {
+    pool.query('SELECT * FROM Usuario WHERE NombreUsuario = ?', [username], (err, results) => {
+      if (err) {
+        console.error('Error durante la consulta:', err);
+        return res.status(500).send({ message: 'Error interno del servidor' });
+      }
+
+      if (results.length > 0) {
+        return res.status(409).send({ message: 'El nombre de usuario ya está en uso' });
+      }
+
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(password, salt);
+
+      pool.query('INSERT INTO Usuario (NombreUsuario, contrasenaHash) VALUES (?, ?)', [username, hash], (err) => {
+        if (err) {
+          console.error('Error durante la inserción:', err);
+          return res.status(500).send({ message: 'Error interno del servidor' });
+        }
+
+        res.status(201).send({ message: 'Usuario registrado exitosamente' });
+      });
+    });
+  } catch (err) {
+    console.error('Error durante el registro:', err);
+    res.status(500).send({ message: 'Error interno del servidor' });
+  }
 });
 
 // Iniciar sesión
@@ -88,59 +136,67 @@ app.get('/tables/:table', (req, res) => {
 });
 
 // Añadir un nuevo libro
-app.post('/addBook', (req, res) => {
+app.post('/addBook', upload.single('portada'), (req, res) => {
+  console.log('Cuerpo de la solicitud:', req.body);
+  console.log('Archivo recibido:', req.file);
+
   const { isbn, titulo, autor, tema, categoria, descripcion, numeroEjemplares } = req.body;
+  const portada = req.file ? req.file.buffer : null;
+
+  console.log('Campos extraídos:', { isbn, titulo, autor, tema, categoria, descripcion, numeroEjemplares });
 
   if (!isbn || !titulo || !autor || !tema || !categoria || !numeroEjemplares) {
-    return res.status(400).send({ message: 'Todos los campos son obligatorios' });
+    console.log('Campos faltantes:', { isbn, titulo, autor, tema, categoria, numeroEjemplares });
+    return res.status(400).json({ message: 'Todos los campos son obligatorios' });
   }
 
-  const query = 'INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  const values = [isbn, titulo, autor, tema, categoria, descripcion, numeroEjemplares];
+  const ejemplares = parseInt(numeroEjemplares, 10);
+  if (isNaN(ejemplares)) {
+    return res.status(400).json({ message: 'El número de ejemplares debe ser un número válido' });
+  }
+
+  const query = 'INSERT INTO Libro (ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares, Portada) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+  const values = [isbn, titulo, autor, tema, categoria, descripcion || null, ejemplares, portada];
 
   pool.query(query, values, (err) => {
     if (err) {
       console.error('Error durante la inserción:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
+      return res.status(500).json({ message: 'Error interno del servidor' });
     }
 
-    res.status(201).send({ message: 'Libro registrado exitosamente' });
+    res.status(201).json({ message: 'Libro registrado exitosamente' });
   });
 });
 
 // Actualizar un libro
-app.put('/updateBook/:isbn', (req, res) => {
+app.put('/updateBook/:isbn', upload.single('portada'), (req, res) => {
   const { isbn } = req.params;
-  console.log('ISBN recibido:', isbn);
-  console.log('Datos recibidos en el servidor:', JSON.stringify(req.body, null, 2));
-
   const { Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares } = req.body;
+  const portada = req.file ? req.file.buffer : null;
 
-  // Verificar cada campo individualmente
-  if (!Titulo) console.log('Falta Titulo');
-  if (!Autor) console.log('Falta Autor');
-  if (!Tema) console.log('Falta Tema');
-  if (!Categoria) console.log('Falta Categoria');
-  if (NumeroEjemplares === undefined) console.log('Falta NumeroEjemplares');
+  console.log('Datos recibidos:', req.body);
+  console.log('Archivo recibido:', req.file);
 
   if (!Titulo || !Autor || !Tema || !Categoria || NumeroEjemplares === undefined) {
-    console.log('Campos faltantes:', { Titulo, Autor, Tema, Categoria, NumeroEjemplares });
     return res.status(400).json({ message: 'Todos los campos son obligatorios', camposFaltantes: { Titulo, Autor, Tema, Categoria, NumeroEjemplares } });
   }
 
-  const query = 'UPDATE Libro SET Titulo = ?, Autor = ?, Tema = ?, Categoria = ?, Descripcion = ?, NumeroEjemplares = ? WHERE ISBN = ?';
-  const values = [Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares, isbn];
+  let query = 'UPDATE Libro SET Titulo = ?, Autor = ?, Tema = ?, Categoria = ?, Descripcion = ?, NumeroEjemplares = ?';
+  let values = [Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares];
 
-  console.log('Query:', query);
-  console.log('Values:', values);
+  if (portada) {
+    query += ', Portada = ?';
+    values.push(portada);
+  }
+
+  query += ' WHERE ISBN = ?';
+  values.push(isbn);
 
   pool.query(query, values, (err, result) => {
     if (err) {
       console.error('Error al actualizar el libro:', err);
       return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
     }
-
-    console.log('Resultado de la actualización:', result);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: 'Libro no encontrado' });
@@ -151,7 +207,6 @@ app.put('/updateBook/:isbn', (req, res) => {
 });
 
 // Eliminar un libro
-
 app.delete('/deleteBook/:isbn', (req, res) => {
   const { isbn } = req.params;
 
@@ -168,7 +223,7 @@ app.delete('/deleteBook/:isbn', (req, res) => {
 // Nueva ruta para buscar libros
 app.get('/searchBooks', (req, res) => {
   const { busqueda, autor, categoria, titulo } = req.query;
-  let query = 'SELECT * FROM Libro WHERE 1=1';
+  let query = 'SELECT ISBN, Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares, Portada FROM Libro WHERE 1=1';
   const params = [];
 
   if (busqueda) {
@@ -239,7 +294,6 @@ app.post('/lector', (req, res) => {
   });
 });
 
-
 // Actualizar un lector
 app.put('/lector/:id', (req, res) => {
   const { id } = req.params;
@@ -266,12 +320,11 @@ app.put('/lector/:id', (req, res) => {
   });
 });
 
-
 // Eliminar un lector
 app.delete('/lector/:id', (req, res) => {
   const { id } = req.params;
 
-  pool.query('DELETE FROM Lector WHERE id = ?', [Id], (err) => {
+  pool.query('DELETE FROM Lector WHERE id = ?', [id], (err) => {
     if (err) {
       console.error('Error durante la eliminación:', err);
       return res.status(500).send({ message: 'Error interno del servidor' });
@@ -304,116 +357,212 @@ app.get('/lector', (req, res) => {
     params.push(NombreCompleto);
   }
 
-  pool.query(query, params, (err, results) => {
-    if (err) {
-      console.error('Error durante la búsqueda de lectores:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
-    }
-    res.status(200).send(results);
-  });
+
+pool.query(query, params, (err, results) => {
+  if (err) {
+    console.error('Error durante la búsqueda de lectores:', err);
+    return res.status(500).send({ message: 'Error interno del servidor' });
+  }
+  res.status(200).send(results);
+});
 });
 
+// Obtener autores y editoriales
+app.get('/api/libros/autores-editoriales', (req, res) => {
+const query = `
+  SELECT DISTINCT Autor, Categoria
+  FROM Libro
+  ORDER BY Autor, Categoria
+`;
 
+pool.query(query, (err, results) => {
+  if (err) {
+    console.error('Error al obtener autores y editoriales:', err);
+    return res.status(500).json({ message: 'Error interno del servidor' });
+  }
+  
+  const autores = [...new Set(results.map(row => row.Autor))];
+  const editoriales = [...new Set(results.map(row => row.Categoria))];
+  
+  res.json({ autores, editoriales });
+});
+});
 
 // Añadir un nuevo bibliotecario
 app.post('/bibliotecarios', (req, res) => {
-  const { NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena } = req.body;
+const { NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena } = req.body;
 
-  if (!NombreCompleto || !Correo || !Telefono || !NombreUsuario || !Contrasena) {
-    return res.status(400).send({ message: 'Todos los campos son obligatorios' });
+if (!NombreCompleto || !Correo || !Telefono || !NombreUsuario || !Contrasena) {
+  return res.status(400).send({ message: 'Todos los campos son obligatorios' });
+}
+const salt = bcrypt.genSaltSync(10);
+const hash = bcrypt.hashSync(Contrasena, salt);
+
+const query = 'INSERT INTO Bibliotecario (NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena) VALUES (?, ?, ?, ?, ?, ?)';
+const values = [NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, hash];
+
+pool.query(query, values, (err) => {
+  if (err) {
+    console.error('Error durante la inserción:', err);
+    return res.status(500).send({ message: 'Error interno del servidor' });
   }
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(Contrasena, salt);
 
-  const query = 'INSERT INTO Bibliotecario (NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena) VALUES (?, ?, ?, ?, ?, ?)';
-  const values = [NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, hash];
-
-  pool.query(query, values, (err) => {
-    if (err) {
-      console.error('Error durante la inserción:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
-    }
-
-    res.status(201).send({ message: 'Bibliotecario registrado exitosamente' });
-  });
+  res.status(201).send({ message: 'Bibliotecario registrado exitosamente' });
+});
 });
 
 // Actualizar un bibliotecario
 app.put('/bibliotecarios/:id', (req, res) => {
-  const { id } = req.params;
-  const { NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena } = req.body;
+const { id } = req.params;
+const { NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena } = req.body;
 
-  if (!NombreCompleto || !Correo || !Telefono || !IdAdmin || !NombreUsuario || !Contrasena) {
-    return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+if (!NombreCompleto || !Correo || !Telefono || !IdAdmin || !NombreUsuario || !Contrasena) {
+  return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+}
+
+const salt = bcrypt.genSaltSync(10);
+const hash = bcrypt.hashSync(Contrasena, salt);
+
+const query = 'UPDATE Bibliotecario SET NombreCompleto = ?, Correo = ?, Telefono = ?, IdAdmin = ?, NombreUsuario = ?, Contrasena = ? WHERE IdBibliotecario = ?';
+const values = [NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, hash, id];
+
+pool.query(query, values, (err, result) => {
+  if (err) {
+    console.error('Error al actualizar el bibliotecario:', err);
+    return res.status(500).json({ message: 'Error interno del servidor' });
   }
 
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(Contrasena, salt);
+  if (result.affectedRows === 0) {
+    return res.status(404).json({ message: 'Bibliotecario no encontrado' });
+  }
 
-  const query = 'UPDATE Bibliotecario SET NombreCompleto = ?, Correo = ?, Telefono = ?, IdAdmin = ?, NombreUsuario = ?, Contrasena = ? WHERE IdBibliotecario = ?';
-  const values = [NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, hash, id];
-
-  pool.query(query, values, (err, result) => {
-    if (err) {
-      console.error('Error al actualizar el bibliotecario:', err);
-      return res.status(500).json({ message: 'Error interno del servidor' });
-    }
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Bibliotecario no encontrado' });
-    }
-
-    res.status(200).json({ message: 'Bibliotecario actualizado exitosamente' });
-  });
+  res.status(200).json({ message: 'Bibliotecario actualizado exitosamente' });
+});
 });
 
 // Eliminar un bibliotecario
 app.delete('/bibliotecarios/:id', (req, res) => {
-  const { id } = req.params;
+const { id } = req.params;
 
-  pool.query('DELETE FROM Bibliotecario WHERE IdBibliotecario = ?', [id], (err) => {
-    if (err) {
-      console.error('Error durante la eliminación:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
-    }
+pool.query('DELETE FROM Bibliotecario WHERE IdBibliotecario = ?', [id], (err) => {
+  if (err) {
+    console.error('Error durante la eliminación:', err);
+    return res.status(500).send({ message: 'Error interno del servidor' });
+  }
 
-    res.status(200).send({ message: 'Bibliotecario eliminado exitosamente' });
-  });
+  res.status(200).send({ message: 'Bibliotecario eliminado exitosamente' });
+});
 });
 
 // Buscar bibliotecarios
 app.get('/bibliotecarios', (req, res) => {
-  const { busqueda, NombreUsuario, Correo, NombreCompleto } = req.query;
-  let query = 'SELECT * FROM Bibliotecario WHERE 1=1';
-  const params = [];
+const { busqueda, NombreUsuario, Correo, NombreCompleto } = req.query;
+let query = 'SELECT * FROM Bibliotecario WHERE 1=1';
+const params = [];
 
-  if (busqueda) {
-    query += ' AND (NombreCompleto LIKE ? OR NombreUsuario LIKE ? OR Correo LIKE ?)';
-    params.push(`%${busqueda}%`, `%${busqueda}%`, `%${busqueda}%`);
-  }
-  if (NombreUsuario) {
-    query += ' AND NombreUsuario = ?';
-    params.push(NombreUsuario);
-  }
-  if (Correo) {
-    query += ' AND Correo = ?';
-    params.push(Correo);
-  }
-  if (NombreCompleto) {
-    query += ' AND NombreCompleto = ?';
-    params.push(NombreCompleto);
-  }
+if (busqueda) {
+  query += ' AND (NombreCompleto LIKE ? OR NombreUsuario LIKE ? OR Correo LIKE ?)';
+  params.push(`%${busqueda}%`, `%${busqueda}%`, `%${busqueda}%`);
+}
+if (NombreUsuario) {
+  query += ' AND NombreUsuario = ?';
+  params.push(NombreUsuario);
+}
+if (Correo) {
+  query += ' AND Correo = ?';
+  params.push(Correo);
+}
+if (NombreCompleto) {
+  query += ' AND NombreCompleto = ?';
+  params.push(NombreCompleto);
+}
 
-  pool.query(query, params, (err, results) => {
+pool.query(query, params, (err, results) => {
+  if (err) {
+    console.error('Error durante la búsqueda de bibliotecarios:', err);
+    return res.status(500).send({ message: 'Error interno del servidor' });
+  }
+  res.status(200).send(results);
+});
+});
+
+// Manejador de errores global
+app.use((err, req, res, next) => {
+console.error(err.stack);
+res.status(500).send('Algo salió mal!');
+});
+// Obtener todas las multas
+app.get('/multas', (req, res) => {
+  pool.query('SELECT * FROM multasv2', (err, results) => {
     if (err) {
-      console.error('Error durante la búsqueda de bibliotecarios:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
+      return res.status(500).json({ error: err.message });
     }
-    res.status(200).send(results);
+    res.json(results);
   });
 });
 
+// Obtener una multa por ID
+app.get('/multas/:id', (req, res) => {
+  const { id } = req.params;
+  pool.query('SELECT * FROM multasv2 WHERE IdMulta = ?', [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+      res.status(404).json({ error: 'Multa no encontrada' });
+    }
+  });
+});
 
+// Crear una nueva multa
+app.post('/multas', (req, res) => {
+  const { NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo } = req.body;
+  pool.query(
+    'INSERT INTO multasv2 (NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo) VALUES (?, ?, ?, ?, ?)',
+    [NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo],
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.status(201).json({ id: results.insertId });
+    }
+  );
+});
 
+// Actualizar una multa
+app.patch('/multas/:id', (req, res) => {
+  const { id } = req.params;
+  const { NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo } = req.body;
+  pool.query(
+    'UPDATE multasv2 SET NumeroControl = ?, Monto = ?, FechaInicio = ?, Estatus = ?, IdPrestamo = ? WHERE IdMulta = ?',
+    [NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo, id],
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      if (results.affectedRows > 0) {
+        res.json({ message: 'Multa actualizada exitosamente' });
+      } else {
+        res.status(404).json({ error: 'Multa no encontrada' });
+      }
+    }
+  );
+});
 
+// Eliminar una multa
+app.delete('/multas/:id', (req, res) => {
+  const { id } = req.params;
+  pool.query('DELETE FROM multasv2 WHERE IdMulta = ?', [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (results.affectedRows > 0) {
+      res.json({ message: 'Multa eliminada exitosamente' });
+    } else {
+      res.status(404).json({ error: 'Multa no encontrada' });
+    }
+  });
+});
 

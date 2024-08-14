@@ -11,10 +11,23 @@ export class BookService {
   constructor(private http: HttpClient) { }
 
   // Añadir un nuevo libro
-  addBook(book: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/addBook`, book);
+  addBook(book: any, portada: File | null): Observable<any> {
+    const formData = new FormData();
+    Object.keys(book).forEach(key => {
+      if (book[key] !== null && book[key] !== undefined) {
+        formData.append(key, book[key]);
+        console.log(`Añadiendo ${key}: ${book[key]}`);
+      }
+    });
+    if (portada) {
+      formData.append('portada', portada, portada.name);
+      console.log(`Añadiendo portada: ${portada.name}`);
+    } else {
+      console.log('No se ha añadido portada');
+    }
+    console.log('FormData completo:', formData);
+    return this.http.post(`${this.apiUrl}/addBook`, formData);
   }
-
   // Obtener todos los libros
   getAllBooks(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/books`);

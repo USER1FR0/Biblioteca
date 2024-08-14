@@ -1,11 +1,11 @@
 <div class="modal-header">
-    <h4 class="modal-title">Editar Libro</h4>
-    <button type="button" class="close" aria-label="Close" (click)="close()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form>
+  <h4 class="modal-title">Editar Libro</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form>
       <div class="form-group">
         <label for="isbn">ISBN</label>
         <input type="text" class="form-control" id="isbn" [(ngModel)]="book.ISBN" name="isbn" readonly>
@@ -33,6 +33,10 @@
       <div class="form-group">
         <label for="numeroEjemplares">Número de Ejemplares</label>
         <input type="number" class="form-control" id="numeroEjemplares" [(ngModel)]="book.NumeroEjemplares" name="numeroEjemplares" required>
+      </div>
+      <div class="form-group">
+        <label for="portada">Portada</label>
+        <input type="file" class="form-control" id="portada" (change)="onFileSelected($event)" accept="image/*">
       </div>
     </form>
   </div>

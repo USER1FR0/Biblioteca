@@ -1,11 +1,11 @@
 .container {
   position: relative;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad para ver la imagen detrás */
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   max-width: 800px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  margin: auto; /* Centrar horizontalmente */
+  margin: auto;
 }
 
 .form-group {
@@ -18,45 +18,45 @@ label {
   flex-basis: calc(50% - 10px);
   margin-right: 10px;
 }
-  
-  .content {
-    flex-grow: 1;
-    padding: 20px;
-    background-size: cover;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-  }
-  
-  form label {
-    flex-basis: calc(50% - 10px);
-    margin-right: 10px;
-  }
-  
-  .notificacion {
-    margin-top: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 5px;
-  }
 
-  .buttons {
-    text-align: center;
-    margin-top: 20px;
-  }
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  background-size: cover;
+}
 
-  button {
-    padding: 10px 20px;
-    border: none;
-    display: flex;
-    border-radius: 5px;
-    justify-content: center;
-    margin-top: 20px;
-  }
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+}
+
+form label {
+  flex-basis: calc(50% - 10px);
+  margin-right: 10px;
+}
+
+.notificacion {
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.buttons {
+  text-align: center;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  display: flex;
+  border-radius: 5px;
+  justify-content: center;
+  margin-top: 20px;
+}

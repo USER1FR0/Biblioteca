@@ -18,17 +18,19 @@
         </select>
         <input type="text" placeholder="Fecha de Publicación" [(ngModel)]="selectedPublicationDate">
         <input type="text" placeholder="Título del Libro" [(ngModel)]="selectedTitle">
-        <button class="search-button" (click)="searchBooks()">Buscar</button>
+        <button (click)="searchBooks()">Buscar</button>
     </div>
-    <div class="results">
-        <div *ngFor="let book of books" class="book" (click)="previewBook(book)">
-            <img [src]="book.ImagenPortada || 'assets/default-book-cover.jpg'" alt="{{ book.Titulo }}" class="book-cover">
-            <h3>{{ book.Titulo || 'Sin título' }}</h3>
-            <p><strong>Autor:</strong> {{ book.Autor || 'Desconocido' }}</p>
-            <p><strong>Editorial:</strong> {{ book.Categoria || 'No especificada' }}</p>
-            <p><strong>ISBN:</strong> {{ book.ISBN || 'No disponible' }}</p>
-            <button (click)="openLoanForm(book, $event)">Solicitar Préstamo</button>
-            <button (click)="openEditModal(book)">Editar</button>
+    <div class="results-container">
+        <div class="results">
+            <div *ngFor="let book of books" class="book" (click)="previewBook(book)">
+                <img [src]="getBookCoverUrl(book)" alt="{{ book.Titulo }}" class="book-cover">
+                <h3>{{ book.Titulo || 'Sin título' }}</h3>
+                <p><strong>Autor:</strong> {{ book.Autor || 'Desconocido' }}</p>
+                <p><strong>Editorial:</strong> {{ book.Categoria || 'No especificada' }}</p>
+                <p><strong>ISBN:</strong> {{ book.ISBN || 'No disponible' }}</p>
+                <button (click)="openLoanForm(book, $event)">Solicitar Préstamo</button>
+                <button (click)="openEditModal(book)">Editar</button>
+            </div>
         </div>
     </div>
     <div *ngIf="selectedBook" class="book-preview">

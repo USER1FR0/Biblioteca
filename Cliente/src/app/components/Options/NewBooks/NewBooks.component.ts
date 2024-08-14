@@ -15,12 +15,32 @@ export class NewBooksComponent {
   informacion: string = '';
   isbn: string = '';
   ejemplares: number | null = null;
+  portada: File | null = null;
 
   constructor(private bookService: BookService, private router: Router) {}
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.portada = file;
+    }
+  }
+
   saveBook() {
-    if (!this.nombreLibro.trim()) {
-      alert('El campo "Nombre del Libro" es obligatorio.');
+    console.log('Datos del libro antes de enviar:', {
+      isbn: this.isbn,
+      titulo: this.nombreLibro,
+      autor: this.autor,
+      tema: this.tema,
+      categoria: this.categoria,
+      descripcion: this.informacion,
+      numeroEjemplares: this.ejemplares,
+      portada: this.portada ? this.portada.name : 'No seleccionada'
+    });
+  
+
+    if (!this.isbn || !this.nombreLibro || !this.autor || !this.tema || !this.categoria || this.ejemplares === null) {
+      alert('Todos los campos obligatorios deben ser completados.');
       return;
     }
 
@@ -65,11 +85,11 @@ export class NewBooksComponent {
       autor: this.autor,
       tema: this.tema,
       categoria: this.categoria,
-      descripcion: this.informacion,
+      descripcion: this.informacion || '',
       numeroEjemplares: this.ejemplares
     };
 
-    this.bookService.addBook(newBook).subscribe(
+    this.bookService.addBook(newBook, this.portada).subscribe(
       (response: any) => {
         console.log('Respuesta del servidor:', response);
         alert(response.message || 'Libro guardado con éxito');

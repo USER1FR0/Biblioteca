@@ -1,11 +1,15 @@
 .search-books {
     position: relative;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad para ver la imagen detrás */
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     max-width: 800px;
     margin: auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 60px); /* Ajusta 60px según la altura de tu footer */
+    overflow: hidden;
 }
 
 .search-books::before {
@@ -18,39 +22,12 @@
     background-image: url('/assets/Biblioteca.jpg');
     background-size: cover;
     background-position: center;
-    opacity: 0.5; /* Ajusta este valor para cambiar la opacidad */
+    opacity: 0.5;
     z-index: -1;
+    border-radius: 10px;
 }
 
-.book-preview {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.preview-container {
-    display: flex;
-    align-items: flex-start;
-}
-
-.book-preview img.book-cover-preview {
-    width: 200px; /* Ajusta el ancho de la imagen */
-    height: auto; /* Mantén la proporción de la imagen */
-    border-radius: 5px;
-    margin-bottom: 10px;
-    margin-right: 20px; /* Espacio entre la imagen y la información del libro */
-}
-
-.book-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.search-header, .filters, .results {
+.search-header, .filters {
     position: relative;
     z-index: 1;
 }
@@ -76,7 +53,7 @@
     flex-wrap: wrap;
 }
 
-.filters select, .filters button {
+.filters select, .filters button, .filters input {
     padding: 10px;
     font-size: 1em;
     border: 1px solid #ccc;
@@ -84,10 +61,17 @@
     margin: 10px 0;
 }
 
+.results-container {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
 .results {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    padding-bottom: 20px;
 }
 
 .book {
@@ -105,6 +89,34 @@
     height: auto;
     border-radius: 5px;
     margin-bottom: 10px;
+}
+
+.book-preview {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.book-preview img.book-cover-preview {
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
+
+.book-info {
+    display: flex;
+    flex-direction: column;
 }
 
 .modal {
@@ -182,7 +194,7 @@
     background-color: #ccc;
 }
 
-/* EditBooks.component.css */
+/* EditBooks styles */
 .modal-header, .modal-footer {
     display: flex;
     justify-content: space-between;
@@ -190,60 +202,59 @@
     padding: 1rem;
     background-color: #f8f9fa;
     border-bottom: 1px solid #dee2e6;
-  }
-  
-  .modal-body {
+}
+
+.modal-body {
     padding: 1rem;
-  }
-  
-  .form-group {
+}
+
+.form-group {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
-  }
-  
-  .form-group label {
+}
+
+.form-group label {
     flex: 0 0 150px;
-  }
-  
-  .form-group input {
+}
+
+.form-group input {
     flex: 1;
     padding: 0.5rem;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
-  }
-  
-  .mat-icon {
+}
+
+.mat-icon {
     cursor: pointer;
     margin-left: 0.5rem;
-  }
-  
-  .modal-footer {
+}
+
+.modal-footer {
     padding: 1rem;
     background-color: #f8f9fa;
     border-top: 1px solid #dee2e6;
-  }
-  
-  .cancel-button, .save-button {
+}
+
+.cancel-button, .save-button {
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 0.25rem;
     cursor: pointer;
-    color: #4CAF50;
-  }
-  
-  .cancel-button {
+}
+
+.cancel-button {
     background-color: blue;
     color: white;
-  }
-  
-  .save-button {
+}
+
+.save-button {
     background-color: #28a745;
-    color: green;
-  }
-  
-  .search-button{
-    color:white;
-    background-color:blue;
+    color: white;
+}
+
+.search-button {
+    color: white;
+    background-color: blue;
     align-items: left;
-  }
+}

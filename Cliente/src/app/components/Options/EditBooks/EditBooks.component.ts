@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class EditBooksComponent implements OnInit {
   @Input() book: any;
+  selectedFile: File | null = null;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -17,6 +18,10 @@ export class EditBooksComponent implements OnInit {
 
   ngOnInit() {
     // Si es necesario, puedes inicializar algo aquí
+  }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
   }
 
   saveBook() {
@@ -37,7 +42,18 @@ export class EditBooksComponent implements OnInit {
   
     this.book.NumeroEjemplares = Number(this.book.NumeroEjemplares);
   
-    this.http.put(`http://localhost:3000/updateBook/${this.book.ISBN}`, this.book).subscribe(
+    const formData = new FormData();
+    Object.keys(this.book).forEach(key => {
+      if (key !== 'Portada') {
+        formData.append(key, this.book[key]);
+      }
+    });
+
+    if (this.selectedFile) {
+      formData.append('portada', this.selectedFile, this.selectedFile.name);
+    }
+
+    this.http.put(`http://localhost:3000/updateBook/${this.book.ISBN}`, formData).subscribe(
       (response) => {
         console.log('Libro actualizado con éxito', response);
         this.activeModal.close('save');
@@ -61,7 +77,7 @@ export class EditBooksComponent implements OnInit {
         },
         (error) => {
           console.error('Error al eliminar el libro', error);
-          // Aquí puedes manejar el error, tal vez mostrando un mensaje al usuario
+          alert('Error al eliminar el libro: ' + (error.error.message || 'Ocurrió un error desconocido'));
         }
       );
     }
