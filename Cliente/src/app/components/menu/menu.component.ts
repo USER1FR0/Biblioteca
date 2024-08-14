@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { SidebarService } from '../Options/Services/sidebar.services';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-menu',
@@ -16,9 +17,12 @@ export class MenuComponent {
   showLectores = false;
   showReporte = false;
   isFooterVisible = false;
+  showNoticias = true; // Inicialmente mostramos las noticias
+  noticiasItems: any[] = [];
    
-  constructor(private sidebarService: SidebarService) {
+  constructor(private sidebarService: SidebarService, private http: HttpClient) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
+    this.cargarNoticias();
   }
 
   toggleSidebar() {
@@ -50,9 +54,14 @@ export class MenuComponent {
     this.showLectores = true;
   }
 
-  showPersonalisado(){
+  showPersonalisado() {
     this.resetViews();
     this.showReporte = true;
+  }
+
+  showNoticiasSection() {
+    this.resetViews();
+    this.showNoticias = true;
   }
 
   toggleDropdown() {
@@ -65,8 +74,8 @@ export class MenuComponent {
 
   redirectToHome() {
     this.resetViews();
-    // Redirigir al apartado de inicio (home)
-    window.location.href = '#welcome';
+    this.showNoticias = true;
+    // Ya no necesitamos redirigir a '#welcome'
   }
 
   private resetViews() {
@@ -76,15 +85,37 @@ export class MenuComponent {
     this.showRegistro = false;
     this.showLectores = false;
     this.showReporte = false;
+    this.showNoticias = false;
   }
 
-  @HostListener('window:scroll',[])
-  onWindowScroll(){
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
     const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
     const body = document.body;
     const html = document.documentElement;
     const docHeight = Math.max(body.clientHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
     const windowBottom = windowHeight + window.pageYOffset;
     this.isFooterVisible = windowBottom >= docHeight;
+  }
+
+  private cargarNoticias() {
+    // Simulando una llamada a API con datos de ejemplo
+    this.noticiasItems = [
+      {
+        titulo: "Nueva colección de libros clásicos",
+        contenido: "La biblioteca ha adquirido una colección completa de obras clásicas de la literatura universal.",
+        imagen: "https://th.bing.com/th/id/R.366ae01b84a07de654d63ff8d003e6e9?rik=KNu3PH45d08DIQ&pid=ImgRaw&r=0"
+      },
+      {
+        titulo: "Taller de escritura creativa",
+        contenido: "Este mes iniciamos un taller gratuito de escritura creativa para todos los miembros de la biblioteca.",
+        imagen: "https://th.bing.com/th/id/OIP.9xsLdr8m03Ef9T9VErpbhQHaJv?rs=1&pid=ImgDetMain"
+      },
+      {
+        titulo: "Ampliación del horario de apertura",
+        contenido: "A partir del próximo mes, la biblioteca estará abierta hasta las 22:00 horas de lunes a viernes.",
+        imagen: "https://diarioeducacion.com/wp-content/uploads/2023/06/NUEVOS-LIBROS-DE-TXTOS-2024-205-PRIMER-GRADO.jpg"
+      }
+    ];
   }
 }

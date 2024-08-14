@@ -3,28 +3,32 @@
     <button mat-icon-button (click)="toggleSidebar()">
       <mat-icon>menu</mat-icon>
     </button>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8YrcFCPbj_x4P9KKtC7L4eH8NMNV8NDE2Q&s" alt="Logo UTNG" class="logo">
-    <div>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8YrcFCPbj_x4P9KKtC7L4eH8NMNV8NDE2Q&s" 
+    alt="Logo UTNG" 
+    class="logo" 
+    (click)="showNoticiasSection()">    <div>
       <div class="image-container">
-          <button mat-icon-button [matMenuTriggerFor]="help">
+        <a href="#Notificaciones">
+          <button mat-icon-button>
+            <mat-icon>notifications</mat-icon>
+          </button>
+        </a>
+      </div>
+      <div class="image-container">
+        <a href="#Question">
+          <button mat-icon-button>
             <mat-icon>help</mat-icon>
           </button>
-          <mat-menu #help="matMenu">
-              <span>
-                <P>
-                  Hola!, Aquí te mostraremos informacion
-                  basica sobre la pagina, ademas proporcionaremos 
-                  una dirección de soporte técnico.
-                </P>
-              </span>
-          </mat-menu>
+        </a>
       </div>
-
       <div class="image-container">
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="redirectToHome()">
+            <span>Cambiar Usuario</span>
+          </button>
           <button mat-menu-item (click)="redirectToHome()">
             <span>Cerrar Sesion</span>
           </button>
@@ -32,10 +36,11 @@
       </div>
     </div>
   </div>
+  
   <div class="main-content">
     <div class="sidebar" id="sidebar" [ngClass]="{'hidden': isSidebarHidden}">
       <ul>
-        <li><a href="#welcome">Inicio</a></li>
+        <li><a (click)="showNoticiasSection()">Inicio</a></li>
         <li><a (click)="showSearchBooks()">Búsqueda de libros</a></li>
         <li><a (click)="showRegistroLectores()">Registrar lector</a></li>
         <li><a (click)="showNewBook()">Registrar libro</a></li>
@@ -44,7 +49,18 @@
         <li><a (click)="showRegistroBlibliotecarios()">Nuevos Bibliotecarios</a></li>
       </ul>
     </div>
+
     <div class="content-section">
+      <div *ngIf="showNoticias" class="seccion-noticias">
+        <h2>Noticias de la Biblioteca</h2>
+        <div class="noticias-grid">
+          <div *ngFor="let noticia of noticiasItems" class="noticia-item">
+            <h3>{{ noticia.titulo }}</h3>
+            <img [src]="noticia.imagen" [alt]="noticia.titulo">
+            <p>{{ noticia.contenido }}</p>
+          </div>
+        </div>
+      </div>
       <div *ngIf="showSearch">
         <app-search-books></app-search-books>
       </div>
@@ -65,10 +81,10 @@
       </div>
     </div>
   </div>
-  </body>
+  
   <footer class="footer" [class.visible]="isFooterVisible">
     <div class="container">
       <p>&copy; 2024 Universidad Tecnológica del Norte de Guanajuato. Todos los derechos reservados.</p>
     </div>
   </footer>
-  
+</body>

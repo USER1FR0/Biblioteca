@@ -1,11 +1,9 @@
 body {
   font-family: 'Arial', sans-serif;
-  margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+  height: auto;
+  overflow: auto;
 }
 
 .navbar {
@@ -44,24 +42,21 @@ button[mat-icon-button] {
 }
 
 .main-content {
-  display:inline-flex;
+  display: flex;
   flex-grow: 1;
   margin-top: 60px; /* Ajusta según la altura de la navbar */
-  overflow: auto;
+  overflow: hidden;
   height: calc(100vh - 60px);
 }
 
 .sidebar {
   background-color: #2B6ADF;
-  height: calc(100vh - 60px);
+  height: 100%;
   width: 220px;
   padding: 15px;
   color: white;
   flex-shrink: 0;
   overflow-y: auto;
-  position: fixed;
-  top: 60px;
-  left:0;
   transition: transform 0.3s ease;
 }
 
@@ -89,33 +84,49 @@ button[mat-icon-button] {
   background-color: #6c63ff;
   color: white;
 }
-.sidebar.hidden {
-  transform: translateX(-100%);
-}
 
 .content-section {
   flex-grow: 1;
   padding: none;
   background-image: url('https://static.vecteezy.com/system/resources/previews/001/886/051/non_2x/color-books-seamless-pattern-background-vector.jpg');
+
   background-size: cover;
-  background-position: block;
-  background-attachment: fixed;
+  background-position: center;
   overflow-y: auto;
   height: 100%;
-  filter:drop-shadow(5px); /* Ajusta el valor del desenfoque según sea necesario */
 }
 
-/* Footer */
-.footer {
-  background-color: #ffffff;
-  padding: 20px 0;
-  text-align: center;
-  color: #2B6ADF;
-  position: fixed;
-  bottom: 0;
+.seccion-noticias {
   width: 100%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* Asegúrate de que esté sobre el contenido */
+  height: 100%;
+  background-color: rgba(245, 245, 245, 0.9);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.noticias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.noticia-item {
+  background-color: white;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.noticia-item h3 {
+  margin-top: 0;
+  color: #2B6ADF;
+}
+
+.noticia-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .header {
@@ -166,4 +177,15 @@ button[mat-icon-button] {
 .overlay.hidden {
   opacity: 0;
   pointer-events: none;
+}
+
+.footer {
+  background-color: #ffffff; /* Color de fondo del footer */
+  padding: 20px 0;
+  text-align: center;
+  color: #2B6ADF; /* Color del texto */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
