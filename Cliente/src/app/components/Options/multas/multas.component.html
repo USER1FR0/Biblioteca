@@ -1,44 +1,66 @@
 <div class="container">
-  <div class="card">
-    <div class="card-header">
-      Datos de la multa
-    </div>
-    <div class="card-body">
-      <form (ngSubmit)="registrar()">
-        <div class="mb-3">
-          <label for="alumno" class="form-label">Alumno</label>
-          <input type="text" class="form-control" id="alumno" [(ngModel)]="multa.alumno" name="alumno">
-        </div>
-        <div class="mb-3">
-          <label for="noControl" class="form-label">No. Control</label>
-          <input type="text" class="form-control" id="noControl" [(ngModel)]="multa.noControl" name="noControl">
-        </div>
-        <div class="mb-3">
-          <label for="correo" class="form-label">Correo</label>
-          <input type="email" class="form-control" id="correo" [(ngModel)]="multa.correo" name="correo">
-          <small class="form-text text-muted">El reporte se envió al correo. REVISE Y CONFIRME</small>
-        </div>
-        <div class="mb-3">
-          <label for="cantMultas" class="form-label">Cant. Multas</label>
-          <input type="number" class="form-control" id="cantMultas" [(ngModel)]="multa.cantMultas" name="cantMultas">
-        </div>
-        <div class="mb-3">
-          <label for="adeudoTotal" class="form-label">Adeudo Total</label>
-          <input type="number" class="form-control" id="adeudoTotal" [(ngModel)]="multa.adeudoTotal" name="adeudoTotal">
-        </div>
-        <div class="mb-3">
-          <label for="fechaConsulta" class="form-label">Fecha Consulta</label>
-          <input type="date" class="form-control" id="fechaConsulta" [(ngModel)]="multa.fechaConsulta" name="fechaConsulta">
-        </div>
-        <div class="mb-3">
-          <label for="diasTranscurridos" class="form-label">Días Transcurridos</label>
-          <input type="number" class="form-control" id="diasTranscurridos" [(ngModel)]="multa.diasTranscurridos" name="diasTranscurridos">
-        </div>
-        <button type="submit" class="btn btn-primary">Registrar</button>
-        <button type="button" class="btn btn-secondary" (click)="generarReporte()">Generar Reporte</button>
-      </form>
-    </div>
+  <h1>Gestión de Multas Bibliotecarias</h1>
+
+  <form *ngIf="!isEditing" (ngSubmit)="createMulta(multasForm)" #multasForm="ngForm">
+    <label for="NumeroControl">Número de Control:</label>
+    <input type="number" id="NumeroControl" name="NumeroControl" ngModel required><br>
+    <label for="Monto">Monto:</label>
+    <input type="number" id="Monto" name="Monto" ngModel required step="0.01"><br>
+    <label for="FechaInicio">Fecha de Inicio:</label>
+    <input type="datetime-local" id="FechaInicio" name="FechaInicio" ngModel required><br>
+    <label for="Estatus">Estatus:</label>
+    <input type="text" id="Estatus" name="Estatus" ngModel required><br>
+    <label for="IdPrestamo">Id de Préstamo:</label>
+    <input type="number" id="IdPrestamo" name="IdPrestamo" ngModel required><br>
+    <button type="submit">Agregar Multa</button>
+  </form>
+
+  <div *ngIf="isEditing">
+    <h2>Editar Multa</h2>
+    <form (ngSubmit)="updateMulta()">
+      <label for="NumeroControl">Número de Control:</label>
+      <input type="number" [(ngModel)]="selectedMulta.NumeroControl" name="NumeroControl" required><br>
+      <label for="Monto">Monto:</label>
+      <input type="number" [(ngModel)]="selectedMulta.Monto" name="Monto" required step="0.01"><br>
+      <label for="FechaInicio">Fecha de Inicio:</label>
+      <input type="datetime-local" [(ngModel)]="selectedMulta.FechaInicio" name="FechaInicio" required><br>
+      <label for="Estatus">Estatus:</label>
+      <input type="text" [(ngModel)]="selectedMulta.Estatus" name="Estatus" required><br>
+      <label for="IdPrestamo">Id de Préstamo:</label>
+      <input type="number" [(ngModel)]="selectedMulta.IdPrestamo" name="IdPrestamo" required><br>
+      <button type="submit">Actualizar Multa</button>
+    </form>
   </div>
+
+  <h2>Lista de Multas</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Número de Control</th>
+        <th>Monto</th>
+        <th>Fecha de Inicio</th>
+        <th>Estatus</th>
+        <th>Id de Préstamo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let multa of multas">
+        <td>{{ multa.IdMulta }}</td>
+        <td>{{ multa.NumeroControl }}</td>
+        <td>{{ multa.Monto }}</td>
+        <td>{{ multa.FechaInicio | date:'short' }}</td>
+        <td>{{ multa.Estatus }}</td>
+        <td>{{ multa.IdPrestamo }}</td>
+        <td>
+          <button (click)="selectMulta(multa)">Editar</button>
+          <button (click)="deleteMulta(multa.IdMulta)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
 
 

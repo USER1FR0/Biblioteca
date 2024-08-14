@@ -413,6 +413,81 @@ app.get('/bibliotecarios', (req, res) => {
   });
 });
 
+// Obtener todas las multas
+app.get('/multas', (req, res) => {
+  pool.query('SELECT * FROM multasv2', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+// Obtener una multa por ID
+app.get('/multas/:id', (req, res) => {
+  const { id } = req.params;
+  pool.query('SELECT * FROM multasv2 WHERE IdMulta = ?', [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+      res.status(404).json({ error: 'Multa no encontrada' });
+    }
+  });
+});
+
+// Crear una nueva multa
+app.post('/multas', (req, res) => {
+  const { NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo } = req.body;
+  pool.query(
+    'INSERT INTO multasv2 (NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo) VALUES (?, ?, ?, ?, ?)',
+    [NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo],
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.status(201).json({ id: results.insertId });
+    }
+  );
+});
+
+// Actualizar una multa
+app.patch('/multas/:id', (req, res) => {
+  const { id } = req.params;
+  const { NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo } = req.body;
+  pool.query(
+    'UPDATE multasv2 SET NumeroControl = ?, Monto = ?, FechaInicio = ?, Estatus = ?, IdPrestamo = ? WHERE IdMulta = ?',
+    [NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo, id],
+    (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      if (results.affectedRows > 0) {
+        res.json({ message: 'Multa actualizada exitosamente' });
+      } else {
+        res.status(404).json({ error: 'Multa no encontrada' });
+      }
+    }
+  );
+});
+
+// Eliminar una multa
+app.delete('/multas/:id', (req, res) => {
+  const { id } = req.params;
+  pool.query('DELETE FROM multasv2 WHERE IdMulta = ?', [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (results.affectedRows > 0) {
+      res.json({ message: 'Multa eliminada exitosamente' });
+    } else {
+      res.status(404).json({ error: 'Multa no encontrada' });
+    }
+  });
+});
+
 
 
 
