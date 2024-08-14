@@ -72,11 +72,6 @@ export class MenuComponent {
     this.isDropdownVisible = false;
   }
 
-  redirectToHome() {
-    this.resetViews();
-    this.showNoticias = true;
-    // Ya no necesitamos redirigir a '#welcome'
-  }
 
   private resetViews() {
     this.showSearch = false;
