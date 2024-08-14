@@ -3,6 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditBooksComponent } from '../EditBooks/EditBooks.component';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BookService } from '../Services/BookService';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-search-books',
@@ -31,7 +33,9 @@ export class SearchBooksComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private http: HttpClient,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private bookService: BookService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -48,25 +52,35 @@ export class SearchBooksComponent implements OnInit {
     );
   }
 
+  getBookCoverUrl(book: any): SafeUrl {
+    if (book.Portada) {
+      // Asumiendo que Portada es un array de bytes
+      const blob = new Blob([new Uint8Array(book.Portada)], { type: 'image/jpeg' });
+      return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+    } else {
+      // Usa una URL absoluta para la imagen por defecto
+      return this.sanitizer.bypassSecurityTrustUrl('/assets/default-book-cover.jpg');
+    }
+  }
   searchBooks() {
-    const params = {
+    this.bookService.searchBooks({
       busqueda: this.searchQuery,
       autor: this.selectedAuthor,
       categoria: this.selectedPublisher,
       titulo: this.selectedTitle
-    };
-  
-    this.http.get<any[]>('http://localhost:3000/searchBooks', { params }).subscribe(
+    }).subscribe(
       (data) => {
         this.books = data.map(book => ({
           ...book,
-          ImagenPortada: book.ImagenPortada || 'assets/default-book-cover.jpg'
+          Portada: book.Portada ? new Uint8Array(book.Portada.data) : null
         }));
-        console.log('Libros recibidos:', this.books);
       },
-      (error) => console.error('Error al buscar libros:', error)
+      (error) => {
+        console.error('Error al buscar libros:', error);
+      }
     );
   }
+
 
   previewBook(book: any) {
     this.selectedBook = {
@@ -102,12 +116,12 @@ export class SearchBooksComponent implements OnInit {
     }
 
     const loanData = {
-        numeroControl: this.numeroControl,
-        isbn: this.isbn,
-        fechaPrestamo: this.fechaPrestamo,
-        fechaDevolucion: this.fechaDevolucion,
-        idBibliotecario: this.idBibliotecario,
-    };
+      numeroControl: this.numeroControl,
+      isbn: this.isbn,
+      fechaPrestamo: this.fechaPrestamo,
+      fechaDevolucion: this.fechaDevolucion,
+      idBibliotecario: this.idBibliotecario,
+  };
 
     console.log('Datos del préstamo a enviar:', loanData);
 
