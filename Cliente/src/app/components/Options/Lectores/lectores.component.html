@@ -15,29 +15,10 @@
     <div class="form-group">
       <label for="Correo">Correo Electrónico</label>
       <input type="text" id="Correo" placeholder="Correo" maxlength="50" [(ngModel)]="lector.Correo" name="Correo"required>
-      <button type="button" (click)="openConfirmationModal()">Confirmar Correo</button>
+      
     </div>
 
-    <button routerLink= "/lector">Guardar</button>
+    <button>Guardar</button>
 
 
   </form>
-</div>
-
-<!-- Modal para el código de confirmación -->
-<div *ngIf="showConfirmationModal" class="modal-backdrop" (click)="closeModal($event)">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <h3>Ingrese el código de confirmación</h3>
-    <form (ngSubmit)="onSubmitCode()" #codeForm="ngForm">
-      <div class="form-group">
-        <label for="code">Código:</label>
-        <input type="text" id="code" required [(ngModel)]="confirmationCode" name="code">
-      </div>
-      <button type="submit" class="btn-submit">Validar</button>
-    </form>
-    <div *ngIf="errorMessage" class="error">
-      {{ errorMessage }}
-    </div>
-    <button (click)="resendCode()" class="btn-resend">Reenviar Código</button>
-  </div>
-</div>
