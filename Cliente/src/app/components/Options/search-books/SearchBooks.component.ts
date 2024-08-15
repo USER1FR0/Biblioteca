@@ -90,9 +90,8 @@ export class SearchBooksComponent implements OnInit {
         title: book.Titulo, // Asegúrate de que este campo esté correctamente asignado
         author: book.Autor, // Asegúrate de que este campo esté correctamente asignado
         publisher: book.Categoria, // Asegúrate de que este campo esté correctamente asignado
-        publicationDate: book.FechaPublicacion,
         synopsis: book.Descripcion,
-        cover: book.Portada ? this.getBookCoverUrl(book) : '/assets/default-book-cover.jpg',
+        cover: book.Portada ? this.getBookCoverUrl(book) : '../../../../assets/LogoUTNG.png',
         ISBN: book.ISBN,
         NumeroEjemplares: book.NumeroEjemplares || 0,
         Descripcion: book.Descripcion || '',

@@ -39,7 +39,6 @@
             <img [src]="selectedBook.cover" alt="{{ selectedBook.title }}" class="book-cover-preview">
             <p><strong>Autor:</strong> {{ selectedBook.author }}</p>
             <p><strong>Editorial:</strong> {{ selectedBook.publisher }}</p>
-            <p><strong>Fecha de Publicación:</strong> {{ selectedBook.publicationDate }}</p>
             <p><strong>Sinopsis:</strong> {{ selectedBook.synopsis }}</p>
             <button class="btn-custom" (click)="openLoanForm(selectedBook, $event)">Solicitar Préstamo</button>
         </div>

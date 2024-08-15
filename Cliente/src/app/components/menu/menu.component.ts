@@ -75,7 +75,7 @@ export class MenuComponent {
   }
   logout() {
     localStorage.removeItem('token'); // Elimina el token de localStorage
-    this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
+    this.router.navigate(['/home']); // Redirige a la página de inicio de sesión
   }
 
 

@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
     const isAuthenticated = this.authService.isLoggedIn();
     if (!isAuthenticated) {
       alert('¡ALERTA! Se ha detectado un intento de acceso no autorizado. ¡No puedes entrar aquí sin autorización!'); 
-      this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
+      this.router.navigate(['/home']); // Redirige a la página de inicio de sesión
     }
     return isAuthenticated; // Permitir acceso si está autenticado
   }

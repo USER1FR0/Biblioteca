@@ -24,8 +24,26 @@
       </div>
       <div class="form-group">
         <label for="categoria">Categoría</label>
-        <input type="text" class="form-control" id="categoria" [(ngModel)]="book.Categoria" name="categoria" required>
-      </div>
+        <select id="categoria" [(ngModel)]="book.categoria" name="categoria" required>
+            <option value="" disabled selected>Seleccione una categoría</option>
+            <option value="Ciencias Sociales">Ciencias Sociales</option>
+            <option value="Ciencias Naturales">Ciencias Naturales</option>
+            <option value="Ingeniería y Tecnología">Ingeniería y Tecnología</option>
+            <option value="Ciencias de la Salud">Ciencias de la Salud</option>
+            <option value="Humanidades">Humanidades</option>
+            <option value="Educación">Educación</option>
+            <option value="Matemáticas">Matemáticas</option>
+            <option value="Derecho">Derecho</option>
+            <option value="Administración y Negocios">Administración y Negocios</option>
+            <option value="Ciencias de la Computación">Ciencias de la Computación</option>
+            <option value="Literatura y Lingüística">Literatura y Lingüística</option>
+            <option value="Ciencias Políticas y Relaciones Internacionales">Ciencias Políticas y Relaciones Internacionales</option>
+            <option value="Arquitectura y Urbanismo">Arquitectura y Urbanismo</option>
+            <option value="Ciencias Ambientales y Ecología">Ciencias Ambientales y Ecología</option>
+            <option value="Filosofía y Teología">Filosofía y Teología</option>
+            <option value="Otra...">Otra...</option>
+        </select>
+    </div>
       <div class="form-group">
         <label for="descripcion">Descripción</label>
         <textarea class="form-control" id="descripcion" [(ngModel)]="book.Descripcion" name="descripcion"></textarea>
