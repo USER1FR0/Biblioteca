@@ -28,6 +28,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PersonalisadoComponent } from './components/Options/ReportePersonalisado/personalisados.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule } from '@angular/forms';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { FormsModule } from '@angular/forms';
     ConfirmacionDeEmailComponent,
     MultasComponent,
     RegistroLectorComponent,
-    PersonalisadoComponent
+    PersonalisadoComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

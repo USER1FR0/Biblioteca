@@ -54,18 +54,19 @@ export class LoginComponent {
 
   onLogin() {
     this.authService.login(this.authData.username, this.authData.password).subscribe({
-      next: (response) => {
-        console.log('Respuesta del servidor', response);
-        alert(response.message);
-        this.modal.dismiss();
-        this.router.navigate(['/menu']);
-      },
-      error: (error) => {
-        console.error('Error:', error);
-        alert('Credenciales inválidas.');
-      }
+        next: (response) => {
+            console.log('Respuesta del servidor', response);
+            alert(response.message);
+            localStorage.setItem('token', response.token); // Almacena el token en localStorage
+            this.modal.dismiss();
+            this.router.navigate(['/menu']);
+        },
+        error: (error) => {
+            console.error('Error:', error);
+            alert('Credenciales inválidas.');
+        }
     });
-  }
+}
 
   openForgotPassword() {
     this.showForgot = true;
