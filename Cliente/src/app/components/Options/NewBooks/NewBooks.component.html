@@ -1,8 +1,9 @@
+
 <div class="container">
     <h1 class="form-title">Nuevo Libro</h1>
     <form (ngSubmit)="saveBook()">
         <div class="form-group">
-            <label for="nombreLibro">Nombre_Libro</label>
+            <label for="nombreLibro">Nombre del Libro</label>
             <input type="text" id="nombreLibro" placeholder="Nombre del libro" maxlength="50" [(ngModel)]="nombreLibro" name="nombreLibro" required>
         </div>
         <div class="form-group">
@@ -15,11 +16,29 @@
         </div>
         <div class="form-group">
             <label for="categoria">Categoría</label>
-            <input type="text" id="categoria" placeholder="Categoría del libro" maxlength="50" [(ngModel)]="categoria" name="categoria" required>
+            <select id="categoria" [(ngModel)]="categoria" name="categoria" required>
+                <option value="" disabled selected>Seleccione una categoría</option>
+                <option value="Ciencias Sociales">Ciencias Sociales</option>
+                <option value="Ciencias Naturales">Ciencias Naturales</option>
+                <option value="Ingeniería y Tecnología">Ingeniería y Tecnología</option>
+                <option value="Ciencias de la Salud">Ciencias de la Salud</option>
+                <option value="Humanidades">Humanidades</option>
+                <option value="Educación">Educación</option>
+                <option value="Matemáticas">Matemáticas</option>
+                <option value="Derecho">Derecho</option>
+                <option value="Administración y Negocios">Administración y Negocios</option>
+                <option value="Ciencias de la Computación">Ciencias de la Computación</option>
+                <option value="Literatura y Lingüística">Literatura y Lingüística</option>
+                <option value="Ciencias Políticas y Relaciones Internacionales">Ciencias Políticas y Relaciones Internacionales</option>
+                <option value="Arquitectura y Urbanismo">Arquitectura y Urbanismo</option>
+                <option value="Ciencias Ambientales y Ecología">Ciencias Ambientales y Ecología</option>
+                <option value="Filosofía y Teología">Filosofía y Teología</option>
+                <option value="Otra...">Otra...</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="informacion">Descripcion (Edición, editorial y año)</label>
-            <input type="text" id="informacion" placeholder="Información adicional" [(ngModel)]="informacion" name="informacion">
+            <label for="informacion">Descripción (Edición, editorial y año)</label>
+            <textarea id="informacion" placeholder="Información adicional" [(ngModel)]="informacion" name="informacion" rows="5" cols="30"></textarea>
         </div>
         <div class="form-group">
             <label for="isbn">ISBN</label>
@@ -34,8 +53,8 @@
             <input type="file" id="portada" (change)="onFileSelected($event)" accept="image/*">
         </div>
         <div class="buttons">
-            <button type="button" class="cancel-button" (click)="confirmCancel()">Cancel</button>
-            <button type="submit" class="save-button">Save</button>
+            <button type="button" class="cancel-button" (click)="confirmCancel()">Cancelar</button>
+            <button type="submit" class="save-button">Guardar</button>
         </div>
     </form>
 </div>
