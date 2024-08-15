@@ -20,6 +20,8 @@ export class SearchBooksComponent implements OnInit {
   books: any[] = [];
   selectedBook: any = null;
   showLoanForm: boolean = false;
+  showPreview: boolean = false; // Nueva variable para mostrar la previsualización
+  loading: boolean = false; // Nueva variable para controlar la pantalla de carga
 
   numeroControl: number = 0;
   isbn: string = '';
@@ -54,15 +56,15 @@ export class SearchBooksComponent implements OnInit {
 
   getBookCoverUrl(book: any): SafeUrl {
     if (book.Portada) {
-      // Asumiendo que Portada es un array de bytes
       const blob = new Blob([new Uint8Array(book.Portada)], { type: 'image/jpeg' });
       return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
     } else {
-      // Usa una URL absoluta para la imagen por defecto
       return this.sanitizer.bypassSecurityTrustUrl('/assets/default-book-cover.jpg');
     }
   }
+
   searchBooks() {
+    this.loading = true; // Mostrar pantalla de carga
     this.bookService.searchBooks({
       busqueda: this.searchQuery,
       autor: this.selectedAuthor,
@@ -74,32 +76,42 @@ export class SearchBooksComponent implements OnInit {
           ...book,
           Portada: book.Portada ? new Uint8Array(book.Portada.data) : null
         }));
+        this.loading = false; // Ocultar pantalla de carga
       },
       (error) => {
         console.error('Error al buscar libros:', error);
+        this.loading = false; // Ocultar pantalla de carga en caso de error
       }
     );
   }
 
-
   previewBook(book: any) {
     this.selectedBook = {
-      title: book.Titulo,
-      author: book.Autor,
-      publisher: book.Categoria,
-      publicationDate: book.FechaPublicacion,
-      synopsis: book.Descripcion,
-      cover: book.ImagenPortada,
-      ISBN: book.ISBN
+        title: book.Titulo, // Asegúrate de que este campo esté correctamente asignado
+        author: book.Autor, // Asegúrate de que este campo esté correctamente asignado
+        publisher: book.Categoria, // Asegúrate de que este campo esté correctamente asignado
+        publicationDate: book.FechaPublicacion,
+        synopsis: book.Descripcion,
+        cover: book.Portada ? this.getBookCoverUrl(book) : '/assets/default-book-cover.jpg',
+        ISBN: book.ISBN,
+        NumeroEjemplares: book.NumeroEjemplares || 0,
+        Descripcion: book.Descripcion || '',
+        Tema: book.Tema || '', // Asegúrate de incluir el campo Tema
+        Categoria: book.Categoria || '' // Asegúrate de incluir el campo Categoria
     };
+    this.showPreview = true; // Mostrar la previsualización
+}
+  closePreview() {
+    this.showPreview = false; // Cerrar la previsualización
   }
 
   openLoanForm(book: any, event: Event) {
-    event.stopPropagation();
-    this.selectedBook = book;
-    this.showLoanForm = true;
-    this.isbn = book.ISBN;
-  }
+    event.stopPropagation(); 
+    this.showLoanForm = true; 
+    this.isbn = book.ISBN; // Asegúrate de que el ISBN se establezca correctamente
+    this.showPreview = false; // Ocultar la previsualización
+}
+
 
   closeLoanForm(event?: MouseEvent) {
     if (event) {
@@ -111,8 +123,8 @@ export class SearchBooksComponent implements OnInit {
 
   submitLoanForm() {
     if (!this.fechaPrestamo || !this.fechaDevolucion) {
-        this.snackBar.open('Las fechas de préstamo y devolución son requeridas', 'Cerrar', { duration: 3000 });
-        return;
+      this.snackBar.open('Las fechas de préstamo y devolución son requeridas', 'Cerrar', { duration: 3000 });
+      return;
     }
 
     const loanData = {
@@ -121,22 +133,22 @@ export class SearchBooksComponent implements OnInit {
       fechaPrestamo: this.fechaPrestamo,
       fechaDevolucion: this.fechaDevolucion,
       idBibliotecario: this.idBibliotecario,
-  };
+    };
 
     console.log('Datos del préstamo a enviar:', loanData);
 
     this.http.post('http://localhost:3000/loanBook', loanData).subscribe(
-        (response: any) => {
-            this.snackBar.open(response.message, 'Cerrar', { duration: 3000 });
-            this.closeLoanForm();
-            this.searchBooks();
-        },
-        (error) => {
-            console.error('Error al registrar el préstamo:', error);
-            this.snackBar.open(error.error.message || 'Error al registrar el préstamo', 'Cerrar', { duration: 3000 });
-        }
+      (response: any) => {
+        this.snackBar.open(response.message, 'Cerrar', { duration: 3000 });
+        this.closeLoanForm();
+        this.searchBooks();
+      },
+      (error) => {
+        console.error('Error al registrar el préstamo:', error);
+        this.snackBar.open(error.error.message || 'Error al registrar el préstamo', 'Cerrar', { duration: 3000 });
+      }
     );
-}
+  }
 
   resetForm() {
     this.numeroControl = 0;
@@ -146,19 +158,23 @@ export class SearchBooksComponent implements OnInit {
     this.idBibliotecario = 0;
   }
 
-  openEditModal(book: any) {
+  openEditModal(book: any, event: Event) {
+    event.stopPropagation(); // Evitar que se cierre la previsualización
+    this.showPreview = false; // Asegurarse de que la previsualización esté oculta
     const modalRef = this.modalService.open(EditBooksComponent, { centered: true });
     modalRef.componentInstance.book = { 
-      ...book,
-      NumeroEjemplares: book.NumeroEjemplares || 0,
-      Descripcion: book.Descripcion || ''
+        ...book, // Asegúrate de que se pase el libro completo
+        NumeroEjemplares: book.NumeroEjemplares || 0,
+        Descripcion: book.Descripcion || '',
+        Tema: book.Tema || '', // Asegúrate de incluir el campo Tema
+        Categoria: book.Categoria || '' // Asegúrate de incluir el campo Categoria
     };
     modalRef.result.then((result) => {
-      if (result === 'save' || result === 'delete') {
-        this.searchBooks();
-      }
+        if (result === 'save' || result === 'delete') {
+            this.searchBooks();
+        }
     }, (_reason) => {
-      console.log('Modal cerrado');
+        console.log('Modal cerrado');
     });
-  }
+}
 }

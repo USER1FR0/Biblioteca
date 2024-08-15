@@ -1,14 +1,27 @@
+
+.search-header .title {
+    font-family: 'Georgia', serif;
+    font-size: 2.5em;
+    color: #2c3e50; 
+    text-align: center; 
+    margin-bottom: 20px; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    font-weight: bold; 
+}
+
+
 .search-books {
     position: relative;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 60px); /* Ajusta 60px según la altura de tu footer */
+    height: calc(auto);
     overflow: hidden;
 }
 
@@ -51,14 +64,79 @@
     align-items: center;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    gap: 10px; /* Espacio entre los elementos */
 }
 
-.filters select, .filters button, .filters input {
-    padding: 10px;
-    font-size: 1em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin: 10px 0;
+.filter-select {
+    padding: 12px; /* Espaciado interno */
+    font-size: 1em; /* Tamaño de fuente */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+    width: 100%; /* Ancho completo en pantallas pequeñas */
+    max-width: 200px; /* Ancho máximo */
+}
+
+.filter-select:focus {
+    border-color: #4A90E2; /* Color del borde al enfocar */
+    box-shadow: 0 0 20px rgba(74, 144, 226, 0.5); /* Sombra al enfocar */
+}
+
+.search-button {
+    background-color: #4A90E2; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 12px 20px; /* Espaciado interno */
+    font-size: 1em; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s, transform 0.2s; /* Transiciones */
+    margin: 5px; /* Margen */
+}
+
+.search-button:hover {
+    background-color: #0056b3; /* Color al pasar el mouse */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+}
+
+.search-button:active {
+    transform: scale(0.95); /* Reduce el tamaño al hacer clic */
+}
+
+/* Estilos para los botones */
+.btn-custom {
+    background-color: #585858; /* Color de fondo del botón (puedes cambiarlo aquí) */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 8px 16px; /* Ajusta el espaciado interno para que sean más pequeños */
+    font-size: 0.9em; /* Tamaño de fuente más pequeño */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s, transform 0.2s; /* Transiciones para el color y la transformación */
+    margin: 5px; /* Añade un margen para separar los botones */
+}
+
+.btn-custom:hover {
+    background-color: #0056b3; /* Color de fondo al pasar el mouse (puedes cambiarlo aquí) */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño del botón */
+}
+
+.btn-custom:active {
+    transform: scale(0.95); /* Reduce el tamaño al hacer clic */
+}
+.loading-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    color: #2c3e50;
+    z-index: 10; /* Asegúrate de que esté por encima de otros elementos */
 }
 
 .results-container {
@@ -91,19 +169,35 @@
     margin-bottom: 10px;
 }
 
-.book-preview {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 20px;
+.preview-modal {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.5s;
 }
 
-.preview-container {
-    display: flex;
-    align-items: flex-start;
+.preview-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
+
+.preview-content img.book-cover-preview {
+    max-width: 100%; /* Limitar el ancho máximo al 100% del contenedor */
+    height: auto; /* Mantener la proporción de la imagen */
+    max-height: 300px; /* Limitar la altura máxima para evitar que ocupe toda la pantalla */
+    object-fit: contain; /* Asegurarse de que la imagen se ajuste dentro del contenedor */
 }
 
 .book-preview img.book-cover-preview {
@@ -112,6 +206,15 @@
     border-radius: 5px;
     margin-bottom: 10px;
     margin-right: 20px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .book-info {
@@ -253,8 +356,23 @@
     color: white;
 }
 
+/* Estilos para el botón de búsqueda */
 .search-button {
-    color: white;
-    background-color: blue;
-    align-items: left;
+    background-color: #007bff; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 1em; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s, transform 0.2s; /* Transiciones */
+    margin: 5px; /* Margen */
+}
+.search-button:hover {
+    background-color: #0056b3; /* Color al pasar el mouse */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+}
+
+.search-button:active {
+    transform: scale(0.95); /* Reduce el tamaño al hacer clic */
 }
