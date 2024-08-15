@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { SidebarService } from '../Options/Services/sidebar.services';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-menu',
@@ -20,10 +21,11 @@ export class MenuComponent {
   showNoticias = true; // Inicialmente mostramos las noticias
   noticiasItems: any[] = [];
    
-  constructor(private sidebarService: SidebarService, private http: HttpClient) {
+  constructor(private sidebarService: SidebarService, private http: HttpClient, private router: Router) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
     this.cargarNoticias();
   }
+
 
   toggleSidebar() {
     this.sidebarService.toggleSidebar();
@@ -70,6 +72,10 @@ export class MenuComponent {
 
   closeDropdown() {
     this.isDropdownVisible = false;
+  }
+  logout() {
+    localStorage.removeItem('token'); // Elimina el token de localStorage
+    this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
   }
 
 

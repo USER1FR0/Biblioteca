@@ -88,34 +88,41 @@ app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).send({ message: 'El nombre de usuario y la contraseña son requeridos' });
+      return res.status(400).send({ message: 'El nombre de usuario y la contraseña son requeridos' });
   }
 
   try {
-    pool.query('SELECT * FROM Bibliotecario WHERE NombreUsuario = ?', [username], (err, results) => {
-      if (err) {
-        console.error('Error durante la consulta:', err);
-        return res.status(500).send({ message: 'Error interno del servidor' });
-      }
+      pool.query('SELECT * FROM Bibliotecario WHERE NombreUsuario = ?', [username], (err, results) => {
+          if (err) {
+              console.error('Error durante la consulta:', err);
+              return res.status(500).send({ message: 'Error interno del servidor' });
+          }
 
-      if (results.length === 0) {
-        return res.status(401).send({ message: 'Credenciales inválidas' });
-      }
+          if (results.length === 0) {
+              return res.status(401).send({ message: 'Credenciales inválidas' });
+          }
 
-      const user = results[0];
-      const Contrasena = user.Contrasena;
+          const user = results[0];
+          const Contrasena = user.Contrasena;
 
-      if (bcrypt.compareSync(password, Contrasena)) {
-        res.status(200).send({ message: 'Login realizado exitosamente' });
-      } else {
-        res.status(401).send({ message: 'Credenciales inválidas' });
-      }
-    });
+          if (bcrypt.compareSync(password, Contrasena)) {
+              const token = generateToken(user); // Genera un token (implementa esta función)
+              res.status(200).send({ message: 'Login realizado exitosamente', token }); // Devuelve el token
+          } else {
+              res.status(401).send({ message: 'Credenciales inválidas' });
+          }
+      });
   } catch (err) {
-    console.error('Error durante el login:', err);
-    res.status(500).send({ message: 'Error interno del servidor' });
+      console.error('Error durante el login:', err);
+      res.status(500).send({ message: 'Error interno del servidor' });
   }
 });
+
+// Función para generar un token (puedes usar jsonwebtoken)
+function generateToken(user) {
+  // Implementa la lógica para generar un token, por ejemplo usando jsonwebtoken
+  return 'token'; // Reemplaza esto con el token real
+}
 
 // Obtener todas las tablas de la base de datos
 app.get('/tables/:table', (req, res) => {

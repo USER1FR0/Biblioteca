@@ -12,6 +12,8 @@ import { ForgotPasswordComponent } from './components/home/ForgotPassword/Forgot
 import { MultasComponent } from './components/Options/multas/multas.component';
 import { RegistroLectorComponent } from './components/Options/Lectores/lectores.component';
 import { PersonalisadoComponent } from './components/Options/ReportePersonalisado/personalisados.component';
+import { AuthGuard } from './auth.guard';
+import { ErrorComponent } from './error/error.component';
 
 
 
@@ -21,18 +23,21 @@ const routes: Routes = [
     redirectTo : 'home',
     pathMatch : 'full'
   },
+  { path: 'menu', component: MenuComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent }, 
+  { path: 'error', component: ErrorComponent },
   {path:'home',component:HomeComponent},
   {path:'login',component:LoginComponent},
-  {path:'menu',component:MenuComponent},
-  {path: 'search', component: SearchBooksComponent},
-  {path: 'NewBook', component: NewBooksComponent},
-  { path: 'new-book', component: NewBooksComponent },
-  {path: 'EditBook', component:EditBooksComponent},
-  {path: 'forgot', component:ForgotPasswordComponent},
-  {path: 'multas', component: MultasComponent},
-  {path: 'registro', component: RegistroBibiotecariosComponent},
-  {path: 'lector', component: RegistroLectorComponent},
-  {path: 'personalisado', component: PersonalisadoComponent}
+  {path: 'search', component: SearchBooksComponent, canActivate: [AuthGuard] },
+  {path: 'NewBook', component: NewBooksComponent, canActivate: [AuthGuard] },
+  { path: 'new-book', component: NewBooksComponent, canActivate: [AuthGuard]  },
+  {path: 'EditBook', component:EditBooksComponent, canActivate: [AuthGuard] },
+  {path: 'forgot', component:ForgotPasswordComponent, canActivate: [AuthGuard] },
+  {path: 'multas', component: MultasComponent, canActivate: [AuthGuard] },
+  {path: 'registro', component: RegistroBibiotecariosComponent, canActivate: [AuthGuard] },
+  {path: 'lector', component: RegistroLectorComponent, canActivate: [AuthGuard] },
+  {path: 'personalisado', component: PersonalisadoComponent, canActivate: [AuthGuard] }
 
 ];
 
