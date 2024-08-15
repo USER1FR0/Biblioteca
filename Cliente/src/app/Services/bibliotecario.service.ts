@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BibliotecarioService {
-  private apiUrl = '/bibliotecario'; 
+  private apiUrl = 'http://localhost:3000/bibliotecario'; 
 
   constructor(private http: HttpClient) {}
 
