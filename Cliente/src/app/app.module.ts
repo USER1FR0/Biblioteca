@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,6 +27,7 @@ import { RegistroLectorComponent } from './components/Options/Lectores/lectores.
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PersonalisadoComponent } from './components/Options/ReportePersonalisado/personalisados.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
