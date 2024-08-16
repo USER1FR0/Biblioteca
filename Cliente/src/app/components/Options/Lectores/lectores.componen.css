@@ -123,3 +123,27 @@
     background-color: #4caf50;
   }
   
+
+
+
+  /* Estilo para el mensaje de confirmación */
+.confirmation-message {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #007bff; /* Color del borde acorde a tu botón */
+  border-radius: 10px;
+  background-color: #f9f9f9; /* Fondo claro */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.confirmation-message h2 {
+  color: #007bff; /* Color del título */
+  font-size: 24px;
+}
+
+.confirmation-message p {
+  color: #333; /* Color del texto */
+  font-size: 18px;
+}

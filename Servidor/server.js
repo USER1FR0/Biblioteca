@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const mysql = require('mysql2');
 const cors = require('cors');
 const multer = require('multer');
+const nodemailer = require('nodemailer');
 
 const app = express();
 
@@ -14,6 +15,8 @@ const upload = multer({
     fileSize: 5 * 1024 * 1024, // Limita el tamaño del archivo a 5MB
   },
 });
+
+
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -280,16 +283,44 @@ app.post('/loanBook', (req, res) => {
   });
 });
 
+
+
+
+
+
+
+
+
+
+
+
+    // Configuración de nodemailer
+    const userGmail = "utngbiblioteca@gmail.com";
+    const passAppGmail = "xdvj jeil fjgn uham";
+    
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: userGmail,
+        pass: passAppGmail,
+      },
+    });
+
+    const crypto = require('crypto'); // Importar crypto para generar tokens
+
 // Añadir un nuevo lector
 app.post('/lector', (req, res) => {
   const { NombreCompleto, NumeroControl, Correo } = req.body;
-  console.log('Hola');
+
   if (!NombreCompleto || !NumeroControl || !Correo) {
     return res.status(400).send({ message: 'Todos los campos son obligatorios' });
   }
 
-  const query = 'INSERT INTO Lector (NombreCompleto, NumeroControl, Correo) VALUES (?, ?, ?)';
-  const values = [NombreCompleto, NumeroControl, Correo];
+  // Generar un token de confirmación
+  const token = crypto.randomBytes(20).toString('hex');
+
+  const query = 'INSERT INTO Lector (NombreCompleto, NumeroControl, Correo, TokenConfirmacion) VALUES (?, ?, ?, ?)';
+  const values = [NombreCompleto, NumeroControl, Correo, token];
 
   pool.query(query, values, (err) => {
     if (err) {
@@ -297,9 +328,101 @@ app.post('/lector', (req, res) => {
       return res.status(500).send({ message: 'Error interno del servidor' });
     }
 
-    res.status(201).send({ message: 'Lector registrado exitosamente' });
+    const confirmUrl = `http://localhost:3000/confirm/${token}`;
+
+// Enviar correo de confirmación
+const mailOptions = {
+  from: userGmail,
+  to: Correo,
+  subject: 'Confirma tu correo',
+  html: `
+    <div style="background-color: #f0f0f0; padding: 20px; text-align: center;">
+      <div style="background-color: #ffffff; border-radius: 10px; padding: 30px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h1 style="font-size: 24px; color: #333;">Bienvenido a la Biblioteca</h1>
+        <p style="font-size: 18px; color: #555;">Hola <strong>${NombreCompleto}</strong>,</p>
+        <p style="font-size: 18px; color: #555;">Por favor confirma tu correo haciendo clic en el siguiente enlace:</p>
+        <p>
+          <a href="${confirmUrl}" style="background-color: #007bff; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px; font-size: 18px;">
+            Confirmar Correo
+          </a>
+        </p>
+        <p style="font-size: 16px; color: #555;">Saludos,<br>El equipo de la Biblioteca UTNG</p>
+      </div>
+    </div>
+  `
+};
+
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log('Error al enviar el correo:', error);
+      } else {
+        console.log('Correo enviado: ' + info.response);
+      }
+    });
+
+    res.status(201).send({ message: 'Lector registrado exitosamente. Revisa tu correo para confirmar.' });
   });
 });
+
+// Ruta para confirmar el correo
+app.get('/confirm/:token', (req, res) => {
+  const { token } = req.params;
+
+  // Buscar el lector por el token y actualizar el estado de correo confirmado
+  const query = 'UPDATE Lector SET CorreoConfirmado = TRUE WHERE TokenConfirmacion = ?';
+  
+  pool.query(query, [token], (err, result) => {
+    if (err) {
+      console.error('Error al confirmar el correo:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).send({ message: 'Lector no encontrado o el token es inválido' });
+    }
+// Mostrar mensaje de confirmación
+     res.send(`
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confirmación de Correo</title>
+        <style>
+          .confirmation-message {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #007bff; /* Color del borde acorde a tu botón */
+            border-radius: 10px;
+            background-color: #f9f9f9; /* Fondo claro */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+          }
+          .confirmation-message h2 {
+            color: #007bff; /* Color del título */
+            font-size: 24px;
+          }
+          .confirmation-message p {
+            color: #333; /* Color del texto */
+            font-size: 18px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="confirmation-message">
+          <h2>Correo Confirmado Exitosamente</h2>
+          <p>¡Gracias por unirte a la Biblioteca UTNG!</p>
+        </div>
+      </body>
+      </html>
+    `);
+  });
+});
+
+
+
 
 // Actualizar un lector
 app.put('/lector/:id', (req, res) => {
@@ -373,6 +496,13 @@ pool.query(query, params, (err, results) => {
   res.status(200).send(results);
 });
 });
+
+
+
+
+
+
+
 
 // Obtener autores y editoriales
 app.get('/api/libros/autores-editoriales', (req, res) => {
