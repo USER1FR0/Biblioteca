@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MultasService } from '../Services/multa.service';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-multas',
@@ -8,20 +9,69 @@ import { MultasService } from '../Services/multa.service';
 })
 export class MultasComponent implements OnInit {
   multas: any[] = [];
+  lectores: any[] = [];
+  prestamos: any[] = [];
   selectedMulta: any = null;
   isEditing = false;
+  alertMessage: string | null = null;
+  alertType: 'success' | 'error' = 'success';
 
   constructor(private multasService: MultasService) { }
 
   ngOnInit(): void {
     this.loadMultas();
+    this.loadLectores();
+    this.loadPrestamos();
   }
 
   loadMultas(): void {
-    this.multasService.getMultas().subscribe(data => {
-      this.multas = data;
+    this.multasService.getMultas().subscribe({
+      next: data => {
+        this.multas = data;
+      },
+      error: error => {
+        console.error('Error al cargar las multas:', error);
+      }
     });
   }
+
+  loadLectores(): void{
+    this.multasService.getLectores().subscribe(data => {
+      this.lectores = data;
+    }, error => {
+      console.error('Error al cargar los lectores:', error);
+    });
+  }
+
+  createLector(form: any): void {
+    this.multasService.createLector(form.value).subscribe(response => {
+      console.log('Lector registrado:', response);
+      this.loadLectores();  // Recargar la lista de lectores para la selección
+      form.reset();
+    }, error => {
+      console.error('Error al registrar el lector:', error);
+    });
+  }
+  
+
+  loadPrestamos(): void {
+    this.multasService.getPrestamos().subscribe(data => {
+      this.prestamos = data;
+    }, error => {
+      console.error('Error al cargar los préstamos:', error);
+    });
+  }
+
+  createPrestamo(form: any): void {
+    this.multasService.createPrestamo(form.value).subscribe(response => {
+      console.log('Préstamo registrado:', response);
+      this.loadPrestamos(); // Recarga la lista de préstamos para la selección
+      form.reset();
+    }, error => {
+      console.error('Error al registrar el préstamo:', error);
+    });
+  }
+  
 
   selectMulta(multa: any): void {
     this.selectedMulta = { ...multa };
@@ -46,9 +96,15 @@ export class MultasComponent implements OnInit {
   }
 
   createMulta(form: any): void {
-    this.multasService.createMulta(form.value).subscribe(() => {
-      this.loadMultas();
-      form.reset();
+    this.multasService.createMulta(form.value).subscribe({
+      next: () => {
+        this.loadMultas();
+        form.reset();
+        this.showAlert('Multa agregada exitosamente', 'success');
+      },
+      error: error => {
+        this.showAlert('Error al agregar la multa: ' + (error.message || 'Error desconocido'), 'error');
+      }
     });
   }
 
@@ -62,24 +118,39 @@ export class MultasComponent implements OnInit {
         IdPrestamo: this.selectedMulta.IdPrestamo
       };
 
-      this.multasService.updateMulta(this.selectedMulta.IdMulta, changes).subscribe(
-        response => {
-          console.log('Multa actualizada:', response);
+      this.multasService.updateMulta(this.selectedMulta.IdMulta, changes).subscribe({
+        next: response => {
+          this.showAlert('Multa actualizada exitosamente', 'success');
           this.isEditing = false;
           this.loadMultas(); // Recarga la lista de multas después de la actualización
         },
-        error => {
-          console.error('Error al actualizar la multa:', error);
+        error: error =>{
+          this.showAlert('Error al actualizar la multa:' + (error.message || 'Error desconocido'), 'error');
         }
-      );
+    });
     }
   }
 
   deleteMulta(id: number): void {
-    this.multasService.deleteMulta(id).subscribe(() => {
-      this.loadMultas();
+    this.multasService.deleteMulta(id).subscribe({
+      next: () => {
+        this.loadMultas();
+        this.showAlert('Multa eliminada exitosamente','success');
+      },
+      error: error => {
+        this.showAlert('Error al eliminar la multa:' + (error.message || 'Error desconocido'), 'error');
+      }
     });
   }
+
+  showAlert(message: string, type: 'success' | 'error'): void {
+    this.alertMessage = message;
+    this.alertType = type;
+    setTimeout(() => {
+      this.alertMessage = null;
+    }, 3000);
+  
+}
 }
 
 

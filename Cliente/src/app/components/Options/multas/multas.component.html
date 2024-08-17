@@ -1,37 +1,63 @@
 <div class="container">
   <h1>Gestión de Multas Bibliotecarias</h1>
 
+  <!-- Mostrar alertas -->
+  <div *ngIf="alertMessage" class="alert" [ngClass]="{'alert-success': alertType === 'success', 'alert-error': alertType === 'error'}">
+    {{ alertMessage }}
+  </div>
+
+  <!-- Formulario para agregar multa -->
   <form *ngIf="!isEditing" (ngSubmit)="createMulta(multasForm)" #multasForm="ngForm">
     <label for="NumeroControl">Número de Control:</label>
-    <input type="number" id="NumeroControl" name="NumeroControl" ngModel required><br>
+    <select id="NumeroControl" name="NumeroControl" ngModel required>
+      <option *ngFor="let lector of lectores" [value]="lector.NumeroControl">{{ lector.NumeroControl }} - {{ lector.NombreCompleto }}</option>
+    </select>
+    
     <label for="Monto">Monto:</label>
-    <input type="number" id="Monto" name="Monto" ngModel required step="0.01"><br>
+    <input type="number" id="Monto" name="Monto" ngModel required step="0.01">
+    
     <label for="FechaInicio">Fecha de Inicio:</label>
-    <input type="datetime-local" id="FechaInicio" name="FechaInicio" ngModel required><br>
+    <input type="datetime-local" id="FechaInicio" name="FechaInicio" ngModel required>
+    
     <label for="Estatus">Estatus:</label>
-    <input type="text" id="Estatus" name="Estatus" ngModel required><br>
+    <input type="text" id="Estatus" name="Estatus" ngModel required>
+    
     <label for="IdPrestamo">Id de Préstamo:</label>
-    <input type="number" id="IdPrestamo" name="IdPrestamo" ngModel required><br>
+    <select id="IdPrestamo" name="IdPrestamo" ngModel required>
+      <option *ngFor="let prestamo of prestamos" [value]="prestamo.IdPrestamo">{{ prestamo.IdPrestamo }} - {{ prestamo.FechaPrestamo | date:'short' }}</option>
+    </select>
+    
     <button type="submit">Agregar Multa</button>
   </form>
 
+  <!-- Formulario para editar multa -->
   <div *ngIf="isEditing">
     <h2>Editar Multa</h2>
     <form (ngSubmit)="updateMulta()">
       <label for="NumeroControl">Número de Control:</label>
-      <input type="number" [(ngModel)]="selectedMulta.NumeroControl" name="NumeroControl" required><br>
+      <select id="NumeroControl" name="NumeroControl" ngModel required>
+        <option *ngFor="let lector of lectores" [value]="lector.NumeroControl">{{ lector.NumeroControl }} - {{ lector.NombreCompleto }}</option>
+      </select>
+      
       <label for="Monto">Monto:</label>
-      <input type="number" [(ngModel)]="selectedMulta.Monto" name="Monto" required step="0.01"><br>
+      <input type="number" id="Monto" name="Monto" ngModel required step="0.01">
+      
       <label for="FechaInicio">Fecha de Inicio:</label>
-      <input type="datetime-local" [(ngModel)]="selectedMulta.FechaInicio" name="FechaInicio" required><br>
+      <input type="datetime-local" id="FechaInicio" name="FechaInicio" ngModel required>
+      
       <label for="Estatus">Estatus:</label>
-      <input type="text" [(ngModel)]="selectedMulta.Estatus" name="Estatus" required><br>
+      <input type="text" id="Estatus" name="Estatus" ngModel required>
+      
       <label for="IdPrestamo">Id de Préstamo:</label>
-      <input type="number" [(ngModel)]="selectedMulta.IdPrestamo" name="IdPrestamo" required><br>
+      <select id="IdPrestamo" name="IdPrestamo" ngModel required>
+        <option *ngFor="let prestamo of prestamos" [value]="prestamo.IdPrestamo">{{ prestamo.IdPrestamo }} - {{ prestamo.FechaPrestamo | date:'short' }}</option>
+      </select>
+      
       <button type="submit">Actualizar Multa</button>
     </form>
   </div>
 
+  <!-- Lista de multas -->
   <h2>Lista de Multas</h2>
   <table>
     <thead>
@@ -49,18 +75,20 @@
       <tr *ngFor="let multa of multas">
         <td>{{ multa.IdMulta }}</td>
         <td>{{ multa.NumeroControl }}</td>
-        <td>{{ multa.Monto }}</td>
+        <td>{{ multa.Monto | currency }}</td>
         <td>{{ multa.FechaInicio | date:'short' }}</td>
         <td>{{ multa.Estatus }}</td>
         <td>{{ multa.IdPrestamo }}</td>
         <td>
-          <button (click)="selectMulta(multa)">Editar</button>
-          <button (click)="deleteMulta(multa.IdMulta)">Eliminar</button>
+          <button class="edit-button" (click)="selectMulta(multa)">Editar</button>
+          <button class="delete-button" (click)="deleteMulta(multa.IdMulta)">Eliminar</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+
+
 
 
 
