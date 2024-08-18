@@ -283,6 +283,20 @@ app.post('/loanBook', (req, res) => {
   });
 });
 
+app.get('/loanBook', (req, res) => {
+  const query = 'SELECT IdPrestamo, NumeroControl, ISBN FROM Prestamo';
+
+  pool.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener préstamos:', err);
+      return res.status(500).send({ message: 'Error interno del servidor' });
+    }
+
+    res.status(200).json(results);
+  });
+});
+
+
 
 
 
@@ -628,11 +642,13 @@ app.use((err, req, res, next) => {
 console.error(err.stack);
 res.status(500).send('Algo salió mal!');
 });
+
 // Obtener todas las multas
 app.get('/multas', (req, res) => {
-  pool.query('SELECT * FROM multasv2', (err, results) => {
+  pool.query('SELECT * FROM Multas', (err, results) => {
     if (err) {
-      return res.status(500).json({ error: err.message });
+      console.error('Error al obtener las multas:', err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
     }
     res.json(results);
   });
@@ -641,9 +657,16 @@ app.get('/multas', (req, res) => {
 // Obtener una multa por ID
 app.get('/multas/:id', (req, res) => {
   const { id } = req.params;
-  pool.query('SELECT * FROM multasv2 WHERE IdMulta = ?', [id], (err, results) => {
+
+  // Validar que el ID sea un número entero positivo
+  if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  pool.query('SELECT * FROM Multas WHERE IdMulta = ?', [id], (err, results) => {
     if (err) {
-      return res.status(500).json({ error: err.message });
+      console.error('Error al obtener la multa:', err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
     }
     if (results.length > 0) {
       res.json(results[0]);
@@ -656,28 +679,64 @@ app.get('/multas/:id', (req, res) => {
 // Crear una nueva multa
 app.post('/multas', (req, res) => {
   const { NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo } = req.body;
-  pool.query(
-    'INSERT INTO multasv2 (NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo) VALUES (?, ?, ?, ?, ?)',
-    [NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo],
-    (err, results) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
-      res.status(201).json({ id: results.insertId });
+
+  // Validar datos requeridos
+  if (!NumeroControl || !Monto || !FechaInicio || !Estatus || !IdPrestamo) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  }
+
+  // Validar tipo de datos
+  if (isNaN(Monto) || Number(Monto) < 0) {
+    return res.status(400).json({ error: 'Monto debe ser un número positivo' });
+  }
+
+  if (isNaN(IdPrestamo) || Number(IdPrestamo) <= 0) {
+    return res.status(400).json({ error: 'IdPrestamo debe ser un número entero positivo' });
+  }
+
+  const query = 'INSERT INTO Multas (NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo) VALUES (?, ?, ?, ?, ?)';
+  const values = [NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo];
+
+  pool.query(query, values, (err, results) => {
+    if (err) {
+      console.error('Error al crear la multa:', err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
     }
-  );
+    res.status(201).json({ id: results.insertId });
+  });
 });
 
 // Actualizar una multa
 app.patch('/multas/:id', (req, res) => {
   const { id } = req.params;
   const { NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo } = req.body;
+
+  // Validar que el ID sea un número entero positivo
+  if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  // Validar datos requeridos
+  if (NumeroControl === undefined || Monto === undefined || FechaInicio === undefined || Estatus === undefined || IdPrestamo === undefined) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  }
+
+  // Validar tipo de datos
+  if (isNaN(Monto) || Number(Monto) < 0) {
+    return res.status(400).json({ error: 'Monto debe ser un número positivo' });
+  }
+
+  if (isNaN(IdPrestamo) || Number(IdPrestamo) <= 0) {
+    return res.status(400).json({ error: 'IdPrestamo debe ser un número entero positivo' });
+  }
+
   pool.query(
-    'UPDATE multasv2 SET NumeroControl = ?, Monto = ?, FechaInicio = ?, Estatus = ?, IdPrestamo = ? WHERE IdMulta = ?',
+    'UPDATE Multas SET NumeroControl = ?, Monto = ?, FechaInicio = ?, Estatus = ?, IdPrestamo = ? WHERE IdMulta = ?',
     [NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo, id],
     (err, results) => {
       if (err) {
-        return res.status(500).json({ error: err.message });
+        console.error('Error al actualizar la multa:', err);
+        return res.status(500).json({ error: 'Error interno del servidor' });
       }
       if (results.affectedRows > 0) {
         res.json({ message: 'Multa actualizada exitosamente' });
@@ -691,9 +750,16 @@ app.patch('/multas/:id', (req, res) => {
 // Eliminar una multa
 app.delete('/multas/:id', (req, res) => {
   const { id } = req.params;
-  pool.query('DELETE FROM multasv2 WHERE IdMulta = ?', [id], (err, results) => {
+
+  // Validar que el ID sea un número entero positivo
+  if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  pool.query('DELETE FROM Multas WHERE IdMulta = ?', [id], (err, results) => {
     if (err) {
-      return res.status(500).json({ error: err.message });
+      console.error('Error al eliminar la multa:', err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
     }
     if (results.affectedRows > 0) {
       res.json({ message: 'Multa eliminada exitosamente' });

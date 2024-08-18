@@ -8,26 +8,31 @@
   margin: auto;
 }
 
-.form-group {
-  display: flex;
-  justify-content: space-between;
+h1 {
+  text-align: center;
   margin-bottom: 20px;
 }
 
-label {
-  flex-basis: calc(50% - 10px);
-  margin-right: 10px;
+.alert {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
 }
 
-.content {
-  flex-grow: 1;
-  padding: 20px;
-  background-size: cover;
+.alert-success {
+  background-color: #28a745;
+}
+
+.alert-error {
+  background-color: #dc3545;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 15px;
   max-width: 600px;
   margin: auto;
   padding: 20px;
@@ -36,15 +41,34 @@ form {
 }
 
 form label {
-  flex-basis: calc(50% - 10px);
+  align-self: center;
+  font-weight: bold;
   margin-right: 10px;
 }
 
-.notificacion {
-  margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
+form input,
+form select {
+  width: 100%;
   padding: 10px;
+  border: 1px solid #ccc;
   border-radius: 5px;
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+form button {
+  grid-column: 1 / span 2;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+form button:hover {
+  background-color: #45a049;
 }
 
 .buttons {
@@ -52,11 +76,107 @@ form label {
   margin-top: 20px;
 }
 
+.confirmation-message {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #007bff;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.confirmation-message h2 {
+  color: #007bff;
+  font-size: 24px;
+}
+
+.confirmation-message p {
+  color: #333;
+  font-size: 18px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+/* Estilos para los botones en el formulario */
 button {
   padding: 10px 20px;
   border: none;
-  display: flex;
   border-radius: 5px;
-  justify-content: center;
-  margin-top: 20px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
 }
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos específicos para los botones de acción en la tabla */
+button.edit-button {
+  background-color: #007bff;
+}
+
+button.edit-button:hover {
+  background-color: #0056b3;
+}
+
+button.delete-button {
+  background-color: #dc3545;
+}
+
+button.delete-button:hover {
+  background-color: #c82333;
+}
+
+table button {
+  padding: 8px 16px;
+  font-size: 14px;
+  margin: 2px;
+}
+
+table button {
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  padding: 8px 16px;
+}
+
+table .edit-button {
+  background-color: #007bff;
+}
+
+table .edit-button:hover {
+  background-color: #0056b3;
+}
+
+table .delete-button {
+  background-color: #dc3545;
+}
+
+table .delete-button:hover {
+  background-color: #c82333;
+}
+
+
