@@ -110,24 +110,17 @@ export class MultasComponent implements OnInit {
 
   updateMulta(): void {
     if (this.selectedMulta) {
-      const changes = {
-        NumeroControl: this.selectedMulta.NumeroControl,
-        Monto: this.selectedMulta.Monto,
-        FechaInicio: this.selectedMulta.FechaInicio,
-        Estatus: this.selectedMulta.Estatus,
-        IdPrestamo: this.selectedMulta.IdPrestamo
-      };
-
-      this.multasService.updateMulta(this.selectedMulta.IdMulta, changes).subscribe({
-        next: response => {
+      this.multasService.updateMulta(this.selectedMulta.IdMulta, this.selectedMulta).subscribe({
+        next: () => {
           this.showAlert('Multa actualizada exitosamente', 'success');
           this.isEditing = false;
-          this.loadMultas(); // Recarga la lista de multas después de la actualización
+          this.selectedMulta = null;
+          this.loadMultas(); // Recargar la lista de multas después de la actualización
         },
-        error: error =>{
-          this.showAlert('Error al actualizar la multa:' + (error.message || 'Error desconocido'), 'error');
+        error: error => {
+          this.showAlert('Error al actualizar la multa: ' + (error.message || 'Error desconocido'), 'error');
         }
-    });
+      });
     }
   }
 
