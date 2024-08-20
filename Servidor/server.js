@@ -5,7 +5,6 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const multer = require('multer');
 const nodemailer = require('nodemailer');
-
 const app = express();
 
 // Configuración de multer para manejar la carga de archivos
@@ -295,18 +294,6 @@ app.get('/loanBook', (req, res) => {
     res.status(200).json(results);
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
     // Configuración de nodemailer
     const userGmail = "utngbiblioteca@gmail.com";

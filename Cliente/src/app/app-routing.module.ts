@@ -8,7 +8,6 @@ import {SearchBooksComponent} from './components/Options/search-books/SearchBook
 import { NewBooksComponent } from './components/Options/NewBooks/NewBooks.component';
 import { MaterialModule } from './material/material.module';
 import { EditBooksComponent } from './components/Options/EditBooks/EditBooks.component';
-import { ForgotPasswordComponent } from './components/home/ForgotPassword/ForgotPassword.component';
 import { MultasComponent } from './components/Options/multas/multas.component';
 import { RegistroLectorComponent } from './components/Options/Lectores/lectores.component';
 import { PersonalisadoComponent } from './components/Options/ReportePersonalisado/personalisados.component';
@@ -33,7 +32,6 @@ const routes: Routes = [
   {path: 'NewBook', component: NewBooksComponent, canActivate: [AuthGuard] },
   { path: 'new-book', component: NewBooksComponent, canActivate: [AuthGuard]  },
   {path: 'EditBook', component:EditBooksComponent, canActivate: [AuthGuard] },
-  {path: 'forgot', component:ForgotPasswordComponent, canActivate: [AuthGuard] },
   {path: 'multas', component: MultasComponent, canActivate: [AuthGuard] },
   {path: 'registro', component: RegistroBibiotecariosComponent, canActivate: [AuthGuard] },
   {path: 'lector', component: RegistroLectorComponent, canActivate: [AuthGuard] },
