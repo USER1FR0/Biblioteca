@@ -35,25 +35,25 @@
     <h2>Editar Multa</h2>
     <form (ngSubmit)="updateMulta()">
       <label for="NumeroControl">Número de Control:</label>
-      <select id="NumeroControl" name="NumeroControl" ngModel required>
+      <select id="NumeroControl" [(ngModel)]="selectedMulta.NumeroControl" name="NumeroControl" required>
         <option *ngFor="let lector of lectores" [value]="lector.NumeroControl">{{ lector.NumeroControl }} - {{ lector.NombreCompleto }}</option>
       </select>
       
       <label for="Monto">Monto:</label>
-      <input type="number" id="Monto" name="Monto" ngModel required step="0.01">
+      <input type="number" id="Monto" [(ngModel)]="selectedMulta.Monto" name="Monto" required step="0.01">
       
       <label for="FechaInicio">Fecha de Inicio:</label>
-      <input type="datetime-local" id="FechaInicio" name="FechaInicio" ngModel required>
+      <input type="datetime-local" id="FechaInicio"  [(ngModel)]="selectedMulta.FechaInicio" name="FechaInicio" required>
       
       <label for="Estatus">Estatus:</label>
-      <input type="text" id="Estatus" name="Estatus" ngModel required>
+      <input type="text" id="Estatus" [(ngModel)]="selectedMulta.Estatus" name="Estatus" required>
       
       <label for="IdPrestamo">Id de Préstamo:</label>
-      <select id="IdPrestamo" name="IdPrestamo" ngModel required>
+      <select id="IdPrestamo" [(ngModel)]="selectedMulta.IdPrestamo" name="IdPrestamo" required>
         <option *ngFor="let prestamo of prestamos" [value]="prestamo.IdPrestamo">{{ prestamo.IdPrestamo }} - {{ prestamo.FechaPrestamo | date:'short' }}</option>
       </select>
       
-      <button type="submit">Actualizar Multa</button>
+      <button type="submit">Actualizar Multa</button>    
     </form>
   </div>
 
