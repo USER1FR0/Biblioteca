@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MenuComponent } from './menu.component';
-import { SidebarService } from '../Options/Services/sidebar.services';
+import { SidebarService } from '../menu/Options/Services/sidebar.services';
 
 
 describe('MenuComponent', () => {
