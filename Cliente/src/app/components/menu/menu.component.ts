@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { SidebarService } from '../Options/Services/sidebar.services';
+import { SidebarService } from '../menu/Options/Services/sidebar.services';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'; 
 
