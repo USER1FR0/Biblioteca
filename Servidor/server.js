@@ -780,9 +780,6 @@ app.post('/multas', (req, res) => {
           });
         }
       });
-
-        
-
     res.status(201).json({ id: results.insertId });
   });
 });
@@ -856,10 +853,12 @@ app.delete('/multas/:id', (req, res) => {
 // Obtener todos los préstamos
 app.get('/loans', (req, res) => {
   const query = `
-    SELECT p.IdPrestamo AS id, p.ISBN, p.NumeroControl, p.FechaPrestamo, p.FechaDevolucion, l.Titulo
-    FROM Prestamo p
-    JOIN Libro l ON p.ISBN = l.ISBN
-  `;
+  SELECT p.IdPrestamo AS id, p.ISBN, p.NumeroControl, p.FechaPrestamo, p.FechaDevolucion, l.Titulo
+  FROM Prestamo p
+  JOIN Libro l ON p.ISBN = l.ISBN
+  WHERE p.Estado = 'Pendiente'
+`;
+
 
   pool.query(query, (err, results) => {
     if (err) {
@@ -869,23 +868,27 @@ app.get('/loans', (req, res) => {
     res.json(results);
   });
 });
+
 // Devolver un libro
 app.delete('/returnBook/:id', (req, res) => {
   const { id } = req.params;
   console.log('ID del préstamo a devolver:', id);
 
-  pool.query('SELECT ISBN FROM Prestamo WHERE IdPrestamo = ?', [id], (err, result) => {
+  pool.query('SELECT ISBN FROM Prestamo WHERE IdPrestamo = ? ', [id,], (err, result) => {
     if (err) {
       console.error('Error al obtener el ISBN del préstamo:', err);
       return res.status(500).json({ error: 'Error interno del servidor' });
     }
+
+    console.log('Resultado de la consulta:', result); // Para verificar qué se está devolviendo
+
     if (result.length === 0) {
       return res.status(404).json({ error: 'Préstamo no encontrado' });
     }
 
     const isbn = result[0].ISBN;
 
-    pool.query('DELETE FROM Prestamo WHERE IdPrestamo = ?', [id], (err) => {
+    pool.query('Update Prestamo SET Estado = ? WHERE IdPrestamo = ?', ['Devuelto',id], (err) => {
       if (err) {
         console.error('Error al devolver el libro:', err);
         return res.status(500).json({ error: 'Error interno del servidor' });
