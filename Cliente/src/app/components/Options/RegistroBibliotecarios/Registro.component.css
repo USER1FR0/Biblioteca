@@ -46,8 +46,7 @@ button {
 }
 
 .btn-cancelar {
-    background-color: #2196F3; /* Azul claro */
-    color: rgb(99, 169, 226);
+  background-color: #223ef3;
     margin-right: 10px; /* Espacio entre botones */
 }
 
@@ -56,8 +55,8 @@ button {
 }
 
 .btn-guardar {
-    background-color: #42A5F5; /* Azul medio */
-    color: rgb(63, 151, 233);
+  background-color: #223ef3;
+   
 }
 
 .btn-guardar:hover {
@@ -80,15 +79,15 @@ button {
   }
 
   .buttons button:first-of-type {
-    background-color: #007bff; /* Azul principal */
+    background-color: rgb(23, 118, 235);/* cancelar */
   }
 
   .buttons button:first-of-type:hover {
-    background-color: #0056b3; /* Azul más oscuro */
+    background-color: #ff2525; /* Azul más oscuro */
   }
 
   .buttons button:last-of-type {
-    background-color: #38a3fa; /* Verde para "Guardar" */
+    background-color: #223ef3;/* Verde para "Guardar" */
   }
 
   .buttons button:last-of-type:hover {

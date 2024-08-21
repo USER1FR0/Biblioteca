@@ -6,17 +6,18 @@
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8YrcFCPbj_x4P9KKtC7L4eH8NMNV8NDE2Q&s" 
     alt="Logo UTNG" 
     class="logo" 
-    (click)="showNoticiasSection()">    <div>
+    (click)="showNoticiasSection()">    
+    <div>
       <div class="image-container">
           <button mat-icon-button [matMenuTriggerFor]="Question">
             <mat-icon>help</mat-icon>
           </button>
           <mat-menu #Question="matMenu">
               <span>
-                Hola!, Aqui te mostraremos  
-                Informacion relacionada a la pagina
-                y algun contacto para soporte 
-                Tecnico...
+                Hola!, Aquí te mostraremos  
+                Información relacionada a la página
+                y algún contacto para soporte 
+                Técnico...
               </span>
           </mat-menu>
       </div>
@@ -26,8 +27,8 @@
         </button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="logout()">
-            <span>Cerrar Sesion</span>
-        </button>
+            <span>Cerrar Sesión</span>
+          </button>
         </mat-menu>
       </div>
     </div>
@@ -43,6 +44,7 @@
         <li><a (click)="showMulta()">Gestionar Multas</a></li>
         <li><a (click)="showPersonalisado()">Generar reporte</a></li>
         <li><a (click)="showRegistroBlibliotecarios()">Nuevos Bibliotecarios</a></li>
+        <li><a (click)="mostrarDevolucionDeLibros()">Devolver Libros</a></li>      
       </ul>
     </div>
 
@@ -74,6 +76,9 @@
       </div>
       <div *ngIf="showReporte">
         <app-personalizado></app-personalizado>
+      </div>
+      <div *ngIf="showDevolucionDeLibros">
+        <app-devolucion-de-libros></app-devolucion-de-libros>
       </div>
     </div>
   </div>

@@ -60,9 +60,6 @@ export class EditBooksComponent implements OnInit {
       },
       (error) => {
         console.error('Error al actualizar el libro', error);
-        if (error.error && error.error.camposFaltantes) {
-          console.log('Campos faltantes según el servidor:', error.error.camposFaltantes);
-        }
         alert('Error al actualizar el libro: ' + (error.error.message || 'Ocurrió un error desconocido'));
       }
     );
@@ -70,6 +67,7 @@ export class EditBooksComponent implements OnInit {
 
   deleteBook() {
     if (confirm('¿Estás seguro de que quieres eliminar este libro?')) {
+      console.log('Eliminando libro con ISBN:', this.book.ISBN); // Agregar este log
       this.http.delete(`http://localhost:3000/deleteBook/${this.book.ISBN}`).subscribe(
         (response) => {
           console.log('Libro eliminado con éxito', response);
