@@ -29,6 +29,7 @@ import { PersonalisadoComponent } from './components/Options/ReportePersonalisad
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule } from '@angular/forms';
 import { ErrorComponent } from './error/error.component';
+import { DevolucionDeLibrosComponent } from './components/Options/devolucion-de-libros/devolucion-de-libros.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { ErrorComponent } from './error/error.component';
     MultasComponent,
     RegistroLectorComponent,
     PersonalisadoComponent,
-    ErrorComponent
+    ErrorComponent,
+    DevolucionDeLibrosComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +65,8 @@ import { ErrorComponent } from './error/error.component';
     MatListModule,
     NavbarModule,
     MatSnackBarModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule, 
   ],
   providers: [
     provideAnimationsAsync()

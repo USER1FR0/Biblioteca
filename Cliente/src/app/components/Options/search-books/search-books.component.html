@@ -40,18 +40,25 @@
             <p><strong>Autor:</strong> {{ selectedBook.author }}</p>
             <p><strong>Editorial:</strong> {{ selectedBook.publisher }}</p>
             <p><strong>Sinopsis:</strong> {{ selectedBook.synopsis }}</p>
+            <p><strong>Cantidad disponible:</strong> {{ selectedBook.NumeroEjemplares }}</p> <!-- Mostrar cantidad disponible -->
             <button class="btn-custom" (click)="openLoanForm(selectedBook, $event)">Solicitar Préstamo</button>
         </div>
     </div>
     <div *ngIf="showLoanForm" class="modal" (click)="closeLoanForm($event)">
         <div class="modal-content" (click)="$event.stopPropagation()">
             <span class="close" (click)="closeLoanForm()">&times;</span>
-            <h2>Solicitar Préstamo</h2>
-            <form (ngSubmit)="submitLoanForm()">
-                <div>
+            <div class="search-books">
+                <h2>Solicitar Préstamo</h2>
+                <label for="search">Buscar Lector:</label>
+                <input type="text" id="search" [(ngModel)]="searchQuery" (input)="filterLectores()" placeholder="Escribe el número de control o nombre...">
+            
+                <form (ngSubmit)="submitLoanForm()">
                     <label for="numeroControl">Número de Control:</label>
-                    <input type="number" id="numeroControl" [(ngModel)]="numeroControl" name="numeroControl" required>
-                </div>
+                    <select id="numeroControl" [(ngModel)]="numeroControl" name="numeroControl" required>
+                        <option *ngFor="let lector of filteredLectores" [value]="lector.NumeroControl">{{ lector.NumeroControl }} - {{ lector.NombreCompleto }}</option>
+                        <option *ngIf="filteredLectores.length === 0" disabled>No hay lectores disponibles</option> <!-- Mensaje si no hay lectores -->
+                    </select>
+                
                 <div>
                     <label for="isbn">ISBN:</label>
                     <input type="text" id="isbn" [(ngModel)]="isbn" name="isbn" required>

@@ -19,13 +19,13 @@ export class MenuComponent {
   showReporte = false;
   isFooterVisible = false;
   showNoticias = true; // Inicialmente mostramos las noticias
+  showDevolucionDeLibros = false; // Asegúrate de que esta propiedad esté definida
   noticiasItems: any[] = [];
    
   constructor(private sidebarService: SidebarService, private http: HttpClient, private router: Router) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
     this.cargarNoticias();
   }
-
 
   toggleSidebar() {
     this.sidebarService.toggleSidebar();
@@ -66,6 +66,11 @@ export class MenuComponent {
     this.showNoticias = true;
   }
 
+  mostrarDevolucionDeLibros() {
+    this.resetViews();
+    this.showDevolucionDeLibros = true; // Cambia a true para mostrar el componente
+}
+
   toggleDropdown() {
     this.isDropdownVisible = !this.isDropdownVisible;
   }
@@ -73,11 +78,11 @@ export class MenuComponent {
   closeDropdown() {
     this.isDropdownVisible = false;
   }
+
   logout() {
     localStorage.removeItem('token'); // Elimina el token de localStorage
     this.router.navigate(['/home']); // Redirige a la página de inicio de sesión
   }
-
 
   private resetViews() {
     this.showSearch = false;
@@ -87,6 +92,7 @@ export class MenuComponent {
     this.showLectores = false;
     this.showReporte = false;
     this.showNoticias = false;
+    this.showDevolucionDeLibros = false; // Resetea la propiedad de devolución de libros
   }
 
   @HostListener('window:scroll', [])
