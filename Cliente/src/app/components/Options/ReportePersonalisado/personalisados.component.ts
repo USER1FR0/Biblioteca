@@ -1,53 +1,52 @@
-import { Component } from '@angular/core';
+import { PrestamoService } from './../../../Services/reporte.service';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 
 interface Libro {
   titulo: string;
-  fechaPrestamo: Date ;
-  fechaDevolucion: Date ;
+  fechaPrestamo: Date;
+  fechaDevolucion: Date;
   multasAnteriores: number;
 }
-
 
 @Component({
   selector: 'app-personalizado',
   templateUrl: './personalisado.component.html',
-  styleUrls: ['./personalisado.component.css']
+  styleUrls: ['./personalisado.component.css'],
 })
-export class PersonalisadoComponent {
-  reader = {
-    nombre: 'Juan Pérez',
-    correo: 'juan.perez@example.com',
-    numeroControl: 'LEC12345',
-    fechaAdquisicion: new Date('2023-05-15'),
-    ultimoPrestador: 'María González',
-    cantidadDebe: 25.00  // En dólares
-  };
+export class PersonalisadoComponent implements OnInit {
+  prestamos: any[] = [];
+  mensajeDeError: string | null = null;
 
-  librosPrestados: Libro[] = [
-    {
-      titulo: 'Harry Potter y la Piedra Filosofal',
-      fechaPrestamo: new Date('2024-07-01'),
-      fechaDevolucion: new Date('2024-07-15'),
-      multasAnteriores: 0.00
-    },
-    {
-      titulo: 'Cien Años de Soledad',
-      fechaPrestamo: new Date('2024-07-10'),
-      fechaDevolucion: new Date('2024-07-25'),
-      multasAnteriores: 25.00  // En dólares
-    }
-  ];
-  isVisble = false;
+  constructor(private prestamoService: PrestamoService) {}
 
-  showDialog() {
-    this.isVisble = true;
+  ngOnInit(): void {
+    this.cargarPrestamos();
   }
 
-  
-
-  closeModal() {
-    this.isVisble = false;
+  actualizarReporte(): void {
+    this.cargarPrestamos();
   }
-  
+
+  cargarPrestamos() {
+    this.prestamoService.getPrestamos().subscribe(
+      (data) => {
+        if (data.length === 0) {
+          this.mensajeDeError = 'No se encontraron préstamos disponibles.';
+        } else {
+          this.prestamos = data;
+        }
+      },
+      (error) => {
+        if (error.status === 404) {
+          console.error('No se encontraron préstamos.', error);
+          this.mensajeDeError = 'No se encontraron préstamos disponibles.';
+        } else {
+          console.error('Error al cargar los préstamos.', error);
+          this.mensajeDeError =
+            'Hubo un problema al cargar los préstamos. Por favor, intenta nuevamente más tarde.';
+        }
+      }
+    );
+  }
 }
