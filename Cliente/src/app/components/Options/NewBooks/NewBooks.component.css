@@ -6,6 +6,17 @@
     position: relative;
     border-radius: 10px;
 }
+                
+.form-title{
+    font-family: 'Georgia', serif;
+    font-size: 2.5em;
+    color: #0e1114; 
+    text-align: center; 
+    margin-bottom: 20px; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    font-weight: bold;
+}
 
 .form-group {
     display: flex;
@@ -40,11 +51,19 @@
 }
 
 .cancel-button {
-    background-color: red;
+    background-color: rgb(23, 118, 235);
+    color: white;
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    border: none;
 }
 
 .save-button {
-    background-color: #007bff;
+    background-color: #223ef3;
+    color: white;
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    border: none;
 }
 
 .buttons {
@@ -53,6 +72,7 @@
   
   .cancel-button {
     margin-right: 200px; /* Margen a la derecha del botón Cancel */
+    margin-left: 150px; 
   }
 
   .textarea {

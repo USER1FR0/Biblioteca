@@ -2,17 +2,18 @@
   <div class="header">
     <div class="container">
       <div class="position-relative">
-        <button type="button" aria-label="Close" class="button-back" (click)="modal.dismiss()">
+        <button mat-icon-button type="button" aria-label="Close" class="button-back" (click)="modal.dismiss()">
+          <mat-icon>cancel</mat-icon>
           <i class="fas fa-arrow-left"></i>
         </button>
       </div>
 
       <form class="card-body cardbody-color p-lg-5" (ngSubmit)="onLogin()">
         <div class="text-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
-            class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px" alt="profile">
+          <h2 color="blue" Font-face = "aptos"> BIENVENIDO </h2>
+          <img src="https://e7.pngegg.com/pngimages/493/818/png-clipart-bald-eagle-bird-cartoon-animals-bird-cartoon.png"
+            class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="400px" alt="profile">
         </div>
-
         <div class="mb-3">
           <input type="text" class="form-control" id="username" [(ngModel)]="authData.username" name="username" placeholder="Nombre de Usuario" required>
         </div>

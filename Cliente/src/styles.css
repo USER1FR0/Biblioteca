@@ -2,6 +2,7 @@
 
 @import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+
 html, body { 
     height: 100%; 
 }
@@ -41,3 +42,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+<<<<<<< HEAD
+=======
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+>>>>>>> b0810370f99ad6be8830e131ba4e6b579dff0cec

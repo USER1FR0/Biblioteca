@@ -15,13 +15,11 @@ export class SearchBooksComponent implements OnInit {
   searchQuery: string = '';
   selectedAuthor: string = '';
   selectedPublisher: string = '';
-  selectedPublicationDate: string = '';
-  selectedTitle: string = '';
   books: any[] = [];
   selectedBook: any = null;
   showLoanForm: boolean = false;
-  showPreview: boolean = false; // Nueva variable para mostrar la previsualización
-  loading: boolean = false; // Nueva variable para controlar la pantalla de carga
+  showPreview: boolean = false;
+  loading: boolean = false;
 
   numeroControl: number = 0;
   isbn: string = '';
@@ -31,6 +29,8 @@ export class SearchBooksComponent implements OnInit {
 
   authors: string[] = [];
   publishers: string[] = [];
+  lectores: any[] = [];
+  filteredLectores: any[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -42,6 +42,24 @@ export class SearchBooksComponent implements OnInit {
 
   ngOnInit() {
     this.cargarAutoresYEditoriales();
+    this.cargarLectores(); 
+  }
+
+  cargarLectores() {
+    this.http.get<any>('http://localhost:3000/lector').subscribe(
+      (data) => {
+        this.lectores = data;
+        this.filteredLectores = data; 
+      },
+      (error) => console.error('Error al cargar lectores:', error)
+    );
+  }
+  
+  filterLectores() {
+    this.filteredLectores = this.lectores.filter(lector =>
+      lector.NumeroControl.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      lector.NombreCompleto.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
   }
 
   cargarAutoresYEditoriales() {
@@ -64,53 +82,53 @@ export class SearchBooksComponent implements OnInit {
   }
 
   searchBooks() {
-    this.loading = true; // Mostrar pantalla de carga
+    this.loading = true;
     this.bookService.searchBooks({
       busqueda: this.searchQuery,
       autor: this.selectedAuthor,
-      categoria: this.selectedPublisher,
-      titulo: this.selectedTitle
+      categoria: this.selectedPublisher
     }).subscribe(
       (data) => {
         this.books = data.map(book => ({
           ...book,
           Portada: book.Portada ? new Uint8Array(book.Portada.data) : null
         }));
-        this.loading = false; // Ocultar pantalla de carga
+        this.loading = false;
       },
       (error) => {
         console.error('Error al buscar libros:', error);
-        this.loading = false; // Ocultar pantalla de carga en caso de error
+        this.loading = false;
       }
     );
   }
 
   previewBook(book: any) {
     this.selectedBook = {
-        title: book.Titulo, // Asegúrate de que este campo esté correctamente asignado
-        author: book.Autor, // Asegúrate de que este campo esté correctamente asignado
-        publisher: book.Categoria, // Asegúrate de que este campo esté correctamente asignado
+        title: book.Titulo,
+        author: book.Autor,
+        publisher: book.Categoria,
         synopsis: book.Descripcion,
         cover: book.Portada ? this.getBookCoverUrl(book) : '../../../../assets/LogoUTNG.png',
         ISBN: book.ISBN,
         NumeroEjemplares: book.NumeroEjemplares || 0,
         Descripcion: book.Descripcion || '',
-        Tema: book.Tema || '', // Asegúrate de incluir el campo Tema
-        Categoria: book.Categoria || '' // Asegúrate de incluir el campo Categoria
+        Tema: book.Tema || '',
+        Categoria: book.Categoria || ''
     };
-    this.showPreview = true; // Mostrar la previsualización
-}
+    this.showPreview = true;
+  }
+
   closePreview() {
-    this.showPreview = false; // Cerrar la previsualización
+    this.showPreview = false;
   }
 
   openLoanForm(book: any, event: Event) {
     event.stopPropagation(); 
     this.showLoanForm = true; 
-    this.isbn = book.ISBN; // Asegúrate de que el ISBN se establezca correctamente
-    this.showPreview = false; // Ocultar la previsualización
-}
-
+    this.selectedBook = book; // Guardar el libro seleccionado
+    this.isbn = book.ISBN; 
+    this.showPreview = false; 
+  }
 
   closeLoanForm(event?: MouseEvent) {
     if (event) {
@@ -122,32 +140,54 @@ export class SearchBooksComponent implements OnInit {
 
   submitLoanForm() {
     if (!this.fechaPrestamo || !this.fechaDevolucion) {
-      this.snackBar.open('Las fechas de préstamo y devolución son requeridas', 'Cerrar', { duration: 3000 });
-      return;
+        this.snackBar.open('Las fechas de préstamo y devolución son requeridas', 'Cerrar', { duration: 3000 });
+        return;
+    }
+
+    // Verificar la cantidad de ejemplares disponibles
+    if (this.selectedBook.NumeroEjemplares <= 0) {
+        this.snackBar.open('No hay ejemplares disponibles para prestar', 'Cerrar', { duration: 3000 });
+        return;
     }
 
     const loanData = {
-      numeroControl: this.numeroControl,
-      isbn: this.isbn,
-      fechaPrestamo: this.fechaPrestamo,
-      fechaDevolucion: this.fechaDevolucion,
-      idBibliotecario: this.idBibliotecario,
+        numeroControl: this.numeroControl,
+        isbn: this.selectedBook.ISBN, // Usar el ISBN del libro seleccionado
+        fechaPrestamo: this.fechaPrestamo,
+        fechaDevolucion: this.fechaDevolucion,
+        idBibliotecario: this.idBibliotecario,
     };
 
     console.log('Datos del préstamo a enviar:', loanData);
 
+    // Enviar datos del préstamo
     this.http.post('http://localhost:3000/loanBook', loanData).subscribe(
-      (response: any) => {
-        this.snackBar.open(response.message, 'Cerrar', { duration: 3000 });
-        this.closeLoanForm();
-        this.searchBooks();
-      },
-      (error) => {
-        console.error('Error al registrar el préstamo:', error);
-        this.snackBar.open(error.error.message || 'Error al registrar el préstamo', 'Cerrar', { duration: 3000 });
-      }
+        (response: any) => {
+            this.snackBar.open(response.message, 'Cerrar', { duration: 3000 });
+            this.closeLoanForm();
+            this.searchBooks(); // Actualiza la lista de libros después de realizar el préstamo
+
+            // Lógica para reducir la cantidad de libros disponibles
+            const updateData = {
+                NumeroEjemplares: this.selectedBook.NumeroEjemplares - 1 // Reducir en 1
+            };
+
+            // Actualizar la cantidad de ejemplares usando la nueva ruta
+            this.http.put(`http://localhost:3000/updateBook/quantity/${this.selectedBook.ISBN}`, updateData).subscribe(
+                (updateResponse) => {
+                    console.log('Cantidad de libros actualizada:', updateResponse);
+                },
+                (error) => {
+                    console.error('Error al actualizar la cantidad de libros:', error);
+                }
+            );
+        },
+        (error) => {
+            console.error('Error al registrar el préstamo:', error);
+            this.snackBar.open(error.error.message || 'Error al registrar el préstamo', 'Cerrar', { duration: 3000 });
+        }
     );
-  }
+}
 
   resetForm() {
     this.numeroControl = 0;
@@ -158,15 +198,15 @@ export class SearchBooksComponent implements OnInit {
   }
 
   openEditModal(book: any, event: Event) {
-    event.stopPropagation(); // Evitar que se cierre la previsualización
-    this.showPreview = false; // Asegurarse de que la previsualización esté oculta
+    event.stopPropagation();
+    this.showPreview = false;
     const modalRef = this.modalService.open(EditBooksComponent, { centered: true });
     modalRef.componentInstance.book = { 
-        ...book, // Asegúrate de que se pase el libro completo
+        ...book,
         NumeroEjemplares: book.NumeroEjemplares || 0,
         Descripcion: book.Descripcion || '',
-        Tema: book.Tema || '', // Asegúrate de incluir el campo Tema
-        Categoria: book.Categoria || '' // Asegúrate de incluir el campo Categoria
+        Tema: book.Tema || '',
+        Categoria: book.Categoria || ''
     };
     modalRef.result.then((result) => {
         if (result === 'save' || result === 'delete') {

@@ -5,7 +5,6 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const multer = require('multer');
 const nodemailer = require('nodemailer');
-
 const app = express();
 
 // Configuración de multer para manejar la carga de archivos
@@ -178,13 +177,43 @@ app.post('/addBook', upload.single('portada'), (req, res) => {
   });
 });
 
-// Actualizar un libro
+// Rutas para manejar libros
+
+// Actualizar solo la cantidad de ejemplares
+app.put('/updateBook/quantity/:isbn', (req, res) => {
+  const { isbn } = req.params;
+  const { NumeroEjemplares } = req.body;
+
+  console.log('Datos recibidos para actualizar cantidad:', req.body);
+
+  if (NumeroEjemplares === undefined) {
+    return res.status(400).json({ message: 'El campo NumeroEjemplares es obligatorio' });
+  }
+
+  const query = 'UPDATE Libro SET NumeroEjemplares = ? WHERE ISBN = ?';
+  const values = [NumeroEjemplares, isbn];
+
+  pool.query(query, values, (err, result) => {
+    if (err) {
+      console.error('Error al actualizar la cantidad de ejemplares:', err);
+      return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Libro no encontrado' });
+    }
+
+    res.status(200).json({ message: 'Cantidad de libros actualizada exitosamente' });
+  });
+});
+
+// Actualizar un libro (detalles)
 app.put('/updateBook/:isbn', upload.single('portada'), (req, res) => {
   const { isbn } = req.params;
   const { Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares } = req.body;
   const portada = req.file ? req.file.buffer : null;
 
-  console.log('Datos recibidos:', req.body);
+  console.log('Datos recibidos para actualizar libro:', req.body);
   console.log('Archivo recibido:', req.file);
 
   if (!Titulo || !Autor || !Tema || !Categoria || NumeroEjemplares === undefined) {
@@ -215,18 +244,30 @@ app.put('/updateBook/:isbn', upload.single('portada'), (req, res) => {
     res.status(200).json({ message: 'Libro actualizado exitosamente' });
   });
 });
-
 // Eliminar un libro
 app.delete('/deleteBook/:isbn', (req, res) => {
   const { isbn } = req.params;
 
-  pool.query('DELETE FROM Libro WHERE ISBN = ?', [isbn], (err) => {
+  // Primero, eliminar los préstamos asociados
+  pool.query('DELETE FROM Prestamo WHERE ISBN = ?', [isbn], (err) => {
     if (err) {
-      console.error('Error durante la eliminación:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
+      console.error('Error al eliminar los préstamos asociados:', err);
+      return res.status(500).send({ message: 'Error interno del servidor', error: err.message });
     }
 
-    res.status(200).send({ message: 'Libro eliminado exitosamente' });
+    // Ahora, eliminar el libro
+    pool.query('DELETE FROM Libro WHERE ISBN = ?', [isbn], (err, result) => {
+      if (err) {
+        console.error('Error al eliminar el libro:', err);
+        return res.status(500).send({ message: 'Error interno del servidor', error: err.message });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).send({ message: 'Libro no encontrado' });
+      }
+
+      res.status(200).send({ message: 'Libro eliminado exitosamente' });
+    });
   });
 });
 
@@ -279,34 +320,19 @@ app.post('/loanBook', (req, res) => {
           console.error('Error durante la inserción del préstamo:', err);
           return res.status(500).send({ message: 'Error interno del servidor' });
       }
-      res.status(201).send({ message: 'Préstamo registrado exitosamente' });
+
+      // Actualizar la cantidad de ejemplares después de registrar el préstamo
+      const updateQuery = 'UPDATE Libro SET NumeroEjemplares = NumeroEjemplares - 1 WHERE ISBN = ?';
+      pool.query(updateQuery, [isbn], (updateErr, updateResult) => {
+          if (updateErr) {
+              console.error('Error al actualizar la cantidad de ejemplares:', updateErr);
+              return res.status(500).send({ message: 'Error interno del servidor' });
+          }
+
+          res.status(201).send({ message: 'Préstamo registrado y cantidad de libros actualizada exitosamente' });
+      });
   });
 });
-
-app.get('/loanBook', (req, res) => {
-  const query = 'SELECT IdPrestamo, NumeroControl, ISBN FROM Prestamo';
-
-  pool.query(query, (err, results) => {
-    if (err) {
-      console.error('Error al obtener préstamos:', err);
-      return res.status(500).send({ message: 'Error interno del servidor' });
-    }
-
-    res.status(200).json(results);
-  });
-});
-
-
-
-
-
-
-
-
-
-
-
-
 
     // Configuración de nodemailer
     const userGmail = "utngbiblioteca@gmail.com";
@@ -319,7 +345,11 @@ app.get('/loanBook', (req, res) => {
         pass: passAppGmail,
       },
       tls: {
+<<<<<<< HEAD
         rejectUnauthorized: false,}
+=======
+        rejectUnauthorized: false}
+>>>>>>> b0810370f99ad6be8830e131ba4e6b579dff0cec
     });
 
     const crypto = require('crypto'); // Importar crypto para generar tokens
@@ -754,9 +784,12 @@ app.post('/multas', (req, res) => {
           });
         }
       });
+<<<<<<< HEAD
 
         
 
+=======
+>>>>>>> b0810370f99ad6be8830e131ba4e6b579dff0cec
     res.status(201).json({ id: results.insertId });
   });
 });
@@ -823,3 +856,78 @@ app.delete('/multas/:id', (req, res) => {
     }
   });
 });
+<<<<<<< HEAD
+=======
+
+
+
+
+// Obtener todos los préstamos
+app.get('/loans', (req, res) => {
+  const query = `
+  SELECT p.IdPrestamo AS id, p.ISBN, p.NumeroControl, p.FechaPrestamo, p.FechaDevolucion, l.Titulo
+  FROM Prestamo p
+  JOIN Libro l ON p.ISBN = l.ISBN
+  WHERE p.Estado = 'Pendiente'
+`;
+
+
+  pool.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener préstamos:', err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
+    }
+    res.json(results);
+  });
+});
+
+// Devolver un libro
+app.delete('/returnBook/:id', (req, res) => {
+  const { id } = req.params;
+  console.log('ID del préstamo a devolver:', id);
+
+  pool.query('SELECT ISBN FROM Prestamo WHERE IdPrestamo = ? ', [id,], (err, result) => {
+    if (err) {
+      console.error('Error al obtener el ISBN del préstamo:', err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
+    }
+
+    console.log('Resultado de la consulta:', result); // Para verificar qué se está devolviendo
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Préstamo no encontrado' });
+    }
+
+    const isbn = result[0].ISBN;
+
+    pool.query('Update Prestamo SET Estado = ? WHERE IdPrestamo = ?', ['Devuelto',id], (err) => {
+      if (err) {
+        console.error('Error al devolver el libro:', err);
+        return res.status(500).json({ error: 'Error interno del servidor' });
+      }
+
+      pool.query('SELECT NumeroEjemplares FROM Libro WHERE ISBN = ?', [isbn], (err, bookResult) => {
+        if (err) {
+          console.error('Error al obtener la cantidad de ejemplares del libro:', err);
+          return res.status(500).json({ error: 'Error interno del servidor' });
+        }
+        if (bookResult.length === 0) {
+          return res.status(404).json({ error: 'Libro no encontrado' });
+        }
+
+        const currentQuantity = bookResult[0].NumeroEjemplares;
+
+        const newQuantity = currentQuantity + 1; // Aquí solo sumas 1 al eliminar el préstamo
+        pool.query('UPDATE Libro SET NumeroEjemplares = ? WHERE ISBN = ?', [newQuantity, isbn], (err) => {
+          if (err) {
+            console.error('Error al actualizar la cantidad de ejemplares:', err);
+            return res.status(500).json({ error: 'Error interno del servidor' });
+          }
+
+          res.json({ message: 'Préstamo eliminado y cantidad de libros actualizada exitosamente' });
+        });
+      });
+    });
+  });
+});
+>>>>>>> b0810370f99ad6be8830e131ba4e6b579dff0cec

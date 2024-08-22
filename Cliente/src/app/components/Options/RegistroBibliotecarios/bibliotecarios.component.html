@@ -7,17 +7,12 @@
   </div>
   <div class="form-group">
     <label for="Correo">Correo Electronico</label>
-    <input type="text" id="Correo" placeholder="Correo" axlength="50" [(ngModel)]="Correo">
+    <input type="text" id="Correo" placeholder="Correo" maxlength="100" [(ngModel)]="Correo">
     <mat-icon routerLink="/bibliotecario"></mat-icon>
   </div>
   <div class="form-group">
     <label for="Numero">Número Telefónico</label>
     <input type="text" id="Telefono" placeholder="Número Telefónico" maxlength="15" [(ngModel)]="Telefono">
-    <mat-icon routerLink="/bibliotecario"></mat-icon>
-  </div>
-  <div class="form-group">
-    <label for="IdAdmin">Clave del Administrador</label>
-    <input type="password" id="IdAdmin" placeholder="Clave del Administrador" maxlength="10" [(ngModel)]="IdAdmin" required>
     <mat-icon routerLink="/bibliotecario"></mat-icon>
   </div>
   <div class="form-group">
@@ -30,13 +25,6 @@
     <input type="password" id="Contrasena" placeholder="Contraseña" maxlength="255" [(ngModel)]="Contrasena">
     <mat-icon routerLink="/bibliotecario"></mat-icon>
   </div>
-  <div class="form-group">
-    <label for="Contrasena">Confirmación de Contraseña</label>
-    <input type="password" id="Contrasena" placeholder="Confirmación de Contraseña" maxlength="255" [(ngModel)]="Contrasena">
-    <mat-icon routerLink="/bibliotecario"></mat-icon>
-  </div>
- 
-
   <div class="buttons">
     <button (click)="confirmCancel()">Cancelar</button>
     <button (click)="saveBibliotecario()">Guardar</button>

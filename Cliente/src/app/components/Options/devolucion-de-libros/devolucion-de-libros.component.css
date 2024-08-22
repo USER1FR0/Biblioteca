@@ -1,0 +1,89 @@
+body {
+    background-color: #f0f0f0; /* Color de fondo general */
+  }
+  
+  .search-container {
+    position: relative;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
+    border-radius: 10px;
+    max-width: 900px; /* Limitar el ancho máximo */
+    margin: 20px auto; /* Centrar el contenedor */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .search-header {
+    text-align: center; /* Centrar el texto */
+    margin-bottom: 20px; /* Espacio inferior */
+  }
+  
+  .search-header h2 {
+    font-family: 'Georgia', serif; /* Fuente del título */
+    font-size: 2.5em; /* Tamaño de fuente */
+    color: #2c3e50; /* Color del texto del título */
+    text-transform: uppercase; /* Transformar a mayúsculas */
+    letter-spacing: 1px; /* Espaciado entre letras */
+    font-weight: bold; /* Negrita para el título */
+  }
+  
+  .search-filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
+    gap: 10px; /* Espacio entre los elementos */
+  }
+  
+  mat-form-field {
+    flex: 1; /* Hacer que los campos de entrada ocupen el mismo espacio */
+    min-width: 200px; /* Ancho mínimo para los campos */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Espacio entre los filtros y la tabla */
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo de la tabla con menor saturación */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para resaltar la tabla */
+    border-radius: 8px; /* Bordes redondeados para la tabla */
+  }
+  
+  th, td {
+    padding: 12px; /* Espaciado interno */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #223ef3; /* Color de fondo para el encabezado */
+    color: white; /* Color del texto */
+    font-weight: bold; /* Negrita para el encabezado */
+  }
+  
+  tr:hover {
+    background-color: #f1f1f1; /* Color de fondo al pasar el mouse sobre las filas */
+  }
+  
+  /* Estilo para los botones */
+  button {
+    background-color: #ffffff; /* Color de fondo personalizado */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    cursor: pointer; /* Cambiar cursor al pasar el mouse */
+    transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  button:hover {
+    background-color: #1a2bbf; /* Color de fondo al pasar el mouse */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+  }
+  
+  button:active {
+    transform: scale(0.95); /* Reduce el tamaño al hacer clic */
+  }

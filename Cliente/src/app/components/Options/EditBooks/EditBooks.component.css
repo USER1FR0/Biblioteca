@@ -29,7 +29,7 @@
     padding: 5px;
 }
 
-input[readonly] {
+.input[readonly] {
     background-color: #f1f1f1;
 }
 
@@ -39,7 +39,7 @@ input[readonly] {
 }
 
 .save-button {
-    background-color: blue;
+    background-color: #223ef3;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -48,7 +48,7 @@ input[readonly] {
 }
 
 .cancel-button {
-    background-color: red;
+   background-color: rgb(23, 118, 235);
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -108,16 +108,5 @@ input[readonly] {
     border: none;
     border-radius: 0.25rem;
     cursor: pointer;
-  }
-  
-  .cancel-button {
-    background-color: #dc3545;
-    color: white;
-    margin-right: 1rem;
-  }
-  
-  .save-button {
-    background-color: #28a745;
-    color: white;
   }
   
