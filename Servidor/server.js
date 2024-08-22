@@ -120,7 +120,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Función para generar un token (puedes usar jsonwebtoken)
+// Función para generar un token 
 function generateToken(user) {
   // Implementa la lógica para generar un token, por ejemplo usando jsonwebtoken
   return 'token'; // Reemplaza esto con el token real
@@ -143,6 +143,7 @@ app.get('/tables/:table', (req, res) => {
     res.status(200).send(results);
   });
 });
+
 
 // Añadir un nuevo libro
 app.post('/addBook', upload.single('portada'), (req, res) => {
@@ -345,11 +346,8 @@ app.post('/loanBook', (req, res) => {
         pass: passAppGmail,
       },
       tls: {
-<<<<<<< HEAD
         rejectUnauthorized: false,}
-=======
-        rejectUnauthorized: false}
->>>>>>> b0810370f99ad6be8830e131ba4e6b579dff0cec
+
     });
 
     const crypto = require('crypto'); // Importar crypto para generar tokens
@@ -784,12 +782,6 @@ app.post('/multas', (req, res) => {
           });
         }
       });
-<<<<<<< HEAD
-
-        
-
-=======
->>>>>>> b0810370f99ad6be8830e131ba4e6b579dff0cec
     res.status(201).json({ id: results.insertId });
   });
 });
@@ -856,8 +848,6 @@ app.delete('/multas/:id', (req, res) => {
     }
   });
 });
-<<<<<<< HEAD
-=======
 
 
 
@@ -930,4 +920,44 @@ app.delete('/returnBook/:id', (req, res) => {
     });
   });
 });
->>>>>>> b0810370f99ad6be8830e131ba4e6b579dff0cec
+
+
+// End point para el reporte personalizado
+app.get('/Reporte', (req, res) => {
+  const { fechaInicio, fechaFin } = req.query;
+
+  let query = `
+    SELECT 
+      p.IdPrestamo,
+      p.NumeroControl,
+      l.NombreCompleto AS NombreLector,
+      l.Correo AS CorreoLector,
+      p.ISBN,
+      lb.Titulo AS TituloLibro,
+      lb.Autor AS AutorLibro,
+      p.FechaPrestamo,
+      p.FechaDevolucion,
+      p.IdBibliotecario,
+      p.Estado
+    FROM Prestamo p
+    JOIN Lector l ON p.NumeroControl = l.NumeroControl
+    JOIN Libro lb ON p.ISBN = lb.ISBN
+  `;
+
+  let queryParams = [];
+
+  if (fechaInicio && fechaFin) {
+    query += ` WHERE p.FechaPrestamo BETWEEN ? AND ?`;
+    queryParams.push(fechaInicio, fechaFin);
+  }
+
+  pool.query(query, queryParams, (err, results) => {
+    if (err) {
+      console.error('Error ejecutando la consulta:', err);
+      res.status(500).send('Error al obtener los préstamos.');
+    } else {
+      console.log('Resultados de la consulta:', results); // Aquí inspeccionas los resultados
+      res.json(results);
+    }
+  });
+});

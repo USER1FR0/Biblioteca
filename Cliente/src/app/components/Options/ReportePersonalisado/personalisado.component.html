@@ -1,52 +1,63 @@
+<div class="container">
+  <h2>Reporte Personalizado de Préstamos</h2>
 
-
-
-<div *ngIf="prestamos.length > 0">
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Lector</th>
-        <th>Libro</th>
-        <th>Autor</th>
-        <th>Bibliotecario</th>
-        <th>Fecha de Préstamo</th>
-        <th>Fecha de Devolución</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let prestamo of prestamos">
-        <td>{{ prestamo.IdPrestamo }}</td>
-        <td>{{ prestamo.NumeroControl }}</td>
-        <td>{{ prestamo.ISBN }}</td>
-        <td>{{ prestamo.Autor }}</td>
-        <td>{{ prestamo.IdBibliotecario }}</td>
-        <td>{{ prestamo.FechaPrestamo | date }}</td>
-        <td>{{ prestamo.FechaDevolucion | date }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div>
-  <button class="actualizar-boton" (click)="actualizarReporte()">Actualizar</button>
-</div>
-<div *ngIf="prestamos.length === 0">
-  No hay préstamos para mostrar.
-</div>
-<div *ngIf="mensajeDeError" class="error-message">
-  {{ mensajeDeError }}
+  <!-- Filtro por rango de fechas -->
+  <div class="filters">
+    <div class="filter-group">
+      <label for="fechaInicio">Fecha de Inicio:</label>
+      <input type="date" id="fechaInicio" [(ngModel)]="fechaInicio">
+    </div>
+    <div class="filter-group">
+      <label for="fechaFin">Fecha de Fin:</label>
+      <input type="date" id="fechaFin" [(ngModel)]="fechaFin">
+    </div>
+    <button class="search-button" (click)="actualizarReporte()">Actualizar Reporte</button>
+  </div>
+  
+  <!-- Selección de columnas usando checkboxes -->
+<div class="filter-group">
+  <h3>Selecciona las columnas para mostrar:</h3>
+  <div class="checkbox-grid">
+    <div *ngFor="let column of columnasDisponibles" class="checkbox-item">
+      <label>
+        <input type="checkbox" [(ngModel)]="column.selected">
+        {{ column.name }}
+      </label>
+    </div>
+  </div>
 </div>
 
-<!-- <div *ngIf="!mensajeDeError && prestamos.length > 0">
-  <h2>Lista de Préstamos</h2>
-  <ul>
-    <li *ngFor="let prestamo of prestamos">
-      {{ prestamo.titulo }} - {{ prestamo.lector }} ({{ prestamo.fecha }})
-    </li>
-  </ul>
-</div> -->
 
+  <!-- Tabla de reporte -->
+  <div *ngIf="prestamos.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let column of columnasDisponibles" [hidden]="!column.selected">
+            {{ column.name }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prestamo of prestamos">
+          <td *ngFor="let column of columnasDisponibles" [hidden]="!column.selected">
+            {{ prestamo[column.field] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-<div *ngIf="!mensajeDeError && prestamos.length === 0">
-  <p>No hay préstamos disponibles en este momento.</p>
+  <!-- Botón de exportación a PDF -->
+  <div>
+    <button class="exportar-boton" (click)="exportarPDF()">Exportar a PDF</button>
+  </div>
+
+  <!-- Mensajes de error -->
+  <div *ngIf="prestamos.length === 0 && !mensajeDeError">
+    No hay préstamos disponibles en este momento.
+  </div>
+  <div *ngIf="mensajeDeError" class="error-message">
+    {{ mensajeDeError }}
+  </div>
 </div>

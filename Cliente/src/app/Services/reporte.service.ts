@@ -7,17 +7,21 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PrestamoService {
-  private apiUrl = 'http://localhost:3000/tables/Prestamo';
+  private apiUrl = 'http://localhost:3000/Reporte';
 
   constructor(private http: HttpClient) {}
 
   // Método para obtener los préstamos con manejo de errores
-  getPrestamos(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
-      (
-        catchError(this.handleError)
-      );
+  getPrestamos(fechaInicio?: string, fechaFin?: string): Observable<any[]> {
+    let params: any = {};
+    if (fechaInicio && fechaFin) {
+      params.fechaInicio = fechaInicio;
+      params.fechaFin = fechaFin;
+    }
+    return this.http.get<any[]>(this.apiUrl, { params })
+      .pipe(catchError(this.handleError));
   }
+  
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
