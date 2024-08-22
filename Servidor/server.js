@@ -345,7 +345,11 @@ app.post('/loanBook', (req, res) => {
         pass: passAppGmail,
       },
       tls: {
+<<<<<<< HEAD
+        rejectUnauthorized: false,}
+=======
         rejectUnauthorized: false}
+>>>>>>> b0810370f99ad6be8830e131ba4e6b579dff0cec
     });
 
     const crypto = require('crypto'); // Importar crypto para generar tokens
@@ -780,6 +784,12 @@ app.post('/multas', (req, res) => {
           });
         }
       });
+<<<<<<< HEAD
+
+        
+
+=======
+>>>>>>> b0810370f99ad6be8830e131ba4e6b579dff0cec
     res.status(201).json({ id: results.insertId });
   });
 });
@@ -846,6 +856,8 @@ app.delete('/multas/:id', (req, res) => {
     }
   });
 });
+<<<<<<< HEAD
+=======
 
 
 
@@ -918,3 +930,4 @@ app.delete('/returnBook/:id', (req, res) => {
     });
   });
 });
+>>>>>>> b0810370f99ad6be8830e131ba4e6b579dff0cec
