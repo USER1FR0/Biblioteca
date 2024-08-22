@@ -782,6 +782,9 @@ app.post('/multas', (req, res) => {
           });
         }
       });
+
+        
+
     res.status(201).json({ id: results.insertId });
   });
 });
@@ -852,10 +855,10 @@ app.delete('/multas/:id', (req, res) => {
 
 
 
-// Obtener todos los préstamos
+ //Obtener todos los préstamos
 app.get('/loans', (req, res) => {
   const query = `
-  SELECT p.IdPrestamo AS id, p.ISBN, p.NumeroControl, p.FechaPrestamo, p.FechaDevolucion, l.Titulo
+  SELECT p.IdPrestamo, p.ISBN, p.NumeroControl, p.FechaPrestamo, p.FechaDevolucion, l.Titulo
   FROM Prestamo p
   JOIN Libro l ON p.ISBN = l.ISBN
   WHERE p.Estado = 'Pendiente'
