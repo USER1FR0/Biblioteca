@@ -26,11 +26,11 @@ export class MultasService {
   }
 
   getPrestamos(): Observable<any[]>{
-    return this.http.get<any[]>('http://localhost:3000/loanBook')
+    return this.http.get<any[]>('http://localhost:3000/loans')
   }
 
   createPrestamo(prestamo: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/loanBook`, prestamo);
+    return this.http.post(`${this.apiUrl}/loans`, prestamo);
   }
 
   getMulta(id: number): Observable<any> {

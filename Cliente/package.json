@@ -37,6 +37,7 @@
     "@types/jasmine": "~5.1.0",
     "@types/jest": "^29.5.12",
     "@types/jquery": "^3.5.30",
+    "@types/jspdf": "^2.0.0",
     "@types/mocha": "^10.0.7",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",

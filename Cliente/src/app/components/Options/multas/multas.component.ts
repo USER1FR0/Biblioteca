@@ -103,7 +103,7 @@ export class MultasComponent implements OnInit {
         this.showAlert('Multa agregada exitosamente', 'success');
       },
       error: error => {
-        this.showAlert('Error al agregar la multa: ' + (error.message || 'Error desconocido'), 'error');
+        this.showAlert('Error al agregar la multa: ' + (error.message), 'error');
       }
     });
   }
@@ -118,7 +118,7 @@ export class MultasComponent implements OnInit {
           this.loadMultas(); // Recargar la lista de multas después de la actualización
         },
         error: error => {
-          this.showAlert('Error al actualizar la multa: ' + (error.message || 'Error desconocido'), 'error');
+          this.showAlert('Error al actualizar la multa: ' + (error.message), 'error');
         }
       });
     }
@@ -131,7 +131,7 @@ export class MultasComponent implements OnInit {
         this.showAlert('Multa eliminada exitosamente','success');
       },
       error: error => {
-        this.showAlert('Error al eliminar la multa:' + (error.message || 'Error desconocido'), 'error');
+        this.showAlert('Error al eliminar la multa:' + (error.message), 'error');
       }
     });
   }
@@ -145,3 +145,5 @@ export class MultasComponent implements OnInit {
   
 }
 }
+
+
