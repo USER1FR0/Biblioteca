@@ -20,6 +20,7 @@ export class SearchBooksComponent implements OnInit {
   showLoanForm: boolean = false;
   showPreview: boolean = false;
   loading: boolean = false;
+  showEmailWarning: boolean = false;
 
   numeroControl: number = 0;
   isbn: string = '';
@@ -125,7 +126,7 @@ export class SearchBooksComponent implements OnInit {
   openLoanForm(book: any, event: Event) {
     event.stopPropagation(); 
     this.showLoanForm = true; 
-    this.selectedBook = book; // Guardar el libro seleccionado
+    this.selectedBook = book;
     this.isbn = book.ISBN; 
     this.showPreview = false; 
   }
@@ -144,50 +145,58 @@ export class SearchBooksComponent implements OnInit {
         return;
     }
 
-    // Verificar la cantidad de ejemplares disponibles
     if (this.selectedBook.NumeroEjemplares <= 0) {
         this.snackBar.open('No hay ejemplares disponibles para prestar', 'Cerrar', { duration: 3000 });
         return;
     }
 
-    const loanData = {
-        numeroControl: this.numeroControl,
-        isbn: this.selectedBook.ISBN, // Usar el ISBN del libro seleccionado
-        fechaPrestamo: this.fechaPrestamo,
-        fechaDevolucion: this.fechaDevolucion,
-        idBibliotecario: this.idBibliotecario,
-    };
+    this.http.get(`http://localhost:3000/lector/${this.numeroControl}`).subscribe(
+        (lector: any) => {
+            if (!lector.CorreoConfirmado) {
+                this.showEmailWarning = true;
+            }
 
-    console.log('Datos del préstamo a enviar:', loanData);
-
-    // Enviar datos del préstamo
-    this.http.post('http://localhost:3000/loanBook', loanData).subscribe(
-        (response: any) => {
-            this.snackBar.open(response.message, 'Cerrar', { duration: 3000 });
-            this.closeLoanForm();
-            this.searchBooks(); // Actualiza la lista de libros después de realizar el préstamo
-
-            // Lógica para reducir la cantidad de libros disponibles
-            const updateData = {
-                NumeroEjemplares: this.selectedBook.NumeroEjemplares - 1 // Reducir en 1
+            const loanData = {
+                numeroControl: this.numeroControl,
+                isbn: this.selectedBook.ISBN,
+                fechaPrestamo: this.fechaPrestamo,
+                fechaDevolucion: this.fechaDevolucion,
+                idBibliotecario: this.idBibliotecario,
             };
 
-            // Actualizar la cantidad de ejemplares usando la nueva ruta
-            this.http.put(`http://localhost:3000/updateBook/quantity/${this.selectedBook.ISBN}`, updateData).subscribe(
-                (updateResponse) => {
-                    console.log('Cantidad de libros actualizada:', updateResponse);
+            console.log('Datos del préstamo a enviar:', loanData);
+
+            this.http.post('http://localhost:3000/loanBook', loanData).subscribe(
+                (response: any) => {
+                    this.snackBar.open(response.message, 'Cerrar', { duration: 3000 });
+                    this.closeLoanForm();
+                    this.searchBooks();
+
+                    const updateData = {
+                        NumeroEjemplares: this.selectedBook.NumeroEjemplares - 1
+                    };
+
+                    this.http.put(`http://localhost:3000/updateBook/quantity/${this.selectedBook.ISBN}`, updateData).subscribe(
+                        (updateResponse) => {
+                            console.log('Cantidad de libros actualizada:', updateResponse);
+                        },
+                        (error) => {
+                            console.error('Error al actualizar la cantidad de libros:', error);
+                        }
+                    );
                 },
                 (error) => {
-                    console.error('Error al actualizar la cantidad de libros:', error);
+                    console.error('Error al registrar el préstamo:', error);
+                    this.snackBar.open(error.error.message || 'Error al registrar el préstamo', 'Cerrar', { duration: 3000 });
                 }
             );
         },
         (error) => {
-            console.error('Error al registrar el préstamo:', error);
-            this.snackBar.open(error.error.message || 'Error al registrar el préstamo', 'Cerrar', { duration: 3000 });
+            console.error('Error al obtener el lector:', error);
+            this.snackBar.open('Error al verificar el estado del lector', 'Cerrar', { duration: 3000 });
         }
     );
-}
+  }
 
   resetForm() {
     this.numeroControl = 0;
@@ -215,5 +224,9 @@ export class SearchBooksComponent implements OnInit {
     }, (_reason) => {
         console.log('Modal cerrado');
     });
-}
+  }
+
+  closeEmailWarning() {
+    this.showEmailWarning = false;
+  }
 }

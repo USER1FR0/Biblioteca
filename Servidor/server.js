@@ -304,6 +304,7 @@ app.get('/searchBooks', (req, res) => {
   });
 });
 
+
 // Nueva ruta para préstamo de libros
 app.post('/loanBook', (req, res) => {
   const { numeroControl, isbn, fechaPrestamo, fechaDevolucion, idBibliotecario } = req.body;
@@ -959,5 +960,23 @@ app.get('/Reporte', (req, res) => {
       console.log('Resultados de la consulta:', results); // Aquí inspeccionas los resultados
       res.json(results);
     }
+  });
+});
+
+
+
+// Obtener un lector por su número de control
+app.get('/lector/:numeroControl', (req, res) => {
+  const { numeroControl } = req.params;
+
+  pool.query('SELECT * FROM Lector WHERE NumeroControl = ?', [numeroControl], (err, results) => {
+      if (err) {
+          console.error('Error al obtener el lector:', err);
+          return res.status(500).send({ message: 'Error interno del servidor' });
+      }
+      if (results.length === 0) {
+          return res.status(404).send({ message: 'Lector no encontrado' });
+      }
+      res.status(200).send(results[0]);
   });
 });
