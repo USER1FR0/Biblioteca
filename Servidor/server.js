@@ -854,10 +854,8 @@ app.delete('/multas/:id', (req, res) => {
 });
 
 
-
-
- //Obtener todos los préstamos
-app.get('/loans', (req, res) => {
+ //Obtener todos los préstamos V2
+ app.get('/loan', (req, res) => {
   const query = `
   SELECT p.IdPrestamo, p.ISBN, p.NumeroControl, p.FechaPrestamo, p.FechaDevolucion, l.Titulo
   FROM Prestamo p
@@ -865,6 +863,23 @@ app.get('/loans', (req, res) => {
   WHERE p.Estado = 'Pendiente'
 `;
 
+  pool.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener préstamos:', err);
+      return res.status(500).json({ error: 'Error interno del servidor' });
+    }
+    res.json(results);
+  });
+});
+
+ //Obtener todos los préstamos
+app.get('/loans', (req, res) => {
+  const query = `
+  SELECT p.IdPrestamo as id, p.ISBN, p.NumeroControl, p.FechaPrestamo, p.FechaDevolucion, l.Titulo
+  FROM Prestamo p
+  JOIN Libro l ON p.ISBN = l.ISBN
+  WHERE p.Estado = 'Pendiente'
+`;
 
   pool.query(query, (err, results) => {
     if (err) {

@@ -26,7 +26,7 @@ export class MultasService {
   }
 
   getPrestamos(): Observable<any[]>{
-    return this.http.get<any[]>('http://localhost:3000/loans')
+    return this.http.get<any[]>('http://localhost:3000/loan')
   }
 
   createPrestamo(prestamo: any): Observable<any> {
