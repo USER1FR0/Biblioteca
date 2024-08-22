@@ -1,53 +1,52 @@
-<div class="report-container">
-  <h1>Reporte de Lector - Biblioteca</h1>
-
-  <div class="reader-info">
-    <h2>Información del Lector</h2>
-    <p><strong>Nombre del Lector:</strong> {{ reader.nombre }}</p>
-    <p><strong>Correo del Lector:</strong> {{ reader.correo }}</p>
-    <p><strong>Número de Control:</strong> {{ reader.numeroControl }}</p>
-  </div>
-
-  <div class="borrowed-books">
-    <h2>Libros Prestados</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Título del Libro</th>
-          <th>Fecha de Préstamo</th>
-          <th>Fecha de Devolución</th>
-          <th>Multas Anteriores</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let libro of librosPrestados">
-          <td>{{ libro.titulo }}</td>
-          <td>{{ libro.fechaPrestamo  }}</td>
-          <td>{{ libro.fechaDevolucion }}</td>
-          <td>{{ libro.multasAnteriores }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="additional-info">
-    <h2>Información Adicional</h2>
-    <p><strong>Fecha de Adquisición del Lector:</strong> {{ reader.fechaAdquisicion }}</p>
-    <p><strong>Nombre del Último Prestador:</strong> {{ reader.ultimoPrestador }}</p>
-    <p><strong>Cantidad que Debe:</strong> {{ reader.cantidadDebe  }}</p>
-  </div>
-  <div>
-    <button class="save-button" (click)="showDialog()">Guardar</button>
-
-  </div>
-  <div *ngIf="isVisble" class="modal-backdrop">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-        <h3>Datos registrados correctamente!!</h3>
-        <button class="save-button" (click)="isVisble=false">Aceptar</button>
-    </div>
-  </div>
 
 
 
+<div *ngIf="prestamos.length > 0">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Lector</th>
+        <th>Libro</th>
+        <th>Autor</th>
+        <th>Bibliotecario</th>
+        <th>Fecha de Préstamo</th>
+        <th>Fecha de Devolución</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prestamo of prestamos">
+        <td>{{ prestamo.IdPrestamo }}</td>
+        <td>{{ prestamo.NumeroControl }}</td>
+        <td>{{ prestamo.ISBN }}</td>
+        <td>{{ prestamo.Autor }}</td>
+        <td>{{ prestamo.IdBibliotecario }}</td>
+        <td>{{ prestamo.FechaPrestamo | date }}</td>
+        <td>{{ prestamo.FechaDevolucion | date }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-  
+<div>
+  <button class="actualizar-boton" (click)="actualizarReporte()">Actualizar</button>
+</div>
+<div *ngIf="prestamos.length === 0">
+  No hay préstamos para mostrar.
+</div>
+<div *ngIf="mensajeDeError" class="error-message">
+  {{ mensajeDeError }}
+</div>
+
+<!-- <div *ngIf="!mensajeDeError && prestamos.length > 0">
+  <h2>Lista de Préstamos</h2>
+  <ul>
+    <li *ngFor="let prestamo of prestamos">
+      {{ prestamo.titulo }} - {{ prestamo.lector }} ({{ prestamo.fecha }})
+    </li>
+  </ul>
+</div> -->
+
+
+<div *ngIf="!mensajeDeError && prestamos.length === 0">
+  <p>No hay préstamos disponibles en este momento.</p>
+</div>
