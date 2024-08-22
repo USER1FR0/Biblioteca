@@ -318,6 +318,8 @@ app.get('/loanBook', (req, res) => {
         user: userGmail,
         pass: passAppGmail,
       },
+      tls: {
+        rejectUnauthorized: false,}
     });
 
     const crypto = require('crypto'); // Importar crypto para generar tokens
@@ -676,7 +678,7 @@ app.get('/multas/:id', (req, res) => {
   });
 });
 
-// Crear una nueva multa
+//Crear multa
 app.post('/multas', (req, res) => {
   const { NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo } = req.body;
 
@@ -702,8 +704,62 @@ app.post('/multas', (req, res) => {
       console.error('Error al crear la multa:', err);
       return res.status(500).json({ error: 'Error interno del servidor' });
     }
+
+    // Obtener el correo del lector asociado al número de control
+    const lectorQuery = 'SELECT Correo FROM Lector WHERE NumeroControl = ?';
+    pool.query(lectorQuery, [NumeroControl], (err, lectorResult) => {
+      if (err) {
+        console.error('Error al obtener el correo del lector:', err);
+        return res.status(500).json({ error: 'Error interno del servidor' });
+      }
+
+      if (lectorResult.length === 0) {
+        return res.status(404).json({ error: 'Lector no encontrado' });
+      }
+
+      const correoLector = lectorResult[0].Correo;
+
+      // Enviar correo al lector
+      const mailOptions = {
+        from: userGmail,
+        to: correoLector,
+        subject: 'Notificación de Multa en la Biblioteca',
+        html: `
+          <div style="background-color: #f0f0f0; padding: 20px; text-align: center;">
+            <div style="background-color: #ffffff; border-radius: 10px; padding: 30px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+              <h1 style="font-size: 24px; color: #333;">Notificación de Multa</h1>
+              <p style="font-size: 18px; color: #555;">Estimado lector,</p>
+              <p style="font-size: 18px; color: #555;">Se ha registrado una nueva multa en su cuenta con el número de control <strong>${NumeroControl}</strong>.</p>
+              <p style="font-size: 18px; color: #555;">Monto: <strong>${Monto} MXN</strong></p>
+              <p style="font-size: 16px; color: #555;">Por favor, visite la biblioteca para realizar el pago correspondiente.</p>
+              <p style="font-size: 16px; color: #555;">Saludos,<br>El equipo de la Biblioteca UTNG</p>
+            </div>
+          </div>
+        `
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Error al enviar el correo:', error);
+          // Si ocurre un error al enviar el correo, aún retornamos el éxito en la creación de la multa
+          return res.status(201).json({ 
+            id: results.insertId, 
+            message: 'Multa registrada, pero no se pudo enviar el correo.'
+          });
+        } else {
+          console.log('Correo enviado: ' + info.response);
+          return res.status(201).json({ 
+            id: results.insertId, 
+            message: 'Multa registrada y correo enviado exitosamente'
+          });
+        }
+      });
+
+        
+
     res.status(201).json({ id: results.insertId });
   });
+});
 });
 
 // Actualizar una multa
@@ -730,10 +786,10 @@ app.patch('/multas/:id', (req, res) => {
     return res.status(400).json({ error: 'IdPrestamo debe ser un número entero positivo' });
   }
 
-  pool.query(
-    'UPDATE Multas SET NumeroControl = ?, Monto = ?, FechaInicio = ?, Estatus = ?, IdPrestamo = ? WHERE IdMulta = ?',
-    [NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo, id],
-    (err, results) => {
+  const sql = 'UPDATE Multas SET NumeroControl = ?, Monto = ?, FechaInicio = ?, Estatus = ?, IdPrestamo = ? WHERE IdMulta = ?';
+    const values = [NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo, id];
+
+  pool.query(sql, values, (err, results) => {
       if (err) {
         console.error('Error al actualizar la multa:', err);
         return res.status(500).json({ error: 'Error interno del servidor' });
@@ -743,8 +799,7 @@ app.patch('/multas/:id', (req, res) => {
       } else {
         res.status(404).json({ error: 'Multa no encontrada' });
       }
-    }
-  );
+  });
 });
 
 // Eliminar una multa
@@ -768,4 +823,3 @@ app.delete('/multas/:id', (req, res) => {
     }
   });
 });
-
