@@ -115,7 +115,7 @@ body {
     flex-grow: 1;
     padding-top: 80px;
     height: 100vh;
-    overflow: hidden;
+    overflow:auto;
   }
   
   .fancy-paragraph {

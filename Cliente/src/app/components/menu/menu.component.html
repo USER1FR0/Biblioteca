@@ -4,37 +4,37 @@
       <mat-icon>menu</mat-icon>
     </button>
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8YrcFCPbj_x4P9KKtC7L4eH8NMNV8NDE2Q&s" 
-    alt="Logo UTNG" 
-    class="logo" 
-    (click)="showNoticiasSection()">    
+         alt="Logo UTNG" 
+         class="logo" 
+         (click)="showNoticiasSection()">    
     <div>
-
       <div class="image-container">
         <button mat-icon-button [matMenuTriggerFor]="Notification">
           <mat-icon>notifications</mat-icon>
         </button>
         <mat-menu #Notification="matMenu">
-            <span>
-              Hola!, Aquí te mostraremos  
-              Notificaciones sobre cosas 
-              que pasen en la Biblioteca..
-            </span>
+          <span>
+            Hola!, Aquí te mostraremos  
+            Notificaciones sobre cosas 
+            que pasen en la Biblioteca..
+          </span>
         </mat-menu>
-    </div>
+      </div>
 
       <div class="image-container">
-          <button mat-icon-button [matMenuTriggerFor]="Question">
-            <mat-icon>help</mat-icon>
-          </button>
-          <mat-menu #Question="matMenu">
-              <span>
-                Hola!, Aquí te mostraremos  
-                Información relacionada a la página
-                y algún contacto para soporte 
-                Técnico...
-              </span>
-          </mat-menu>
+        <button mat-icon-button [matMenuTriggerFor]="Question">
+          <mat-icon>help</mat-icon>
+        </button>
+        <mat-menu #Question="matMenu">
+          <span>
+            Hola!, Aquí te mostraremos  
+            Información relacionada a la página
+            y algún contacto para soporte 
+            Técnico...
+          </span>
+        </mat-menu>
       </div>
+
       <div class="image-container">
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>account_circle</mat-icon>
@@ -47,8 +47,8 @@
       </div>
     </div>
   </div>
-  
-  <div class="main-content">
+
+  <div class="main-layout">
     <div class="sidebar" id="sidebar" [ngClass]="{'hidden': isSidebarHidden}">
       <ul>
         <li><a (click)="showNoticiasSection()">Inicio</a></li>
@@ -58,11 +58,11 @@
         <li><a (click)="showMulta()">Gestionar Multas</a></li>
         <li><a (click)="showPersonalisado()">Generar reporte</a></li>
         <li><a (click)="showRegistroBlibliotecarios()">Nuevos Bibliotecarios</a></li>
-        <li><a (click)="mostrarDevolucionDeLibros()">Devolver Libros</a></li>      
+        <li><a (click)="mostrarDevolucionDeLibros()">Devolver Libros</a></li>
       </ul>
     </div>
 
-    <div class="content-section">
+    <div class="content-section" [ngClass]="{'full-width': isSidebarHidden}">
       <div *ngIf="showNoticias" class="seccion-noticias">
         <h2>Noticias de la Biblioteca</h2>
         <div class="noticias-grid">
@@ -73,6 +73,7 @@
           </div>
         </div>
       </div>
+
       <div *ngIf="showSearch">
         <app-search-books></app-search-books>
       </div>
@@ -96,8 +97,8 @@
       </div>
     </div>
   </div>
-  
-  <footer class="footer" [class.visible]="isFooterVisible">
+
+  <footer class="footer">
     <div class="container">
       <p>&copy; 2024 Universidad Tecnológica del Norte de Guanajuato. Todos los derechos reservados.</p>
     </div>

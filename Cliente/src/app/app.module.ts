@@ -12,24 +12,22 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material/material.module';
-import { NavbarModule } from './options/pages/layout-page/navbar-page/navbar.module';
 import { LoginComponent } from './components/home/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { SearchBooksComponent } from './components/Options/search-books/SearchBooks.component';
-import { NewBooksComponent } from './components/Options/NewBooks/NewBooks.component';
-import { EditBooksComponent } from './components/Options/EditBooks/EditBooks.component';
-import { ForgotPasswordComponent } from './components/home/ForgotPassword/ForgotPassword.component';
-import { ConfirmacionDeEmailComponent } from './components/Options/confirmacion-de-email/confirmacion-de-email.component';
-import { MultasComponent } from './components/Options/multas/multas.component';
-import { RegistroBibiotecariosModule } from './components/Options/RegistroBibliotecarios/bibliotecarios.component';
-import { RegistroLectorComponent } from './components/Options/Lectores/lectores.component';
+import { SearchBooksComponent } from './components/menu/Options/search-books/SearchBooks.component';
+import { NewBooksComponent } from './components/menu/Options/NewBooks/NewBooks.component';
+import { EditBooksComponent } from './components/menu/Options/EditBooks/EditBooks.component';
+import { ConfirmacionDeEmailComponent } from './components/menu/Options/confirmacion-de-email/confirmacion-de-email.component';
+import { MultasComponent } from './components/menu/Options/multas/multas.component';
+import { RegistroBibiotecariosModule } from './components/menu/Options/RegistroBibliotecarios/bibliotecarios.component';
+import { RegistroLectorComponent } from './components/menu/Options/Lectores/lectores.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { PersonalisadoComponent } from './components/Options/ReportePersonalisado/personalisados.component';
+import { PersonalisadoComponent } from './components/menu/Options/ReportePersonalisado/personalisados.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule } from '@angular/forms';
-import { ErrorComponent } from './error/error.component';
-import { DevolucionDeLibrosComponent } from './components/Options/devolucion-de-libros/devolucion-de-libros.component';
+import { ErrorComponent } from './components/home/error/error.component';
+import { DevolucionDeLibrosComponent } from './components/menu/Options/devolucion-de-libros/devolucion-de-libros.component';
 
 
 @NgModule({
@@ -41,7 +39,6 @@ import { DevolucionDeLibrosComponent } from './components/Options/devolucion-de-
     SearchBooksComponent,
     NewBooksComponent,
     EditBooksComponent,
-    ForgotPasswordComponent,
     ConfirmacionDeEmailComponent,
     MultasComponent,
     RegistroLectorComponent,
@@ -63,7 +60,6 @@ import { DevolucionDeLibrosComponent } from './components/Options/devolucion-de-
     MatFormFieldModule,
     MatCardModule,
     MatListModule,
-    NavbarModule,
     MatSnackBarModule,
     HttpClientModule,
     BrowserAnimationsModule, 

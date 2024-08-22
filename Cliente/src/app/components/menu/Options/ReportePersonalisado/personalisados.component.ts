@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PrestamoService } from './../../../Services/reporte.service';
+import { PrestamoService } from './../../Options/Services/reporte.service';
 import { jsPDF } from 'jspdf';
 
 @Component({
