@@ -1,6 +1,7 @@
 <div class="search-books">
     <div class="search-header">
-        <h2 class="title" style="color: rgb(0, 0, 0);">Buscar Libros</h2>        <input 
+        <h2 class="title" style="color: rgb(0, 0, 0);">Buscar Libros</h2>
+        <input 
             type="text" 
             placeholder="Buscar por título, autor, ISBN..." 
             [(ngModel)]="searchQuery" 
@@ -18,7 +19,6 @@
         <button class="search-button" (click)="searchBooks()">Buscar</button>
     </div>
     <div *ngIf="loading" class="loading-screen">Cargando...</div> <!-- Pantalla de carga -->
-    <div class="results-container">
     <div class="results-container">
         <div class="results">
             <div *ngFor="let book of books" class="book" (click)="previewBook(book)">
@@ -44,6 +44,13 @@
             <button class="btn-custom" (click)="openLoanForm(selectedBook, $event)">Solicitar Préstamo</button>
         </div>
     </div>
+    <div *ngIf="showEmailWarning" class="alert alert-danger" (click)="closeEmailWarning()">
+        <div class="alert-content" (click)="$event.stopPropagation()">
+            <span class="close" (click)="closeEmailWarning()">&times;</span>
+            <h2>Advertencia</h2>
+            <p>El correo del lector no ha sido confirmado. Por favor, confirme el correo para evitar problemas futuros.</p>
+        </div>
+    </div>
     <div *ngIf="showLoanForm" class="modal" (click)="closeLoanForm($event)">
         <div class="modal-content" (click)="$event.stopPropagation()">
             <span class="close" (click)="closeLoanForm()">&times;</span>
@@ -59,24 +66,25 @@
                         <option *ngIf="filteredLectores.length === 0" disabled>No hay lectores disponibles</option> <!-- Mensaje si no hay lectores -->
                     </select>
                 
-                <div>
-                    <label for="isbn">ISBN:</label>
-                    <input type="text" id="isbn" [(ngModel)]="isbn" name="isbn" required>
-                </div>
-                <div>
-                    <label for="fechaPrestamo">Fecha de Préstamo:</label>
-                    <input type="date" id="fechaPrestamo" [(ngModel)]="fechaPrestamo" name="fechaPrestamo" required>
-                </div>
-                <div>
-                    <label for="fechaDevolucion">Fecha de Devolución:</label>
-                    <input type="date" id="fechaDevolucion" [(ngModel)]="fechaDevolucion" name="fechaDevolucion" required>
-                </div>
-                <div>
-                    <label for="idBibliotecario">ID Bibliotecario:</label>
-                    <input type="number" id="idBibliotecario" [(ngModel)]="idBibliotecario" name="idBibliotecario" required>
-                </div>
-                <button type="submit">Enviar</button>
-            </form>
+                    <div>
+                        <label for="isbn">ISBN:</label>
+                        <input type="text" id="isbn" [(ngModel)]="isbn" name="isbn" required>
+                    </div>
+                    <div>
+                        <label for="fechaPrestamo">Fecha de Préstamo:</label>
+                        <input type="date" id="fechaPrestamo" [(ngModel)]="fechaPrestamo" name="fechaPrestamo" required>
+                    </div>
+                    <div>
+                        <label for="fechaDevolucion">Fecha de Devolución:</label>
+                        <input type="date" id="fechaDevolucion" [(ngModel)]="fechaDevolucion" name="fechaDevolucion" required>
+                    </div>
+                    <div>
+                        <label for="idBibliotecario">ID Bibliotecario:</label>
+                        <input type="number" id="idBibliotecario" [(ngModel)]="idBibliotecario" name="idBibliotecario" required>
+                    </div>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
