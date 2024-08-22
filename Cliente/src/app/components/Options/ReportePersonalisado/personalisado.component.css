@@ -26,7 +26,7 @@ thead {
 }
 
 .actualizar-boton {
-  background-color: #646dee;
+  background-color: #3f71aa;
   color: white;
   padding: 10px 20px;
   margin-top: 10px;
@@ -36,7 +36,7 @@ thead {
 }
 
 .actualizar-boton:hover {
-  background-color: #5e71dd;
+  background-color: #527ad1;
 }
 
 .error-message {
