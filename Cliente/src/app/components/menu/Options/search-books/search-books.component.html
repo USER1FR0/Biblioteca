@@ -13,7 +13,7 @@
             <option *ngFor="let author of authors" [value]="author">{{ author }}</option>
         </select>
         <select [(ngModel)]="selectedPublisher" class="filter-select">
-            <option value="">Todas las Editoriales</option>
+            <option value="">Todas las categorias</option>
             <option *ngFor="let publisher of publishers" [value]="publisher">{{ publisher }}</option>
         </select>
         <button class="search-button" (click)="searchBooks()">Buscar</button>
