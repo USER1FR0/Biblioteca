@@ -1,0 +1,135 @@
+-- Script base de datos:
+Drop database Biblioteca;
+Drop database Biblioteca;
+
+CREATE DATABASE Biblioteca;
+
+USE Biblioteca;
+
+CREATE TABLE Lector (
+    NumeroControl VARCHAR(13) PRIMARY KEY,
+    NombreCompleto NVARCHAR(50) not null,
+    Correo NVARCHAR(100) not null,
+    CorreoConfirmado Boolean default FALSE,
+    TokenConfirmacion varchar(40)
+);
+-- Lectores
+select * from Lector;
+
+CREATE TABLE Bibliotecario (
+    IdBibliotecario INT AUTO_INCREMENT PRIMARY KEY,
+    NombreCompleto NVARCHAR(50) not null,
+    Correo NVARCHAR(100) not null,
+    Telefono NVARCHAR(15) not null,
+    IdAdmin VARCHAR(10),
+    NombreUsuario NVARCHAR(50) NOT NULL Unique,
+    Contrasena NVARCHAR(255) NOT NULL
+);
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- bibliotecarios
+select *
+from Bibliotecario;
+
+
+CREATE TABLE Libro (
+    ISBN Nvarchar(13) PRIMARY KEY,
+    Titulo NVARCHAR(100) not null,
+    Autor NVARCHAR(100) not null,
+    Tema NVARCHAR(100) not null,
+    Categoria NVARCHAR(100) not null,
+    Descripcion TEXT not null,
+    NumeroEjemplares INT not null,
+    Portada longblob
+);
+
+Select *
+from Libro;
+
+CREATE TABLE Prestamo (
+    IdPrestamo INT AUTO_INCREMENT PRIMARY KEY,
+    NumeroControl VARCHAR(13) not null,
+    ISBN Nvarchar(13) not null,
+    FechaPrestamo DATE,
+    FechaDevolucion DATE,
+    IdBibliotecario INT,
+    Estado Varchar(30) default "Pendiente",
+    FOREIGN KEY (NumeroControl) REFERENCES Lector(NumeroControl),
+    FOREIGN KEY (ISBN) REFERENCES Libro(ISBN),
+    FOREIGN KEY (IdBibliotecario) REFERENCES Bibliotecario(IdBibliotecario)
+);
+
+-- Prestamos
+Select *
+from Prestamo;
+
+CREATE TABLE Multas (
+    IdMulta INT AUTO_INCREMENT PRIMARY KEY,
+    NumeroControl VARCHAR(13) not null,
+    Monto DECIMAL(10, 2),
+    FechaInicio DATE,
+    Estatus NVARCHAR(50),
+    IdPrestamo INT,
+    FOREIGN KEY (NumeroControl) REFERENCES Lector(NumeroControl),
+    FOREIGN KEY (IdPrestamo) REFERENCES Prestamo(IdPrestamo)
+);
+
+Select *
+from Multas;
+
+
+DELIMITER //
+
+CREATE PROCEDURE ActualizarMultas()
+BEGIN
+    -- Seleccionar todas las multas pendientes
+    DECLARE done INT DEFAULT 0;
+    DECLARE multaId INT;
+    DECLARE idPrestamo INT;
+    DECLARE cur CURSOR FOR SELECT IdMulta, IdPrestamo FROM Multas WHERE Estatus = 'Pendiente';
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN cur;
+
+    read_loop: LOOP
+        FETCH cur INTO multaId, idPrestamo;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        -- Actualizar el monto si la fecha de devolución ha pasado
+        UPDATE Multas m
+        JOIN Prestamo p ON m.IdPrestamo = p.IdPrestamo
+        SET m.Monto = m.Monto + 5 * DATEDIFF(CURDATE(), p.FechaDevolucion)
+        WHERE m.IdMulta = multaId AND CURDATE() > p.FechaDevolucion;
+
+    END LOOP;
+
+    CLOSE cur;
+END //
+
+DELIMITER ;
+
+CREATE EVENT IF NOT EXISTS ActualizarMultasCadaCincoMinutos
+ON SCHEDULE EVERY 1 day
+DO
+    CALL ActualizarMultas();
+
+
+select *
+from Lector;
+
+select *
+from Bibliotecario;
+
+select *
+from Libro;
+
+select *
+from Prestamo;
+
+select *
+from Multas;
+
+Alter user 'root'@'localhost' identified with mysql_native_password by '';
+flush privileges;
