@@ -309,6 +309,11 @@ app.get('/searchBooks', (req, res) => {
 app.post('/loanBook', (req, res) => {
   const { numeroControl, isbn, fechaPrestamo, fechaDevolucion, idBibliotecario } = req.body;
 
+  // Verificar si el número de control es proporcionado
+  if (!numeroControl) {
+      return res.status(400).send({ message: 'Ingresa el número de control' });
+  }
+
   // Verificar si las fechas son válidas
   if (!fechaPrestamo || !fechaDevolucion) {
       return res.status(400).send({ message: 'Las fechas de préstamo y devolución son requeridas' });

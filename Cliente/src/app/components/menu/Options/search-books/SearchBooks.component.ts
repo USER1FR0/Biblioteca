@@ -140,6 +140,18 @@ export class SearchBooksComponent implements OnInit {
   }
 
   submitLoanForm() {
+    // Verificar si el número de control es válido
+    if (!this.numeroControl || this.numeroControl <= 0) {
+        this.snackBar.open('Ingresa un número de control válido', 'Cerrar', { duration: 3000 });
+        return;
+    }
+
+    // Verificar si el ID del bibliotecario es válido
+    if (!this.idBibliotecario || this.idBibliotecario <= 0) {
+        this.snackBar.open('Bibliotecario no registrado', 'Cerrar', { duration: 3000 });
+        return;
+    }
+
     if (!this.fechaPrestamo || !this.fechaDevolucion) {
         this.snackBar.open('Las fechas de préstamo y devolución son requeridas', 'Cerrar', { duration: 3000 });
         return;
