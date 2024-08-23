@@ -96,6 +96,16 @@ export class MultasComponent implements OnInit {
   }
 
   createMulta(form: any): void {
+    if (form.invalid) {
+      this.showAlert('Por favor, complete todos los campos correctamente.', 'error');
+      return;
+    }
+
+    if (form.value.Monto < 0) {
+      this.showAlert('El monto no puede ser negativo.', 'error');
+      return;
+    }
+  
     this.multasService.createMulta(form.value).subscribe({
       next: () => {
         this.loadMultas();
@@ -103,26 +113,49 @@ export class MultasComponent implements OnInit {
         this.showAlert('Multa agregada exitosamente', 'success');
       },
       error: error => {
-        this.showAlert('Error al agregar la multa: ' + (error.message), 'error');
+        let errorMessage = 'Error al agregar la multa. ';
+        if (error.status === 400) {
+          if (error.error && typeof error.error === 'string') {
+            errorMessage += error.error;
+          } else {
+            errorMessage += 'Datos inválidos.';
+          }
+        } else if (error.status === 500) {
+          errorMessage += 'Error interno del servidor.';
+        } else {
+          errorMessage += 'Error desconocido.';
+        }
+        this.showAlert(errorMessage, 'error');
+      }
+    });
+  }
+  
+  updateMulta(): void {
+    if (!this.selectedMulta) return;
+  
+    this.multasService.updateMulta(this.selectedMulta.IdMulta, this.selectedMulta).subscribe({
+      next: () => {
+        this.showAlert('Multa actualizada exitosamente', 'success');
+        this.isEditing = false;
+        this.selectedMulta = null;
+        this.loadMultas();
+      },
+      error: error => {
+        let errorMessage = 'Error al actualizar la multa. ';
+        if (error.status === 400) {
+          errorMessage += error.error || 'Datos inválidos.';
+        } else if (error.status === 404) {
+          errorMessage += 'Multa no encontrada.';
+        } else if (error.status === 500) {
+          errorMessage += 'Error interno del servidor.';
+        } else {
+          errorMessage += 'Error desconocido.';
+        }
+        this.showAlert(errorMessage, 'error');
       }
     });
   }
 
-  updateMulta(): void {
-    if (this.selectedMulta) {
-      this.multasService.updateMulta(this.selectedMulta.IdMulta, this.selectedMulta).subscribe({
-        next: () => {
-          this.showAlert('Multa actualizada exitosamente', 'success');
-          this.isEditing = false;
-          this.selectedMulta = null;
-          this.loadMultas(); // Recargar la lista de multas después de la actualización
-        },
-        error: error => {
-          this.showAlert('Error al actualizar la multa: ' + (error.message), 'error');
-        }
-      });
-    }
-  }
 
   deleteMulta(id: number): void {
     this.multasService.deleteMulta(id).subscribe({

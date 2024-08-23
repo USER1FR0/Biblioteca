@@ -8,24 +8,59 @@
 
   <!-- Formulario para agregar multa -->
   <form *ngIf="!isEditing" (ngSubmit)="createMulta(multasForm)" #multasForm="ngForm">
-    <label for="NumeroControl">Número de Control:</label>
-    <select id="NumeroControl" name="NumeroControl" ngModel required>
-      <option *ngFor="let lector of lectores" [value]="lector.NumeroControl">{{ lector.NumeroControl }} - {{ lector.NombreCompleto }}</option>
-    </select>
+    <div>
+      <label for="NumeroControl">Número de Control:</label>
+      <select id="NumeroControl" name="NumeroControl" ngModel required>
+        <option *ngFor="let lector of lectores" [value]="lector.NumeroControl">{{ lector.NumeroControl }} - {{ lector.NombreCompleto }}</option>
+      </select>
+      <!-- Validación: Campo requerido -->
+      <div *ngIf="multasForm.submitted && multasForm.controls['NumeroControl']?.invalid" class="error">
+        Seleccione un número de control.
+      </div>
+    </div>
     
-    <label for="Monto">Monto:</label>
-    <input type="number" id="Monto" name="Monto" ngModel required step="0.01">
+    <div>
+      <label for="Monto">Monto:</label>
+      <input type="number" id="Monto" name="Monto" ngModel required step="0.01">
+      <!-- Validación: Campo requerido y valor positivo -->
+      <div *ngIf="multasForm.submitted && multasForm.controls['Monto']?.errors">
+        <div *ngIf="multasForm.controls['Monto']?.errors?.['required']">El monto es requerido.</div>
+        <div *ngIf="multasForm.controls['Monto']?.errors?.['min']">El monto debe ser un número positivo.</div>
+      </div>
+    </div>
     
-    <label for="FechaInicio">Fecha de Inicio:</label>
-    <input type="datetime-local" id="FechaInicio" name="FechaInicio" ngModel required>
+    <div>
+      <label for="FechaInicio">Fecha de Inicio:</label>
+      <input type="datetime-local" id="FechaInicio" name="FechaInicio" ngModel required>
+      <!-- Validación: Campo requerido -->
+      <div *ngIf="multasForm.submitted && multasForm.controls['FechaInicio']?.invalid" class="error">
+        La fecha de inicio es requerida.
+      </div>
+    </div>
     
-    <label for="Estatus">Estatus:</label>
-    <input type="text" id="Estatus" name="Estatus" ngModel required>
+    <div>
+      <label for="Estatus">Estatus:</label>
+      <select type="text" id="Estatus" name="Estatus" ngModel required>
+        <option value="Activa">Activa</option>
+        <option value="Pagada">Pagada</option>
+        <option value="Cancelada">Cancelada</option>
+      </select>
+      <!-- Validación: Campo requerido -->
+      <div *ngIf="multasForm.submitted && multasForm.controls['Estatus']?.invalid" class="error">
+        El estatus es requerido.
+      </div>
+    </div>
     
-    <label for="IdPrestamo">Id de Préstamo:</label>
-    <select id="IdPrestamo" name="IdPrestamo" ngModel required>
-      <option *ngFor="let prestamo of prestamos" [value]="prestamo.IdPrestamo">{{ prestamo.IdPrestamo }} - {{ prestamo.FechaPrestamo | date:'short' }}</option>
-    </select>
+    <div>
+      <label for="IdPrestamo">Id de Préstamo:</label>
+      <select id="IdPrestamo" name="IdPrestamo" ngModel required>
+        <option *ngFor="let prestamo of prestamos" [value]="prestamo.IdPrestamo">{{ prestamo.IdPrestamo }} - {{ prestamo.FechaPrestamo | date:'short' }}</option>
+      </select>
+      <!-- Validación: Campo requerido -->
+      <div *ngIf="multasForm.submitted && multasForm.controls['IdPrestamo']?.invalid" class="error">
+        Seleccione un ID de préstamo válido.
+      </div>
+    </div>
     
     <button type="submit">Agregar Multa</button>
   </form>
@@ -34,24 +69,55 @@
   <div *ngIf="isEditing">
     <h2>Editar Multa</h2>
     <form (ngSubmit)="updateMulta()">
-      <label for="NumeroControl">Número de Control:</label>
-      <select id="NumeroControl" [(ngModel)]="selectedMulta.NumeroControl" name="NumeroControl" required>
-        <option *ngFor="let lector of lectores" [value]="lector.NumeroControl">{{ lector.NumeroControl }} - {{ lector.NombreCompleto }}</option>
-      </select>
+      <div>
+        <label for="NumeroControl">Número de Control:</label>
+        <select id="NumeroControl" [(ngModel)]="selectedMulta.NumeroControl" name="NumeroControl" required>
+          <option *ngFor="let lector of lectores" [value]="lector.NumeroControl">{{ lector.NumeroControl }} - {{ lector.NombreCompleto }}</option>
+        </select>
+        <!-- Validación: Campo requerido -->
+        <div *ngIf="!selectedMulta.NumeroControl" class="error">
+          Seleccione un número de control.
+        </div>
+      </div>
       
-      <label for="Monto">Monto:</label>
-      <input type="number" id="Monto" [(ngModel)]="selectedMulta.Monto" name="Monto" required step="0.01">
+      <div>
+        <label for="Monto">Monto:</label>
+        <input type="number" id="Monto" [(ngModel)]="selectedMulta.Monto" name="Monto" required step="0.01">
+        <!-- Validación: Campo requerido y valor positivo -->
+        <div *ngIf="selectedMulta.Monto === null || selectedMulta.Monto < 0" class="error">
+          <div *ngIf="!selectedMulta.Monto">El monto es requerido.</div>
+          <div *ngIf="selectedMulta.Monto < 0">El monto debe ser un número positivo.</div>
+        </div>
+      </div>
       
-      <label for="FechaInicio">Fecha de Inicio:</label>
-      <input type="datetime-local" id="FechaInicio"  [(ngModel)]="selectedMulta.FechaInicio" name="FechaInicio" required>
+      <div>
+        <label for="FechaInicio">Fecha de Inicio:</label>
+        <input type="datetime-local" id="FechaInicio"  [(ngModel)]="selectedMulta.FechaInicio" name="FechaInicio" required>
+        <!-- Validación: Campo requerido -->
+        <div *ngIf="!selectedMulta.FechaInicio" class="error">
+          La fecha de inicio es requerida.
+        </div>
+      </div>
       
-      <label for="Estatus">Estatus:</label>
-      <input type="text" id="Estatus" [(ngModel)]="selectedMulta.Estatus" name="Estatus" required>
+      <div>
+        <label for="Estatus">Estatus:</label>
+        <input type="text" id="Estatus" [(ngModel)]="selectedMulta.Estatus" name="Estatus" required>
+        <!-- Validación: Campo requerido -->
+        <div *ngIf="!selectedMulta.Estatus" class="error">
+          El estatus es requerido.
+        </div>
+      </div>
       
-      <label for="IdPrestamo">Id de Préstamo:</label>
-      <select id="IdPrestamo" [(ngModel)]="selectedMulta.IdPrestamo" name="IdPrestamo" required>
-        <option *ngFor="let prestamo of prestamos" [value]="prestamo.IdPrestamo">{{ prestamo.IdPrestamo }} - {{ prestamo.FechaPrestamo | date:'short' }}</option>
-      </select>
+      <div>
+        <label for="IdPrestamo">Id de Préstamo:</label>
+        <select id="IdPrestamo" [(ngModel)]="selectedMulta.IdPrestamo" name="IdPrestamo" required>
+          <option *ngFor="let prestamo of prestamos" [value]="prestamo.IdPrestamo">{{ prestamo.IdPrestamo }} - {{ prestamo.FechaPrestamo | date:'short' }}</option>
+        </select>
+        <!-- Validación: Campo requerido -->
+        <div *ngIf="!selectedMulta.IdPrestamo" class="error">
+          Seleccione un ID de préstamo válido.
+        </div>
+      </div>
       
       <button type="submit">Actualizar Multa</button>    
     </form>
@@ -87,3 +153,11 @@
     </tbody>
   </table>
 </div>
+
+<style>
+  .error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+  }
+</style>
