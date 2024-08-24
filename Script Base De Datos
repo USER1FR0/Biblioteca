@@ -1,70 +1,62 @@
--- Script base de datos:
-Drop database Biblioteca;
+-- Eliminar la base de datos si ya existe
+DROP DATABASE IF EXISTS Biblioteca;
 
+-- Crear la base de datos
 CREATE DATABASE Biblioteca;
 
+-- Usar la base de datos
 USE Biblioteca;
 
+-- Crear tabla 'Lector'
 CREATE TABLE Lector (
     NumeroControl VARCHAR(13) PRIMARY KEY,
-    NombreCompleto NVARCHAR(50) not null,
-    Correo NVARCHAR(100) not null,
-    CorreoConfirmado Boolean default FALSE,
-    TokenConfirmacion varchar(40)
+    NombreCompleto NVARCHAR(50) NOT NULL,
+    Correo NVARCHAR(100) NOT NULL,
+    CorreoConfirmado BOOLEAN DEFAULT FALSE,
+    TokenConfirmacion VARCHAR(40)
 );
--- Lectores
-select * from Lector;
 
+-- Crear tabla 'Bibliotecario'
 CREATE TABLE Bibliotecario (
     IdBibliotecario INT AUTO_INCREMENT PRIMARY KEY,
-    NombreCompleto NVARCHAR(50) not null,
-    Correo NVARCHAR(100) not null,
-    Telefono NVARCHAR(15) not null,
+    NombreCompleto NVARCHAR(50) NOT NULL,
+    Correo NVARCHAR(100) NOT NULL,
+    Telefono NVARCHAR(15) NOT NULL,
     IdAdmin VARCHAR(10),
-    NombreUsuario NVARCHAR(50) NOT NULL Unique,
+    NombreUsuario NVARCHAR(50) NOT NULL UNIQUE,
     Contrasena NVARCHAR(255) NOT NULL
 );
-SET FOREIGN_KEY_CHECKS = 1;
 
--- bibliotecarios
-select *
-from Bibliotecario;
-
-
+-- Crear tabla 'Libro'
 CREATE TABLE Libro (
-    ISBN Nvarchar(13) PRIMARY KEY,
-    Titulo NVARCHAR(100) not null,
-    Autor NVARCHAR(100) not null,
-    Tema NVARCHAR(100) not null,
-    Categoria NVARCHAR(100) not null,
-    Descripcion TEXT not null,
-    NumeroEjemplares INT not null,
-    Portada longblob
+    ISBN NVARCHAR(13) PRIMARY KEY,
+    Titulo NVARCHAR(100) NOT NULL,
+    Autor NVARCHAR(100) NOT NULL,
+    Tema NVARCHAR(100) NOT NULL,
+    Categoria NVARCHAR(100) NOT NULL,
+    Descripcion TEXT NOT NULL,
+    NumeroEjemplares INT NOT NULL,
+    Portada LONGBLOB
 );
 
-Select *
-from Libro;
-
+-- Crear tabla 'Prestamo'
 CREATE TABLE Prestamo (
     IdPrestamo INT AUTO_INCREMENT PRIMARY KEY,
-    NumeroControl VARCHAR(13) not null,
-    ISBN Nvarchar(13) not null,
+    NumeroControl VARCHAR(13) NOT NULL,
+    ISBN NVARCHAR(13) NOT NULL,
     FechaPrestamo DATE,
     FechaDevolucion DATE,
     IdBibliotecario INT,
-    Estado Varchar(30) default "Pendiente",
+    Estado VARCHAR(30) DEFAULT 'Pendiente',
     FOREIGN KEY (NumeroControl) REFERENCES Lector(NumeroControl),
     FOREIGN KEY (ISBN) REFERENCES Libro(ISBN),
     FOREIGN KEY (IdBibliotecario) REFERENCES Bibliotecario(IdBibliotecario)
 );
 
--- Prestamos
-Select *
-from Prestamo;
-
+-- Crear tabla 'Multas'
 CREATE TABLE Multas (
     IdMulta INT AUTO_INCREMENT PRIMARY KEY,
-    NumeroControl VARCHAR(13) not null,
+    NumeroControl VARCHAR(13) NOT NULL,
     Monto DECIMAL(10, 2),
     FechaInicio DATE,
     Estatus NVARCHAR(50),
@@ -73,15 +65,11 @@ CREATE TABLE Multas (
     FOREIGN KEY (IdPrestamo) REFERENCES Prestamo(IdPrestamo)
 );
 
-Select *
-from Multas;
-
-
+-- Procedimiento para actualizar multas basadas en las fechas de devolución
 DELIMITER //
 
 CREATE PROCEDURE ActualizarMultas()
 BEGIN
-    -- Seleccionar todas las multas pendientes
     DECLARE done INT DEFAULT 0;
     DECLARE multaId INT;
     DECLARE idPrestamo INT;
@@ -96,12 +84,11 @@ BEGIN
             LEAVE read_loop;
         END IF;
 
-        -- Actualizar el monto si la fecha de devolución ha pasado
+        -- Actualizar el monto de la multa basado en los días de retraso
         UPDATE Multas m
         JOIN Prestamo p ON m.IdPrestamo = p.IdPrestamo
         SET m.Monto = m.Monto + 5 * DATEDIFF(CURDATE(), p.FechaDevolucion)
         WHERE m.IdMulta = multaId AND CURDATE() > p.FechaDevolucion;
-
     END LOOP;
 
     CLOSE cur;
@@ -109,26 +96,20 @@ END //
 
 DELIMITER ;
 
+-- Evento para ejecutar la actualización de multas cada día
+DROP EVENT IF EXISTS ActualizarMultasCadaCincoMinutos;
 CREATE EVENT IF NOT EXISTS ActualizarMultasCadaCincoMinutos
-ON SCHEDULE EVERY 1 day
+ON SCHEDULE EVERY 1 DAY
 DO
     CALL ActualizarMultas();
 
+-- Consultas de ejemplo para verificar los datos
+SELECT * FROM Lector;
+SELECT * FROM Bibliotecario;
+SELECT * FROM Libro;
+SELECT * FROM Prestamo;
+SELECT * FROM Multas;
 
-select *
-from Lector;
-
-select *
-from Bibliotecario;
-
-select *
-from Libro;
-
-select *
-from Prestamo;
-
-select *
-from Multas;
-
-Alter user 'root'@'localhost' identified with mysql_native_password by '';
-flush privileges;
+-- Configurar el usuario 'root' sin contraseña
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
+FLUSH PRIVILEGES;
