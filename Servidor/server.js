@@ -48,8 +48,7 @@ pool.getConnection((err, connection) => {
   });
 });
 
-// Registrar un nuevo usuario
-app.post('/register', async (req, res) => {
+app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -57,68 +56,54 @@ app.post('/register', async (req, res) => {
   }
 
   try {
-    pool.query('SELECT * FROM Usuario WHERE NombreUsuario = ?', [username], (err, results) => {
+    // Verificar si hay usuarios en la tabla Bibliotecario
+    pool.query('SELECT COUNT(*) AS userCount FROM Bibliotecario', (err, result) => {
       if (err) {
         console.error('Error durante la consulta:', err);
         return res.status(500).send({ message: 'Error interno del servidor' });
       }
 
-      if (results.length > 0) {
-        return res.status(409).send({ message: 'El nombre de usuario ya está en uso' });
-      }
+      const userCount = result[0].userCount;
 
-      const salt = bcrypt.genSaltSync(10);
-      const hash = bcrypt.hashSync(password, salt);
-
-      pool.query('INSERT INTO Usuario (NombreUsuario, contrasenaHash) VALUES (?, ?)', [username, hash], (err) => {
-        if (err) {
-          console.error('Error durante la inserción:', err);
-          return res.status(500).send({ message: 'Error interno del servidor' });
+      // Si no hay usuarios registrados, permitir el login con las credenciales de administrador
+      if (userCount === 0) {
+        if (username === 'root' && password === '123456') {
+          const rootUser = { id: 0, username: 'root' }; 
+          const token = generateToken(rootUser); 
+          return res.status(200).send({ message: 'Login realizado exitosamente con usuario administrador', token });
+        } else {
+          return res.status(401).send({ message: 'Credenciales inválidas' });
         }
-
-        res.status(201).send({ message: 'Usuario registrado exitosamente' });
-      });
-    });
-  } catch (err) {
-    console.error('Error durante el registro:', err);
-    res.status(500).send({ message: 'Error interno del servidor' });
-  }
-});
-
-// Iniciar sesión
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-      return res.status(400).send({ message: 'El nombre de usuario y la contraseña son requeridos' });
-  }
-
-  try {
-      pool.query('SELECT * FROM Bibliotecario WHERE NombreUsuario = ?', [username], (err, results) => {
+      } else {
+        // Si hay usuarios registrados, proceder con la autenticación normal
+        pool.query('SELECT * FROM Bibliotecario WHERE NombreUsuario = ?', [username], (err, results) => {
           if (err) {
-              console.error('Error durante la consulta:', err);
-              return res.status(500).send({ message: 'Error interno del servidor' });
+            console.error('Error durante la consulta:', err);
+            return res.status(500).send({ message: 'Error interno del servidor' });
           }
 
           if (results.length === 0) {
-              return res.status(401).send({ message: 'Credenciales inválidas' });
+            return res.status(401).send({ message: 'Credenciales inválidas' });
           }
 
           const user = results[0];
           const Contrasena = user.Contrasena;
 
           if (bcrypt.compareSync(password, Contrasena)) {
-              const token = generateToken(user); // Genera un token (implementa esta función)
-              res.status(200).send({ message: 'Login realizado exitosamente', token }); // Devuelve el token
+            const token = generateToken(user); // Genera un token (implementa esta función)
+            return res.status(200).send({ message: 'Login realizado exitosamente', token });
           } else {
-              res.status(401).send({ message: 'Credenciales inválidas' });
+            return res.status(401).send({ message: 'Credenciales inválidas' });
           }
-      });
+        });
+      }
+    });
   } catch (err) {
-      console.error('Error durante el login:', err);
-      res.status(500).send({ message: 'Error interno del servidor' });
+    console.error('Error durante el login:', err);
+    res.status(500).send({ message: 'Error interno del servidor' });
   }
 });
+
 
 // Función para generar un token 
 function generateToken(user) {
