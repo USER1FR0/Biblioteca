@@ -1,6 +1,5 @@
 -- Script base de datos:
 Drop database Biblioteca;
-Drop database Biblioteca;
 
 CREATE DATABASE Biblioteca;
 
