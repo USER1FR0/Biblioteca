@@ -1,0 +1,23 @@
+# Agregar descripciones como notas para cada componente
+dot.node('ConfigNote', 'Configuración de la conexión a la base de datos y variables de entorno', shape='note')
+dot.node('ControllersNote', 'Maneja la lógica de negocio y responde a las peticiones HTTP', shape='note')
+dot.node('MiddlewaresNote', 'Procesa y valida solicitudes antes de que lleguen a los controladores', shape='note')
+dot.node('ModelsNote', 'Define los esquemas y estructuras de la base de datos', shape='note')
+dot.node('RoutesNote', 'Define las rutas de la API y enlaza con los controladores', shape='note')
+dot.node('ServicesNote', 'Servicios auxiliares que pueden ser reutilizados en la aplicación', shape='note')
+dot.node('UploadsNote', 'Almacena temporalmente archivos CSV para su procesamiento', shape='note')
+dot.node('UtilsNote', 'Funciones utilitarias y herramientas auxiliares', shape='note')
+
+# Conectar las notas con los componentes correspondientes
+dot.edge('ConfigNote', 'Config', style='dashed')
+dot.edge('ControllersNote', 'Controllers', style='dashed')
+dot.edge('MiddlewaresNote', 'Middlewares', style='dashed')
+dot.edge('ModelsNote', 'Models', style='dashed')
+dot.edge('RoutesNote', 'Routes', style='dashed')
+dot.edge('ServicesNote', 'Services', style='dashed')
+dot.edge('UploadsNote', 'Uploads', style='dashed')
+dot.edge('UtilsNote', 'Utils', style='dashed')
+
+# Generar la imagen con las notas adicionales
+dot.render('/mnt/data/backend_components_with_notes')
+'/mnt/data/backend_components_with_notes.png'
